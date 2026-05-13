@@ -38,15 +38,15 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
 .th-dark::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:256px 256px;}
 
 /* REVEAL */
-.reveal{opacity:0;transform:translateY(28px) scale(.97);filter:blur(3px);transition:opacity .6s var(--ease),transform .6s var(--ease),filter .5s var(--ease);}
+.reveal{opacity:0;transform:translateY(40px) scale(.95);filter:blur(6px);transition:opacity .7s var(--ease),transform .7s var(--ease),filter .55s var(--ease);}
 .reveal.in{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
-.reveal:nth-child(1){transition-delay:.04s;}
-.reveal:nth-child(2){transition-delay:.13s;}
-.reveal:nth-child(3){transition-delay:.23s;}
-.reveal:nth-child(4){transition-delay:.34s;}
-.reveal:nth-child(5){transition-delay:.45s;}
-.reveal:nth-child(6){transition-delay:.56s;}
-.reveal:nth-child(7){transition-delay:.65s;}
+.reveal:nth-child(1){transition-delay:.05s;}
+.reveal:nth-child(2){transition-delay:.16s;}
+.reveal:nth-child(3){transition-delay:.28s;}
+.reveal:nth-child(4){transition-delay:.40s;}
+.reveal:nth-child(5){transition-delay:.52s;}
+.reveal:nth-child(6){transition-delay:.64s;}
+.reveal:nth-child(7){transition-delay:.75s;}
 
 /* TOP BAR */
 #topbar{position:fixed;top:0;left:0;right:0;z-index:300;height:52px;display:flex;align-items:center;gap:1rem;padding:0 1.5rem;background:rgba(8,8,7,.78);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.07);}
@@ -366,3 +366,114 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
 }
 .pfi-note.danger{border-left-color:#8b2020;background:var(--red-d);color:#8b2020;}
 .pfi-note strong{color:var(--ink);}
+
+/* ============================================================
+   TRANSICIÓN CINEMATOGRÁFICA v2
+   ============================================================ */
+#trans-veil{
+  position:fixed;inset:0;z-index:500;pointer-events:none;
+  opacity:0;will-change:opacity;
+}
+
+/* ============================================================
+   IMÁGENES DE FONDO — slides con slide-img
+   ============================================================ */
+.slide-img{
+  position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+}
+.slide-img img{
+  width:100%;height:100%;object-fit:cover;
+  opacity:.13;filter:grayscale(25%) brightness(.72) saturate(.8);
+  transition:opacity 1.5s ease;
+}
+.th-dark .slide-img img{opacity:.1;filter:grayscale(15%) brightness(.6);}
+.th-light .slide-img img{opacity:.08;filter:grayscale(40%) brightness(.6);}
+
+/* ============================================================
+   PANELES DE IMAGEN — decoración en columnas de contenido
+   ============================================================ */
+.img-panel{
+  border-radius:16px;overflow:hidden;position:relative;
+  background:var(--sur2);margin-bottom:.7rem;
+}
+.img-panel img{
+  width:100%;height:155px;object-fit:cover;display:block;
+  filter:saturate(.65) brightness(.82);
+  transition:transform .8s var(--ease),filter .5s ease;
+}
+.img-panel:hover img{transform:scale(1.06);filter:saturate(.9) brightness(.92);}
+.img-panel-tag{
+  position:absolute;bottom:.5rem;left:.6rem;
+  font-family:var(--mono);font-size:.52rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.07em;
+  padding:.18rem .55rem;border-radius:99px;
+  background:rgba(0,0,0,.55);color:rgba(255,255,255,.82);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.1);
+}
+
+/* ============================================================
+   POLISH v4 — profundidad, brillo y tipografía mejorada
+   ============================================================ */
+
+/* Vignette que añade profundidad a las imágenes de fondo */
+.slide-img::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(ellipse 92% 80% at 50% 38%,transparent 22%,rgba(0,0,0,.32) 100%);
+}
+/* Mayor presencia de los fondos */
+.slide-img img{opacity:.18;}
+.th-dark .slide-img img{opacity:.15;}
+.th-light .slide-img img{opacity:.12;}
+
+/* Títulos más impactantes */
+.t-xl{font-size:clamp(2.8rem,6.2vw,5.4rem);}
+.t-h{font-size:clamp(1.9rem,3.5vw,3.1rem);}
+.t-sub{font-size:clamp(.9rem,1.5vw,1.12rem);}
+
+/* Glow en números estadísticos */
+.stat-n.ng{filter:drop-shadow(0 0 20px rgba(168,112,0,.4));}
+.stat-n.nb{filter:drop-shadow(0 0 20px rgba(21,101,160,.35));}
+.stat-n.nr{filter:drop-shadow(0 0 20px rgba(139,32,32,.35));}
+
+/* Stat card con mayor elevación en hover */
+.stat:hover{background:var(--sur2);transform:translateY(-6px);box-shadow:0 14px 36px rgba(0,0,0,.16);}
+
+/* Callouts con brillo de color en hover */
+.co-gold:hover{box-shadow:0 6px 28px rgba(168,112,0,.18);border-color:rgba(168,112,0,.42);}
+.co-red:hover{box-shadow:0 6px 28px rgba(139,32,32,.16);border-color:rgba(139,32,32,.38);}
+.co-blue:hover{box-shadow:0 6px 28px rgba(0,69,122,.16);border-color:rgba(0,69,122,.32);}
+
+/* Tarjetas lecciones con más profundidad */
+.les{box-shadow:0 4px 18px rgba(0,0,0,.24);}
+.les:hover{box-shadow:0 18px 44px rgba(0,0,0,.42);transform:translateY(-6px);}
+
+/* Tarjetas ética más elegantes */
+.eth{box-shadow:0 2px 14px rgba(0,0,0,.07);}
+.eth:hover{box-shadow:0 16px 40px rgba(0,0,0,.16);transform:translateY(-6px);}
+
+/* Índice con más presencia */
+.idx-item:hover{transform:translateX(9px) scale(1.018);box-shadow:0 8px 28px rgba(0,0,0,.35);}
+
+/* Diagrama de flujos más prominente */
+.dbox{box-shadow:0 2px 12px rgba(0,0,0,.08);}
+.dbox:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,.14);}
+
+/* Simulador MTM más pulido */
+.mtm-sim{box-shadow:0 4px 28px rgba(0,0,0,.1);}
+
+/* Tabla con mejor sombra */
+.tbl-wrap{box-shadow:0 2px 16px rgba(0,0,0,.07);}
+
+/* Chart containers con más presencia */
+.cc{box-shadow:0 2px 16px rgba(0,0,0,.07);}
+
+/* Progress bar con sombra más intensa */
+#progress-bar{box-shadow:0 0 14px rgba(168,112,0,.8),0 0 28px rgba(168,112,0,.4);}
+
+/* Botones nav con más carisma */
+.nav-arrow:hover{box-shadow:0 10px 40px rgba(168,112,0,.55);}
+
+/* Panel imagen con sombra */
+.img-panel{box-shadow:0 4px 20px rgba(0,0,0,.14);}
+.img-panel:hover{box-shadow:0 8px 32px rgba(0,0,0,.22);}

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=4">
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 </head>
 <body>
@@ -33,6 +33,9 @@
 
 <!-- 01 PORTADA -->
 <section class="slide th-dark active" data-i="0">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <canvas id="liquid-canvas"></canvas>
   <div class="cover-bg"></div>
   <div class="inner">
@@ -55,6 +58,9 @@
 
 <!-- 02 ÍNDICE -->
 <section class="slide th-dark" data-i="1">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
     <div class="lbl lbl-dim reveal">&Iacute;ndice de contenidos</div>
     <h2 class="t-h reveal" style="color:#f0ece0;">Estructura de la presentaci&oacute;n</h2>
@@ -81,6 +87,10 @@
     <div class="g2 mt5">
       <div class="reveal"><div class="cc"><div class="cc-t">Precio del oro 1975&ndash;2005</div><div class="cc-s">USD / onza troy &middot; fuente: LBMA</div><div id="ch1" style="height:220px;"></div></div></div>
       <div class="reveal">
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=700&q=72" alt="Mercado de oro" loading="lazy" onerror="this.parentNode.style.display='none'">
+          <span class="img-panel-tag">London Gold Fix &middot; LBMA</span>
+        </div>
         <div class="stats mt3">
           <div class="stat"><div class="stat-n ng">$850</div><div class="stat-l">M&aacute;ximo 1980</div></div>
           <div class="stat"><div class="stat-n nr">$256</div><div class="stat-l">M&iacute;nimo 1999</div></div>
@@ -95,12 +105,19 @@
 
 <!-- 04 ACUERDO DE WASHINGTON -->
 <section class="slide th-light" data-i="3">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
     <div class="lbl lbl-red reveal">Detonante &middot; 26 septiembre 1999</div>
     <h2 class="t-h reveal">El Acuerdo de Washington</h2>
     <div class="g2 mt5">
       <div class="reveal"><div class="cc"><div class="cc-t">Oro spot &mdash; 1999 al 2000</div><div class="cc-s">USD / oz &middot; zona roja = ventana de crisis</div><div id="ch2" style="height:220px;"></div></div></div>
       <div class="reveal">
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1605792657660-596af9009e82?auto=format&fit=crop&w=700&q=72" alt="Reservas de oro bancos centrales" loading="lazy" onerror="this.parentNode.style.display='none'">
+          <span class="img-panel-tag">Reservas de oro &middot; Bancos Centrales Europeos</span>
+        </div>
         <div class="stats">
           <div class="stat"><div class="stat-n ng">+32%</div><div class="stat-l">Alza en 2 semanas</div></div>
           <div class="stat"><div class="stat-n nr">$570M</div><div class="stat-l">P&eacute;rdida MTM</div></div>
@@ -115,6 +132,9 @@
 
 <!-- 05 LA EMPRESA -->
 <section class="slide th-alt" data-i="4">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1579621970795-87facc2f976d?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
     <div class="lbl lbl-gold reveal">La empresa</div>
     <h2 class="t-h reveal">Ashanti Goldfields Co.</h2>
@@ -125,6 +145,10 @@
         <div class="co co-blue mt3"><div class="co-mark cm-blue">FINANZAS</div><div class="co-text">Producci&oacute;n: <strong>~1.6M oz/a&ntilde;o</strong>. Balance s&oacute;lido en activos f&iacute;sicos pero con <strong>alta exposici&oacute;n a derivados</strong> fuera de balance.</div></div>
       </div>
       <div class="reveal">
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1524673360337-be3cd5cd7789?auto=format&fit=crop&w=700&q=72" alt="Mina de oro Obuasi Ghana" loading="lazy" onerror="this.parentNode.style.display='none'">
+          <span class="img-panel-tag">Obuasi Gold Mine &middot; Ghana</span>
+        </div>
         <div class="co co-red"><div class="co-mark cm-red">EL PROBLEMA</div><div class="co-text">El hedge book acumulaba posiciones equivalentes a <strong>m&aacute;s de 6 a&ntilde;os de producci&oacute;n</strong>. Cualquier movimiento brusco generaba margin calls que la caja no pod&iacute;a cubrir.</div></div>
         <div class="tbl-wrap mt4"><table class="tbl"><thead><tr><th>Indicador</th><th>Valor (1999)</th></tr></thead><tbody>
           <tr><td>Producci&oacute;n anual</td><td class="mono">~1.6M oz</td></tr>
@@ -140,6 +164,9 @@
 
 <!-- 06 LOS INSTRUMENTOS -->
 <section class="slide th-light" data-i="5">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
     <div class="lbl lbl-blue reveal">Instrumentos derivados</div>
     <h2 class="t-h reveal">El hedge book: tres capas de riesgo</h2>
@@ -157,6 +184,9 @@
 
 <!-- 07 ANATOMÍA DEL DERIVADO -->
 <section class="slide th-alt" data-i="6">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
     <div class="lbl lbl-blue reveal">Anatom&iacute;a del derivado</div>
     <h2 class="t-h reveal">Flujos entre los tres actores</h2>
@@ -190,6 +220,9 @@
 
 <!-- 08 MECÁNICA DEL COLAPSO -->
 <section class="slide crisis-slide th-dark" data-i="7">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1535320903710-d993d3d77d29?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
     <div class="lbl lbl-red reveal">Mec&aacute;nica &middot; 5 pasos</div>
     <h2 class="t-h reveal" style="color:#f0ece0;">De la cobertura a la crisis</h2>
@@ -207,6 +240,9 @@
 
 <!-- 09 SIMULADOR MTM -->
 <section class="slide th-light" data-i="8">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1589758438368-0ad531db3366?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
     <div class="lbl lbl-red reveal">Simulador interactivo &mdash; <span style="font-weight:400;color:#a09e96;">valores ilustrativos basados en estructura real del hedge book</span></div>
     <h2 class="t-h reveal">&iquest;Cu&aacute;nto pierde Ashanti si el oro sube?</h2>
@@ -239,7 +275,7 @@
             <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#c06060;">&#9632; Put vendida (5M oz @ $280)</span><span class="mtm-b-val" id="bd-pv">+$60M</span></div>
           </div>
           <div class="mtm-metric" style="margin-top:.5rem;"><div class="mtm-metric-lbl">Colateral estimado exigido</div><div class="mtm-metric-val" id="mtm-col">$0</div></div>
-          <div class="mtm-badge" id="mtm-badge" style="background:#e8f5ee;color:#2a7a4a;">&#10003; Cobertura operando bien</div>
+          <div class="mtm-badge" id="mtm-badge" style="background:#e8f5ee;color:#2a7a4a;">Cobertura OK — operando bien</div>
         </div>
       </div>
       <div class="mtm-note" id="mtm-note">Con el oro a <strong>$256/oz</strong>, el spot est&aacute; por debajo del forward ($300). El hedge genera valor positivo. Sin margin calls.</div>
@@ -249,6 +285,9 @@
 
 <!-- 10 PERFIL DE RIESGO -->
 <section class="slide th-alt" data-i="9">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
     <div class="lbl lbl-blue reveal">Perfil de riesgo del hedge book</div>
     <h2 class="t-h reveal">Explora cada instrumento</h2>
@@ -271,6 +310,9 @@
 
 <!-- 11 ÉTICA -->
 <section class="slide th-light" data-i="10">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
     <div class="lbl lbl-blue reveal">&Eacute;tica y gobierno corporativo</div>
     <h2 class="t-h reveal">Preguntas que el caso plantea</h2>
@@ -285,6 +327,9 @@
 
 <!-- 12 LECCIONES -->
 <section class="slide th-dark" data-i="11">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
     <div class="lbl lbl-dim reveal">Lecciones permanentes</div>
     <h2 class="t-h reveal" style="color:#f0ece0;">Lo que Ashanti nos ense&ntilde;a</h2>
@@ -300,7 +345,7 @@
 
 </div><!-- /deck -->
 
-<script src="js/main.js"></script>
+<script src="js/main.js?v=4"></script>
 
 <script>
 /* ===== SIMULADOR MTM — forward + puts ===== */
@@ -358,16 +403,16 @@
     /* badge */
     var b = document.getElementById('mtm-badge');
     if(spot < 280){
-      b.textContent='\u2713 Cobertura operando bien';
+      b.textContent='Cobertura OK \u2014 operando bien';
       b.style.background='#e8f5ee'; b.style.color='#2a7a4a';
     } else if(spot <= 300){
-      b.textContent='\u26A0 Zona de alerta';
+      b.textContent='ALERTA \u2014 zona de peligro';
       b.style.background='#fef9e7'; b.style.color='#a87000';
     } else if(spot < 338){
-      b.textContent='\uD83D\uDD34 MTM negativo \u2014 margin calls activos';
+      b.textContent='MTM NEGATIVO \u2014 margin calls activos';
       b.style.background='#fdeaea'; b.style.color='#8b2020';
     } else {
-      b.textContent='\uD83D\uDC80 Crisis \u2014 equivalente Ashanti 1999';
+      b.textContent='CRISIS \u2014 equivalente Ashanti 1999';
       b.style.background='#8b2020'; b.style.color='#fff';
     }
 
@@ -390,6 +435,8 @@
   window.setSpot = function(p){ if(sl){ sl.value = p; update(p); } };
 })();
 </script>
+
+<div id="trans-veil"></div>
 
 </body>
 </html>
