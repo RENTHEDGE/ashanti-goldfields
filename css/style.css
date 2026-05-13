@@ -479,14 +479,55 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
 .img-panel:hover{box-shadow:0 8px 32px rgba(0,0,0,.22);}
 
 /* ============================================================
-   SLIDE 08 — Mecánica del colapso: diseño full-height
+   SLIDE 08 — Mecánica del colapso: diseño full-height centrado
    ============================================================ */
-.crisis-slide{justify-content:flex-start;}
-.crisis-slide .inner{flex:1;display:flex;flex-direction:column;width:100%;max-width:1100px;margin:0 auto;}
-.crisis-slide .seq{flex:1;align-items:stretch;margin-top:1rem;min-height:160px;}
-.crisis-slide .seq-item{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:1.4rem .8rem;}
-.crisis-slide .s-step{font-size:.58rem;margin-bottom:.3rem;}
-.crisis-slide .s-txt{font-size:.88rem;margin-bottom:.2rem;}
-.crisis-slide .s-sub{font-size:.64rem;}
-.crisis-slide .co{flex-shrink:0;margin-top:.9rem;margin-bottom:0;}
-.crisis-slide .s-num{font-family:var(--mono);font-size:2.2rem;font-weight:700;color:rgba(255,255,255,.05);line-height:1;margin-bottom:.3rem;}
+.crisis-slide{
+  justify-content:center;
+  padding-top:5.5rem;
+  padding-bottom:3rem;
+}
+.crisis-slide .inner{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+  height:100%;
+}
+.crisis-slide .lbl{
+  margin-bottom:.5rem;
+}
+.crisis-slide .t-h{
+  font-size:clamp(1.5rem,2.8vw,2.2rem);
+  margin-bottom:.6rem;
+}
+.crisis-slide .seq{
+  flex-shrink:0;
+  align-items:stretch;
+  margin-top:.7rem;
+  min-height:0;
+}
+.crisis-slide .seq-item{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:1.1rem .7rem;
+}
+.crisis-slide .s-num{
+  font-family:var(--mono);
+  font-size:1.8rem;
+  font-weight:700;
+  color:rgba(255,255,255,.05);
+  line-height:1;
+  margin-bottom:.25rem;
+}
+.crisis-slide .s-step{font-size:.56rem;margin-bottom:.2rem;}
+.crisis-slide .s-txt{font-size:.82rem;margin-bottom:.18rem;}
+.crisis-slide .s-sub{font-size:.62rem;}
+.crisis-slide .co{
+  flex-shrink:0;
+  margin-top:.7rem;
+  margin-bottom:0;
+}

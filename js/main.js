@@ -242,18 +242,24 @@
     charts[2]=true;
     var x=[1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005];
     var y=[161,125,148,193,307,614,460,376,424,361,317,368,447,437,381,383,362,344,360,384,384,388,331,294,278,279,271,310,363,410,444];
-    var ex=[1980,1999,2001],ey=[614,278,271],ec=['#a87000','#8b2020','#1565a0'];
+    var ex=[1980,1999,2001],ey=[614,278,271],ec=['#c99d3a','#c06060','#5b9fd4'];
+    var labels=['Pico hist\u00f3rico\n$850/oz','Acuerdo Washington\nCrisis Ashanti','M\u00ednimo post-crisis'];
     Plotly.newPlot('ch1',[
-      {x:x,y:y,type:'scatter',mode:'lines',line:{color:'#1565a0',width:2.5,shape:'spline'},fill:'tozeroy',fillcolor:'rgba(21,101,160,.06)',hovertemplate:'<b>%{x}</b> \u2014 $%{y}/oz<extra></extra>'},
-      {x:ex,y:ey,type:'scatter',mode:'markers',marker:{color:ec,size:14,symbol:'circle',line:{width:2.5,color:'#fff'}},customdata:['<b>1980</b><br>Pico $850/oz','<b>1999</b><br>Acuerdo Washington<br>Crisis Ashanti','<b>2001</b><br>M\u00ednimo post-crisis'],hovertemplate:'%{customdata}<extra></extra>',showlegend:false}
+      {x:x,y:y,type:'scatter',mode:'lines',line:{color:'#1565a0',width:3,shape:'spline'},fill:'tozeroy',fillcolor:'rgba(21,101,160,.12)',hovertemplate:'<b>%{x}</b><br>Precio: <b>$%{y}/oz</b><extra></extra>',hoveron:'points+fills'},
+      {x:ex,y:ey,type:'scatter',mode:'markers+text',marker:{color:ec,size:13,symbol:'circle',line:{width:2.5,color:'#fff'},opacity:1},text:labels,textposition:['top center','bottom center','top center'],textfont:{size:9,color:ec,family:monoFont},customdata:labels,hovertemplate:'<b>%{x}</b><br>$%{y}/oz<br><i>%{customdata}</i><extra></extra>',showlegend:false}
     ],{
       paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',
       margin:{t:6,b:36,l:52,r:10},
-      hovermode:'x unified',hoverlabel:{bgcolor:'#19180f',font:{color:'#f0ece0',size:12,family:monoFont},bordercolor:'transparent'},
-      xaxis:{showgrid:false,zeroline:false,tickfont:{size:11,color:'#a09e96',family:monoFont},tickformat:'d',showspikes:true,spikemode:'across',spikesnap:'hovered data',spikedash:'dot',spikecolor:'rgba(168,112,0,.5)',spikethickness:1.5},
-      yaxis:{showgrid:true,gridcolor:'rgba(20,18,10,.07)',zeroline:false,tickprefix:'$',tickfont:{size:11,color:'#a09e96',family:monoFont},showspikes:true,spikemode:'across',spikesnap:'hovered data',spikedash:'dot',spikecolor:'rgba(168,112,0,.25)',spikethickness:1},
+      hovermode:'x',
+      hoverlabel:{bgcolor:'rgba(10,9,7,0.93)',font:{color:'#f0ece0',size:12,family:monoFont},bordercolor:'rgba(168,112,0,.6)'},
+      xaxis:{showgrid:false,zeroline:false,tickfont:{size:11,color:'#a09e96',family:monoFont},tickformat:'d',showspikes:true,spikemode:'across',spikesnap:'cursor',spikedash:'dot',spikecolor:'rgba(168,112,0,.7)',spikethickness:1.5},
+      yaxis:{showgrid:true,gridcolor:'rgba(20,18,10,.12)',zeroline:false,tickprefix:'$',ticksuffix:'/oz',tickfont:{size:11,color:'#a09e96',family:monoFont},showspikes:true,spikemode:'across',spikesnap:'cursor',spikedash:'dot',spikecolor:'rgba(168,112,0,.4)',spikethickness:1},
       showlegend:false,font:{family:monoFont},
-      annotations:ex.map(function(v,i){return{x:v,y:ey[i]+(i===0?32:20),xref:'x',yref:'y',text:'<b>'+v+'</b>',showarrow:false,font:{size:11,color:ec[i],family:monoFont},yanchor:'bottom'};})
+      shapes:[{type:'rect',x0:1999,x1:2001,y0:0,y1:1,xref:'x',yref:'paper',fillcolor:'rgba(139,32,32,.07)',line:{width:0}}],
+      annotations:[
+        {x:1980,y:614,xref:'x',yref:'y',text:'<b>$850</b>',showarrow:true,ax:0,ay:-30,font:{size:10,color:'#c99d3a',family:monoFont},arrowcolor:'rgba(201,157,58,.4)',arrowwidth:1},
+        {x:1999,y:278,xref:'x',yref:'y',text:'<b>$256</b>',showarrow:true,ax:0,ay:28,font:{size:10,color:'#c06060',family:monoFont},arrowcolor:'rgba(192,96,96,.4)',arrowwidth:1}
+      ]
     },{responsive:true,displayModeBar:false});
   }
 
