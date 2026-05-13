@@ -479,34 +479,32 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
 .img-panel:hover{box-shadow:0 8px 32px rgba(0,0,0,.22);}
 
 /* ============================================================
-   SLIDE 08 — Mecánica del colapso: diseño full-height centrado
+   SLIDE 09 — Mecánica del colapso: full-height, seq ocupa el espacio
    ============================================================ */
 .crisis-slide{
-  justify-content:center;
-  padding-top:5.5rem;
-  padding-bottom:3rem;
+  justify-content:flex-start;
 }
 .crisis-slide .inner{
+  flex:1;
   display:flex;
   flex-direction:column;
-  justify-content:center;
+  justify-content:flex-start;
   width:100%;
   max-width:1100px;
   margin:0 auto;
-  height:100%;
 }
 .crisis-slide .lbl{
-  margin-bottom:.5rem;
+  margin-bottom:.45rem;
 }
 .crisis-slide .t-h{
   font-size:clamp(1.5rem,2.8vw,2.2rem);
-  margin-bottom:.6rem;
+  margin-bottom:.5rem;
 }
 .crisis-slide .seq{
-  flex-shrink:0;
+  flex:1;
   align-items:stretch;
-  margin-top:.7rem;
-  min-height:0;
+  margin-top:.8rem;
+  min-height:120px;
 }
 .crisis-slide .seq-item{
   display:flex;
