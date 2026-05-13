@@ -20,13 +20,11 @@
 
   /* FASES TOPBAR */
   var PHASES=[
-    {label:'Portada',slides:[0,1]},
-    {label:'Contexto',slides:[2,3]},
-    {label:'Empresa',slides:[4,5]},
-    {label:'Instrumentos',slides:[6,7]},
-    {label:'Simulador',slides:[8]},
-    {label:'Opciones',slides:[9]},
-    {label:'Reflexi\u00f3n',slides:[10,11]}
+    {label:'Empresa',  slides:[0,1]},
+    {label:'Contexto', slides:[2,3,4]},
+    {label:'Simulador',slides:[5,6]},
+    {label:'Crisis',   slides:[7,8]},
+    {label:'Reflexi\u00f3n',slides:[9,10,11]}
   ];
   var phaseEl=document.getElementById('tb-phases');
   var phaseItems=[];
@@ -220,8 +218,8 @@
       });
       busy=false;
       if(idx===2&&!charts[2])buildChart1();
-      if(idx===3&&!charts[3])buildChart2();
-      if(idx===9&&!charts[9])buildChart9();
+      if(idx===7&&!charts[7])buildChart2();
+      if(idx===6&&!charts[6])buildChart9();
     },680);
   }
 
@@ -260,7 +258,7 @@
   }
 
   function buildChart2(){
-    charts[3]=true;
+    charts[7]=true;
     var x2=['1999-01','1999-02','1999-03','1999-04','1999-05','1999-06','1999-07','1999-08','1999-09-01','1999-09-15','1999-09-24','1999-09-27','1999-09-30','1999-10-05','1999-10-15','1999-11','1999-12','2000-01','2000-03','2000-06'];
     var y2=[288,286,282,280,277,270,256,258,258,257,258,310,331,338,330,295,285,284,280,278];
     Plotly.newPlot('ch2',[{x:x2,y:y2,type:'scatter',mode:'lines+markers',line:{color:'#1565a0',width:2.5,shape:'spline'},marker:{color:x2.map(function(v){return v==='1999-09-27'?'#8b2020':'#1565a0';}),size:x2.map(function(v){return v==='1999-09-27'?11:5;})},fill:'tozeroy',fillcolor:'rgba(21,101,160,.06)',hovertemplate:'<b>%{x}</b> \u2014 $%{y}/oz<extra></extra>'}],{
@@ -343,7 +341,7 @@
   var pfActive='all';
 
   function buildChart9(){
-    charts[9]=true;
+    charts[6]=true;
 
     /* calcular datos */
     var spots=[];for(var s=200;s<=500;s+=2)spots.push(s);
