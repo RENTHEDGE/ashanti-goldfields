@@ -18,13 +18,16 @@
   <div id="tb-phases"></div>
   <div class="tb-pills" id="tb-pills"></div>
   <div class="tb-counter" id="tb-cnt">01 / 12</div>
+  <button id="fs-btn" title="Pantalla completa (F)" aria-label="Pantalla completa" style="margin-left:.5rem;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(240,236,224,.5);transition:background .2s,color .2s;flex-shrink:0;">
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 5V2h3M10 2h3v3M13 10v3h-3M5 13H2v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
 </div>
 
 <div id="ticker-strip"><div class="ticker-track" id="ticker-track"></div></div>
 
 <button class="nav-arrow off" id="nav-prev" aria-label="Anterior"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 5L8 10l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 <button class="nav-arrow" id="nav-next" aria-label="Siguiente"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-<div id="keyhint"><div class="keybadge">&#8592;</div><div class="keybadge">&#8594;</div><span>flechas del teclado</span></div>
+<div id="keyhint"><div class="keybadge">&#8592;</div><div class="keybadge">&#8594;</div><span>flechas · F = pantalla completa</span></div>
 
 <div id="deck">
 
@@ -205,9 +208,9 @@
 <!-- 09 SIMULADOR MTM -->
 <section class="slide th-light" data-i="8">
   <div class="inner">
-    <div class="lbl lbl-red reveal">Simulador interactivo</div>
+    <div class="lbl lbl-red reveal">Simulador interactivo &mdash; <span style="font-weight:400;color:#a09e96;">valores ilustrativos basados en estructura real del hedge book</span></div>
     <h2 class="t-h reveal">&iquest;Cu&aacute;nto pierde Ashanti si el oro sube?</h2>
-    <p class="t-sub reveal">Mueve el slider y observa el MTM, el colateral exigido y el estado del hedge book en tiempo real.</p>
+    <p class="t-sub reveal">Mueve el slider y observa el MTM combinado de <strong>forward + puts</strong>, el colateral exigido y el desglose por instrumento.</p>
     <div class="mtm-sim reveal mt4">
       <div class="mtm-top">
         <div class="mtm-controls">
@@ -225,12 +228,17 @@
         </div>
         <div class="mtm-result">
           <div class="mtm-metric">
-            <div class="mtm-metric-lbl">P&eacute;rdida / Ganancia MTM</div>
+            <div class="mtm-metric-lbl">P&eacute;rdida / Ganancia MTM <span style="opacity:.5;font-size:.9em;">(hedge book total)</span></div>
             <div class="mtm-metric-val" id="mtm-val">+$440M</div>
             <div class="mtm-bar-wrap"><div class="mtm-bar-fill" id="mtm-bar" style="width:60%;background:#5fa87a;"></div></div>
           </div>
-          <div class="mtm-metric"><div class="mtm-metric-lbl">Colateral estimado exigido</div><div class="mtm-metric-val" id="mtm-col">$0</div></div>
-          <div class="mtm-metric"><div class="mtm-metric-lbl">Resultado por onza</div><div class="mtm-metric-val" id="mtm-poz">+$44/oz</div></div>
+          <!-- Desglose por instrumento -->
+          <div class="mtm-breakdown" id="mtm-breakdown">
+            <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#1565a0;">&#9632; Forward (10M oz @ $300)</span><span class="mtm-b-val" id="bd-fwd">+$440M</span></div>
+            <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#2a7a4a;">&#9632; Put comprada (2M oz @ $280)</span><span class="mtm-b-val" id="bd-pc">&minus;$16M</span></div>
+            <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#c06060;">&#9632; Put vendida (5M oz @ $280)</span><span class="mtm-b-val" id="bd-pv">+$60M</span></div>
+          </div>
+          <div class="mtm-metric" style="margin-top:.5rem;"><div class="mtm-metric-lbl">Colateral estimado exigido</div><div class="mtm-metric-val" id="mtm-col">$0</div></div>
           <div class="mtm-badge" id="mtm-badge" style="background:#e8f5ee;color:#2a7a4a;">&#10003; Cobertura operando bien</div>
         </div>
       </div>
@@ -244,34 +252,19 @@
   <div class="inner">
     <div class="lbl lbl-blue reveal">Perfil de riesgo del hedge book</div>
     <h2 class="t-h reveal">Explora cada instrumento</h2>
-
-    <!-- BOTONES SELECTOR -->
     <div class="pf-tabs reveal" id="pf-tabs">
-      <button class="pf-tab active" data-pf="all">
-        <span class="pf-tab-dot" style="background:#1a1a2e;"></span>Vista general
-      </button>
-      <button class="pf-tab" data-pf="fwd">
-        <span class="pf-tab-dot" style="background:#1565a0;"></span>Forward vendido
-      </button>
-      <button class="pf-tab" data-pf="pc">
-        <span class="pf-tab-dot" style="background:#2a7a4a;"></span>Put comprada
-      </button>
-      <button class="pf-tab" data-pf="pv">
-        <span class="pf-tab-dot" style="background:#c06060;"></span>Put vendida
-      </button>
+      <button class="pf-tab active" data-pf="all"><span class="pf-tab-dot" style="background:#1a1a2e;"></span>Vista general</button>
+      <button class="pf-tab" data-pf="fwd"><span class="pf-tab-dot" style="background:#1565a0;"></span>Forward vendido</button>
+      <button class="pf-tab" data-pf="pc"><span class="pf-tab-dot" style="background:#2a7a4a;"></span>Put comprada</button>
+      <button class="pf-tab" data-pf="pv"><span class="pf-tab-dot" style="background:#c06060;"></span>Put vendida</button>
     </div>
-
     <div class="pf-body reveal">
-      <!-- Gráfico -->
       <div class="cc pf-chart-wrap">
         <div class="cc-t" id="pf-chart-title">Payoff combinado &mdash; Ashanti 1999</div>
-        <div class="cc-s" id="pf-chart-sub">USD millones &middot; vs precio spot del oro ($/oz)</div>
+        <div class="cc-s" id="pf-chart-sub">USD millones &middot; vs precio spot del oro ($/oz) &middot; <em>valores ilustrativos basados en estructura real</em></div>
         <div id="ch-payoff" style="height:260px;"></div>
       </div>
-      <!-- Panel descripción -->
-      <div class="pf-info" id="pf-info">
-        <!-- se llena dinámicamente -->
-      </div>
+      <div class="pf-info" id="pf-info"></div>
     </div>
   </div>
 </section>
@@ -310,31 +303,91 @@
 <script src="js/main.js"></script>
 
 <script>
+/* ===== SIMULADOR MTM — forward + puts ===== */
 (function(){
-  var FWD=300,OZ=10e6;
-  function calc(s){return(FWD-s)*OZ;}
-  function fmt(v){var s=v>=0?'+':'-',a=Math.abs(v)/1e6;return s+'$'+a.toFixed(0)+'M';}
-  function update(spot){
-    var mtm=calc(spot),poz=FWD-spot,col=mtm<0?Math.abs(mtm)*.6:0;
-    var prEl=document.getElementById('mtm-price');if(!prEl)return;
-    prEl.textContent='$'+spot+'/oz';prEl.style.color=spot<=FWD?'#1565a0':'#8b2020';
-    var vEl=document.getElementById('mtm-val');vEl.textContent=fmt(mtm);vEl.style.color=mtm>=0?'#2a7a4a':'#8b2020';
-    var bar=document.getElementById('mtm-bar');bar.style.width=mtm>=0?Math.min((mtm/(FWD*OZ))*100,100)+'%':'0%';bar.style.background=mtm>=0?'#5fa87a':'#c06060';
-    var cEl=document.getElementById('mtm-col');cEl.textContent=col>0?'$'+Math.abs(col/1e6).toFixed(0)+'M':'$0';cEl.style.color=col>0?'#8b2020':'#2a7a4a';
-    var pEl=document.getElementById('mtm-poz');pEl.textContent=(poz>=0?'+':'')+'$'+poz.toFixed(0)+'/oz';pEl.style.color=poz>=0?'#2a7a4a':'#8b2020';
-    var b=document.getElementById('mtm-badge');
-    if(spot<280){b.textContent='\u2713 Cobertura operando bien';b.style.background='#e8f5ee';b.style.color='#2a7a4a';}
-    else if(spot<=300){b.textContent='\u26A0 Zona de alerta';b.style.background='#fef9e7';b.style.color='#a87000';}
-    else if(spot<338){b.textContent='\uD83D\uDD34 MTM negativo \u2014 margin calls';b.style.background='#fdeaea';b.style.color='#8b2020';}
-    else{b.textContent='\uD83D\uDC80 Crisis \u2014 equivalente Ashanti 1999';b.style.background='#8b2020';b.style.color='#fff';}
-    var n=document.getElementById('mtm-note');
-    if(mtm>=0)n.innerHTML='Con el oro a <strong>$'+spot+'/oz</strong>, el hedge genera valor positivo de <strong>'+fmt(mtm)+'</strong>. Sin margin calls.';
-    else if(spot<338)n.innerHTML='<strong>Alerta:</strong> MTM de <strong style="color:#8b2020;">'+fmt(mtm)+'</strong>. Colateral estimado: <strong style="color:#8b2020;">$'+Math.abs(col/1e6).toFixed(0)+'M</strong>.';
-    else n.innerHTML='<strong style="color:#8b2020;">Escenario crisis real.</strong> MTM: <strong style="color:#8b2020;">'+fmt(mtm)+'</strong>. Equivalente al colapso de sep 1999.';
+  /* parámetros ilustrativos alineados con el payoff chart */
+  var FWD=300, OZ_FWD=10e6;
+  var STK=280,  OZ_PC=2e6,  PRIMA_C=8;   /* put comprada */
+  var            OZ_PV=5e6,  PRIMA_V=12;  /* put vendida  */
+
+  function calcComponents(spot){
+    var fwd = (FWD - spot) * OZ_FWD;
+    /* put comprada: payoff = max(STK-spot,0) - prima_c, * oz */
+    var pc  = (Math.max(STK - spot, 0) - PRIMA_C) * OZ_PC;
+    /* put vendida: payoff = -(max(STK-spot,0) - prima_v) * oz */
+    var pv  = -(Math.max(STK - spot, 0) - PRIMA_V) * OZ_PV;
+    return {fwd:fwd, pc:pc, pv:pv, total:fwd+pc+pv};
   }
-  var sl=document.getElementById('mtm-slider');
-  if(sl){sl.addEventListener('input',function(){update(+this.value);});update(256);}
-  window.setSpot=function(p){if(sl){sl.value=p;update(p);}}
+
+  function fmtM(v){
+    var s = v >= 0 ? '+' : '-';
+    return s + '$' + (Math.abs(v)/1e6).toFixed(0) + 'M';
+  }
+  function colorM(v){ return v >= 0 ? '#2a7a4a' : '#8b2020'; }
+
+  function update(spot){
+    var prEl = document.getElementById('mtm-price'); if(!prEl) return;
+    var c = calcComponents(spot);
+    var total = c.total, col = total < 0 ? Math.abs(total) * 0.6 : 0;
+
+    /* precio */
+    prEl.textContent = '$' + spot + '/oz';
+    prEl.style.color = spot <= FWD ? '#1565a0' : '#8b2020';
+
+    /* MTM total */
+    var vEl = document.getElementById('mtm-val');
+    vEl.textContent = fmtM(total); vEl.style.color = colorM(total);
+    var bar = document.getElementById('mtm-bar');
+    var maxRef = FWD * OZ_FWD;
+    bar.style.width  = total >= 0 ? Math.min((total/maxRef)*100, 100) + '%' : '0%';
+    bar.style.background = total >= 0 ? '#5fa87a' : '#c06060';
+
+    /* desglose */
+    var bdFwd = document.getElementById('bd-fwd');
+    var bdPc  = document.getElementById('bd-pc');
+    var bdPv  = document.getElementById('bd-pv');
+    if(bdFwd){ bdFwd.textContent = fmtM(c.fwd); bdFwd.style.color = colorM(c.fwd); }
+    if(bdPc) { bdPc.textContent  = fmtM(c.pc);  bdPc.style.color  = colorM(c.pc);  }
+    if(bdPv) { bdPv.textContent  = fmtM(c.pv);  bdPv.style.color  = colorM(c.pv);  }
+
+    /* colateral */
+    var cEl = document.getElementById('mtm-col');
+    cEl.textContent = col > 0 ? '$' + (col/1e6).toFixed(0) + 'M' : '$0';
+    cEl.style.color = col > 0 ? '#8b2020' : '#2a7a4a';
+
+    /* badge */
+    var b = document.getElementById('mtm-badge');
+    if(spot < 280){
+      b.textContent='\u2713 Cobertura operando bien';
+      b.style.background='#e8f5ee'; b.style.color='#2a7a4a';
+    } else if(spot <= 300){
+      b.textContent='\u26A0 Zona de alerta';
+      b.style.background='#fef9e7'; b.style.color='#a87000';
+    } else if(spot < 338){
+      b.textContent='\uD83D\uDD34 MTM negativo \u2014 margin calls activos';
+      b.style.background='#fdeaea'; b.style.color='#8b2020';
+    } else {
+      b.textContent='\uD83D\uDC80 Crisis \u2014 equivalente Ashanti 1999';
+      b.style.background='#8b2020'; b.style.color='#fff';
+    }
+
+    /* nota */
+    var n = document.getElementById('mtm-note');
+    var pvNote = spot < STK
+      ? ' Las puts vendidas <strong style="color:#c06060;">amplifican la p\u00e9rdida</strong> porque Ashanti vendi\u00f3 2.5\u00d7 m\u00e1s puts de las que compr\u00f3.'
+      : ' Las puts (compradas y vendidas) est\u00e1n <em>fuera del dinero</em> \u2014 solo la prima neta afecta.';
+    if(total >= 0){
+      n.innerHTML = 'Con el oro a <strong>$'+spot+'/oz</strong>, el hedge book genera valor positivo de <strong style="color:#2a7a4a;">'+fmtM(total)+'</strong>. Sin margin calls.' + pvNote;
+    } else if(spot < 338){
+      n.innerHTML = '<strong>Alerta:</strong> MTM total de <strong style="color:#8b2020;">'+fmtM(total)+'</strong>. Colateral estimado: <strong style="color:#8b2020;">$'+(col/1e6).toFixed(0)+'M</strong>.' + pvNote;
+    } else {
+      n.innerHTML = '<strong style="color:#8b2020;">Escenario crisis real.</strong> MTM hedge book: <strong style="color:#8b2020;">'+fmtM(total)+'</strong>. Equivalente al colapso de sep 1999.' + pvNote;
+    }
+  }
+
+  var sl = document.getElementById('mtm-slider');
+  if(sl){ sl.addEventListener('input', function(){ update(+this.value); }); update(256); }
+  window.setSpot = function(p){ if(sl){ sl.value = p; update(p); } };
 })();
 </script>
 
