@@ -144,6 +144,23 @@
     var els=slide.querySelectorAll('.reveal');
     els.forEach(function(el){el.classList.remove('in');void el.offsetWidth;});
     requestAnimationFrame(function(){els.forEach(function(el){el.classList.add('in');});});
+    /* contador animado sincronizado con el reveal */
+    slide.querySelectorAll('.stat-n').forEach(function(el){
+      var orig=el.textContent.trim();
+      var m=orig.match(/^([+$#]?)([\d]+)([%MKx]*)$/);
+      if(!m||+m[2]<2)return;
+      var pre=m[1],num=+m[2],suf=m[3];
+      el.textContent=pre+'0'+suf;
+      setTimeout(function(){
+        var t0=null,dur=900;
+        requestAnimationFrame(function step(ts){
+          if(!t0)t0=ts;
+          var p=Math.min((ts-t0)/dur,1);
+          el.textContent=pre+Math.round((1-Math.pow(1-p,3))*num)+suf;
+          if(p<1)requestAnimationFrame(step);else el.textContent=orig;
+        });
+      },420);
+    });
   }
 
   function go(idx){
