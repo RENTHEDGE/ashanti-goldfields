@@ -239,7 +239,7 @@
   </div>
 </section>
 
-<!-- 10 PERFIL DE RIESGO (NUEVO) -->
+<!-- 10 PERFIL DE RIESGO -->
 <section class="slide th-alt" data-i="9">
   <div class="inner">
     <div class="lbl lbl-blue reveal">Perfil de riesgo del hedge book</div>
@@ -253,10 +253,10 @@
         </div>
       </div>
       <div class="reveal" style="display:flex;flex-direction:column;gap:.6rem;justify-content:center;">
-        <div class="co co-blue"><div class="co-mark cm-blue">FORWARD VENDIDO</div><div class="co-text">Ashanti vende 10M oz a $300. Si el spot <strong>sube sobre $300</strong>, pierde d&oacute;lar por d&oacute;lar. Es una l&iacute;nea recta descendente. Sin l&iacute;mite de p&eacute;rdida.</div></div>
-        <div class="co co-gold"><div class="co-mark cm-gold">PUT COMPRADA</div><div class="co-text">Pag&oacute; una prima de $8/oz por el derecho a vender a $280. Si el spot <strong>cae bajo $280</strong> se activa. Protecci&oacute;n limitada &mdash; 2M oz.</div></div>
-        <div class="co co-red"><div class="co-mark cm-red">PUT VENDIDA</div><div class="co-text">Cobr&oacute; prima de $12/oz obligandose a <strong>comprar si el spot cae</strong>. Posici&oacute;n 2.5&times; m&aacute;s grande que la put comprada. Cancela la cobertura y a&ntilde;ade riesgo.</div></div>
-        <div class="co" style="background:#1a1a2e;border-left:3px solid #f0ece0;"><div class="co-mark" style="background:#f0ece0;color:#1a1a2e;font-size:.55rem;padding:.15rem .4rem;border-radius:3px;font-weight:700;">LA TRAMPA</div><div class="co-text" style="color:#f0ece0;">Las puts vendidas eran <strong style="color:#c06060;">2.5&times; m&aacute;s grandes</strong> que las compradas. El P&amp;L neto era negativo en <em>cualquier</em> escenario extremo, arriba o abajo.</div></div>
+        <div class="co co-blue"><div class="co-mark cm-blue">FORWARD VENDIDO</div><div class="co-text">Ashanti vende 10M oz a $300. Si el spot <strong>sube sobre $300</strong>, pierde d&oacute;lar por d&oacute;lar. L&iacute;nea recta descendente sin l&iacute;mite de p&eacute;rdida.</div></div>
+        <div class="co co-gold"><div class="co-mark cm-gold">PUT COMPRADA</div><div class="co-text">Pag&oacute; prima $8/oz por derecho a vender a $280 (2M oz). Solo ayuda si el spot <strong>cae bajo $280</strong>. Protecci&oacute;n muy limitada.</div></div>
+        <div class="co co-red"><div class="co-mark cm-red">PUT VENDIDA</div><div class="co-text">Cobr&oacute; prima $12/oz comprometiendo <strong>compra de 5M oz</strong> si el spot cae. 2.5&times; m&aacute;s grande que la put comprada &mdash; cancela la cobertura.</div></div>
+        <div class="co" style="background:#1a1a2e;border-left:3px solid #e8c060;"><div class="co-mark" style="background:#e8c060;color:#1a1a2e;font-size:.55rem;padding:.15rem .4rem;border-radius:3px;font-weight:700;letter-spacing:.04em;">LA TRAMPA</div><div class="co-text" style="color:#f0ece0;">Las puts vendidas eran <strong style="color:#c06060;">2.5&times; m&aacute;s grandes</strong>. El P&amp;L neto era negativo en cualquier escenario extremo &mdash; arriba <em>o</em> abajo.</div></div>
       </div>
     </div>
   </div>
@@ -295,7 +295,6 @@
 
 <script src="js/main.js"></script>
 
-<!-- SIMULADOR MTM -->
 <script>
 (function(){
   var FWD=300,OZ=10e6;
@@ -322,87 +321,6 @@
   var sl=document.getElementById('mtm-slider');
   if(sl){sl.addEventListener('input',function(){update(+this.value);});update(256);}
   window.setSpot=function(p){if(sl){sl.value=p;update(p);}}
-})();
-</script>
-
-<!-- PAYOFF CHART (slide 10) -->
-<script>
-(function(){
-  function buildPayoff(){
-    var el=document.getElementById('ch-payoff');
-    if(!el||el._built) return;
-    el._built=true;
-
-    var spots=[];
-    for(var s=200;s<=500;s+=2) spots.push(s);
-
-    // Posiciones
-    var FWD=300, OZ_FWD=10e6;
-    var STK=280, PRIMA_C=8,  OZ_PC=2e6;  // put comprada
-    var        PRIMA_V=12, OZ_PV=5e6;  // put vendida (mismo strike)
-
-    var fwd=[],pc=[],pv=[],neto=[];
-    for(var i=0;i<spots.length;i++){
-      var s=spots[i];
-      var f = (FWD - s) * OZ_FWD / 1e6;
-      var c = (Math.max(STK-s,0) - PRIMA_C) * OZ_PC / 1e6;
-      var v = -(Math.max(STK-s,0) - PRIMA_V) * OZ_PV / 1e6;
-      fwd.push(f); pc.push(c); pv.push(v);
-      neto.push(f+c+v);
-    }
-
-    var font={family:'JetBrains Mono, monospace',size:10};
-    var traces=[
-      {x:spots,y:fwd,name:'Forward vendido (10M oz)',mode:'lines',
-       line:{color:'#1565a0',width:2},hovertemplate:'Spot $%{x}<br>Forward: %{y:.0f}M<extra></extra>'},
-      {x:spots,y:pc,name:'Put comprada — $280 str.',mode:'lines',
-       line:{color:'#2a7a4a',width:2,dash:'dot'},hovertemplate:'Spot $%{x}<br>Put comprada: %{y:.0f}M<extra></extra>'},
-      {x:spots,y:pv,name:'Put vendida — $280 str.',mode:'lines',
-       line:{color:'#c06060',width:2,dash:'dot'},hovertemplate:'Spot $%{x}<br>Put vendida: %{y:.0f}M<extra></extra>'},
-      {x:spots,y:neto,name:'P&L NETO TOTAL',mode:'lines',
-       line:{color:'#1a1a2e',width:3},hovertemplate:'Spot $%{x}<br><b>Neto: %{y:.0f}M</b><extra></extra>'}
-    ];
-
-    var layout={
-      paper_bgcolor:'transparent',plot_bgcolor:'transparent',
-      margin:{t:8,r:10,b:36,l:52},
-      font:font,
-      xaxis:{title:{text:'Precio spot oro ($/oz)',font:font},tickfont:font,
-             gridcolor:'rgba(0,0,0,.06)',zerolinecolor:'rgba(0,0,0,.12)',
-             tickprefix:'$'},
-      yaxis:{title:{text:'P&L (USD millones)',font:font},tickfont:font,
-             gridcolor:'rgba(0,0,0,.06)',zerolinecolor:'rgba(0,0,0,.2)',
-             ticksuffix:'M'},
-      legend:{font:font,bgcolor:'rgba(255,255,255,.7)',bordercolor:'rgba(0,0,0,.08)',borderwidth:1},
-      hovermode:'x unified',
-      shapes:[
-        // Línea vertical Forward $300
-        {type:'line',x0:300,x1:300,y0:0,y1:1,yref:'paper',
-         line:{color:'#1565a0',width:1.5,dash:'dash'}},
-        // Línea vertical crisis WAG $338
-        {type:'line',x0:338,x1:338,y0:0,y1:1,yref:'paper',
-         line:{color:'#8b2020',width:1.5,dash:'dash'}},
-        // Área de pérdida neta (sombreado suave)
-        {type:'rect',x0:300,x1:500,y0:-700,y1:0,
-         fillcolor:'rgba(192,96,96,.07)',line:{width:0}}
-      ],
-      annotations:[
-        {x:300,y:1,yref:'paper',text:'Forward<br>$300',showarrow:false,
-         font:{size:9,color:'#1565a0',family:'JetBrains Mono'},xanchor:'left',yanchor:'top'},
-        {x:338,y:.88,yref:'paper',text:'Crisis<br>WAG $338',showarrow:false,
-         font:{size:9,color:'#8b2020',family:'JetBrains Mono'},xanchor:'left',yanchor:'top'}
-      ]
-    };
-
-    Plotly.newPlot('ch-payoff',traces,layout,{responsive:true,displayModeBar:false});
-  }
-
-  // Construye cuando el slide se hace visible
-  document.addEventListener('slidechange',function(e){
-    if(e.detail && e.detail.i===9) buildPayoff();
-  });
-  // Fallback: construye si ya está activo al cargar
-  if(document.querySelector('[data-i="9"].active')) buildPayoff();
 })();
 </script>
 

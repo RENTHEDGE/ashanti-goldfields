@@ -25,7 +25,8 @@
     {label:'Empresa',slides:[4,5]},
     {label:'Instrumentos',slides:[6,7]},
     {label:'Simulador',slides:[8]},
-    {label:'Reflexi\u00f3n',slides:[9,10]}
+    {label:'Opciones',slides:[9]},
+    {label:'Reflexi\u00f3n',slides:[10,11]}
   ];
   var phaseEl=document.getElementById('tb-phases');
   var phaseItems=[];
@@ -188,6 +189,7 @@
       busy=false;
       if(idx===2&&!charts[2])buildChart1();
       if(idx===3&&!charts[3])buildChart2();
+      if(idx===9&&!charts[9])buildChart9();
     },540);
   }
 
@@ -203,8 +205,9 @@
   document.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>44){dx<0?go(cur+1):go(cur-1);}},{passive:true});
   updateUI(0);setTimeout(function(){animateIn(slides[0]);},80);
 
-  /* CHARTS */
+  /* ---- CHARTS ---- */
   var monoFont='JetBrains Mono, monospace';
+
   function buildChart1(){
     charts[2]=true;
     var x=[1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005];
@@ -262,6 +265,87 @@
       hoverlabel:{bgcolor:'#19180f',font:{color:'#f0ece0',size:12,family:monoFont},bordercolor:'transparent'},
       showlegend:false,font:{family:monoFont}
     },{responsive:true,displayModeBar:false});
+  }
+
+  function buildChart9(){
+    charts[9]=true;
+    var spots=[];
+    for(var s=200;s<=500;s+=2)spots.push(s);
+
+    var FWD=300,OZ_FWD=10e6;
+    var STK=280,PRIMA_C=8,OZ_PC=2e6;
+    var PRIMA_V=12,OZ_PV=5e6;
+
+    var fwd=[],pc=[],pv=[],neto=[];
+    for(var i=0;i<spots.length;i++){
+      var sp=spots[i];
+      var f=(FWD-sp)*OZ_FWD/1e6;
+      var c=(Math.max(STK-sp,0)-PRIMA_C)*OZ_PC/1e6;
+      var v=-(Math.max(STK-sp,0)-PRIMA_V)*OZ_PV/1e6;
+      fwd.push(f);pc.push(c);pv.push(v);neto.push(f+c+v);
+    }
+
+    var traces=[
+      {x:spots,y:fwd,name:'Forward vendido (10M oz)',mode:'lines',
+       line:{color:'#1565a0',width:2},
+       hovertemplate:'$%{x}/oz \u2014 Forward: <b>%{y:.0f}M</b><extra></extra>'},
+      {x:spots,y:pc,name:'Put comprada — strike $280 (2M oz)',mode:'lines',
+       line:{color:'#2a7a4a',width:2,dash:'dot'},
+       hovertemplate:'$%{x}/oz \u2014 Put comprada: <b>%{y:.0f}M</b><extra></extra>'},
+      {x:spots,y:pv,name:'Put vendida — strike $280 (5M oz)',mode:'lines',
+       line:{color:'#c06060',width:2,dash:'dot'},
+       hovertemplate:'$%{x}/oz \u2014 Put vendida: <b>%{y:.0f}M</b><extra></extra>'},
+      {x:spots,y:neto,name:'P&L NETO TOTAL',mode:'lines',
+       line:{color:'#1a1a2e',width:3.5},
+       hovertemplate:'$%{x}/oz \u2014 <b>Neto: %{y:.0f}M</b><extra></extra>'}
+    ];
+
+    var layout={
+      paper_bgcolor:'rgba(0,0,0,0)',
+      plot_bgcolor:'rgba(0,0,0,0)',
+      margin:{t:8,r:12,b:40,l:58},
+      font:{family:monoFont,size:10},
+      xaxis:{
+        title:{text:'Precio spot del oro ($/oz)',font:{family:monoFont,size:10}},
+        tickfont:{family:monoFont,size:10},
+        gridcolor:'rgba(0,0,0,.07)',
+        zerolinecolor:'rgba(0,0,0,.15)',
+        tickprefix:'$'
+      },
+      yaxis:{
+        title:{text:'P&L (USD millones)',font:{family:monoFont,size:10}},
+        tickfont:{family:monoFont,size:10},
+        gridcolor:'rgba(0,0,0,.07)',
+        zerolinecolor:'rgba(0,0,0,.25)',
+        ticksuffix:'M'
+      },
+      legend:{
+        font:{family:monoFont,size:9},
+        bgcolor:'rgba(255,255,255,.75)',
+        bordercolor:'rgba(0,0,0,.1)',
+        borderwidth:1,
+        orientation:'h',
+        x:0,y:-0.22
+      },
+      hovermode:'x unified',
+      hoverlabel:{bgcolor:'#19180f',font:{color:'#f0ece0',size:11,family:monoFont},bordercolor:'transparent'},
+      shapes:[
+        {type:'line',x0:300,x1:300,y0:0,y1:1,yref:'paper',
+         line:{color:'#1565a0',width:1.5,dash:'dash'}},
+        {type:'line',x0:338,x1:338,y0:0,y1:1,yref:'paper',
+         line:{color:'#8b2020',width:1.5,dash:'dash'}},
+        {type:'rect',x0:300,x1:500,y0:-800,y1:0,
+         fillcolor:'rgba(192,96,96,.06)',line:{width:0}}
+      ],
+      annotations:[
+        {x:300,y:0.97,yref:'paper',text:'Forward<br>$300',showarrow:false,
+         font:{size:9,color:'#1565a0',family:monoFont},xanchor:'left',yanchor:'top'},
+        {x:338,y:0.82,yref:'paper',text:'Crisis WAG<br>$338',showarrow:false,
+         font:{size:9,color:'#8b2020',family:monoFont},xanchor:'left',yanchor:'top'}
+      ]
+    };
+
+    Plotly.newPlot('ch-payoff',traces,layout,{responsive:true,displayModeBar:false});
   }
 
 })();
