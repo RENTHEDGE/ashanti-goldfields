@@ -251,9 +251,9 @@
     ],{
       paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',
       margin:{t:6,b:36,l:52,r:10},
-      xaxis:{showgrid:false,zeroline:false,tickfont:{size:11,color:'#a09e96',family:monoFont},tickformat:'d'},
-      yaxis:{showgrid:true,gridcolor:'rgba(20,18,10,.07)',zeroline:false,tickprefix:'$',tickfont:{size:11,color:'#a09e96',family:monoFont}},
-      hovermode:'closest',hoverlabel:{bgcolor:'#19180f',font:{color:'#f0ece0',size:12,family:monoFont},bordercolor:'transparent'},
+      hovermode:'x unified',hoverlabel:{bgcolor:'#19180f',font:{color:'#f0ece0',size:12,family:monoFont},bordercolor:'transparent'},
+      xaxis:{showgrid:false,zeroline:false,tickfont:{size:11,color:'#a09e96',family:monoFont},tickformat:'d',showspikes:true,spikemode:'across',spikesnap:'hovered data',spikedash:'dot',spikecolor:'rgba(168,112,0,.5)',spikethickness:1.5},
+      yaxis:{showgrid:true,gridcolor:'rgba(20,18,10,.07)',zeroline:false,tickprefix:'$',tickfont:{size:11,color:'#a09e96',family:monoFont},showspikes:true,spikemode:'across',spikesnap:'hovered data',spikedash:'dot',spikecolor:'rgba(168,112,0,.25)',spikethickness:1},
       showlegend:false,font:{family:monoFont},
       annotations:ex.map(function(v,i){return{x:v,y:ey[i]+(i===0?32:20),xref:'x',yref:'y',text:'<b>'+v+'</b>',showarrow:false,font:{size:11,color:ec[i],family:monoFont},yanchor:'bottom'};})
     },{responsive:true,displayModeBar:false});
@@ -265,8 +265,8 @@
     var y2=[288,286,282,280,277,270,256,258,258,257,258,310,331,338,330,295,285,284,280,278];
     Plotly.newPlot('ch2',[{x:x2,y:y2,type:'scatter',mode:'lines+markers',line:{color:'#1565a0',width:2.5,shape:'spline'},marker:{color:x2.map(function(v){return v==='1999-09-27'?'#8b2020':'#1565a0';}),size:x2.map(function(v){return v==='1999-09-27'?11:5;})},fill:'tozeroy',fillcolor:'rgba(21,101,160,.06)',hovertemplate:'<b>%{x}</b> \u2014 $%{y}/oz<extra></extra>'}],{
       paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',margin:{t:6,b:36,l:54,r:10},
-      xaxis:{showgrid:false,zeroline:false,tickfont:{size:10,color:'#a09e96',family:monoFont}},
-      yaxis:{showgrid:true,gridcolor:'rgba(20,18,10,.07)',zeroline:false,tickprefix:'$',ticksuffix:'/oz',tickfont:{size:10,color:'#a09e96',family:monoFont},range:[230,360]},
+      xaxis:{showgrid:false,zeroline:false,tickfont:{size:10,color:'#a09e96',family:monoFont},showspikes:true,spikemode:'across',spikesnap:'hovered data',spikedash:'dot',spikecolor:'rgba(21,101,160,.55)',spikethickness:1.5},
+      yaxis:{showgrid:true,gridcolor:'rgba(20,18,10,.07)',zeroline:false,tickprefix:'$',ticksuffix:'/oz',tickfont:{size:10,color:'#a09e96',family:monoFont},range:[230,360],showspikes:true,spikemode:'across',spikesnap:'hovered data',spikedash:'dot',spikecolor:'rgba(21,101,160,.3)',spikethickness:1},
       shapes:[{type:'rect',x0:'1999-09-24',x1:'1999-10-05',y0:0,y1:1,xref:'x',yref:'paper',fillcolor:'rgba(139,32,32,.1)',line:{color:'rgba(139,32,32,.3)',width:1}}],
       annotations:[{x:'1999-09-27',y:318,xref:'x',yref:'y',text:'<b>Acuerdo de Washington</b><br>26 sep 1999 \u00b7 +32% en 2 sem.',showarrow:true,arrowhead:2,ax:78,ay:-44,font:{size:11,color:'#8b2020',family:monoFont},bgcolor:'rgba(245,222,222,.96)',bordercolor:'rgba(139,32,32,.3)',borderwidth:1,borderpad:5}],
       hovermode:'x unified',hoverlabel:{bgcolor:'#19180f',font:{color:'#f0ece0',size:12,family:monoFont},bordercolor:'transparent'},
@@ -362,8 +362,8 @@
       plot_bgcolor:'rgba(0,0,0,0)',
       margin:{t:8,r:12,b:42,l:62},
       font:{family:monoFont,size:10},
-      xaxis:{title:{text:'Precio spot ($/oz)',font:{family:monoFont,size:10}},tickfont:{family:monoFont,size:10},gridcolor:'rgba(0,0,0,.07)',zerolinecolor:'rgba(0,0,0,.15)',tickprefix:'$'},
-      yaxis:{title:{text:'P&L (USD millones)',font:{family:monoFont,size:10}},tickfont:{family:monoFont,size:10},gridcolor:'rgba(0,0,0,.07)',zerolinecolor:'rgba(0,0,0,.25)',ticksuffix:'M'},
+      xaxis:{title:{text:'Precio spot ($/oz)',font:{family:monoFont,size:10}},tickfont:{family:monoFont,size:10},gridcolor:'rgba(0,0,0,.07)',zerolinecolor:'rgba(0,0,0,.15)',tickprefix:'$',showspikes:true,spikemode:'across',spikesnap:'cursor',spikedash:'dot',spikecolor:'rgba(26,26,46,.5)',spikethickness:1.5},
+      yaxis:{title:{text:'P&L (USD millones)',font:{family:monoFont,size:10}},tickfont:{family:monoFont,size:10},gridcolor:'rgba(0,0,0,.07)',zerolinecolor:'rgba(0,0,0,.25)',ticksuffix:'M',showspikes:true,spikemode:'across',spikesnap:'cursor',spikedash:'dot',spikecolor:'rgba(26,26,46,.3)',spikethickness:1},
       showlegend:false,
       hovermode:'x unified',
       hoverlabel:{bgcolor:'#19180f',font:{color:'#f0ece0',size:11,family:monoFont},bordercolor:'transparent'},
