@@ -8,29 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-<style>
-/* SIMULADOR MTM */
-.mtm-sim{background:var(--sur);border:1px solid var(--brd);border-radius:20px;padding:1.4rem 1.6rem;}
-.mtm-top{display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap;}
-.mtm-controls{flex:1;min-width:220px;}
-.mtm-result{flex:1;min-width:200px;}
-.mtm-lbl{font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--ink3);margin-bottom:.55rem;}
-.mtm-price{font-family:var(--mono);font-size:2.6rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.4rem;transition:color .3s;}
-.mtm-slider{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(90deg,#5fa87a,#a87000,#8b2020);outline:none;margin-bottom:.5rem;}
-.mtm-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid #a87000;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2);transition:border-color .3s,transform .15s;}
-.mtm-slider::-webkit-slider-thumb:hover{transform:scale(1.15);}
-.mtm-range{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.58rem;color:var(--ink3);margin-bottom:.8rem;}
-.mtm-presets{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.9rem;}
-.mtm-btn{font-family:var(--mono);font-size:.6rem;font-weight:700;padding:.28rem .7rem;border-radius:99px;border:1px solid var(--brd);background:var(--sur2);color:var(--ink2);cursor:pointer;transition:background .2s,color .2s,border-color .2s;}
-.mtm-btn:hover{background:var(--ink);color:var(--bg);}
-.mtm-metric{margin-bottom:.65rem;}
-.mtm-metric-lbl{font-family:var(--mono);font-size:.56rem;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin-bottom:.18rem;}
-.mtm-metric-val{font-family:var(--mono);font-size:1.5rem;font-weight:700;transition:color .3s,transform .25s;}
-.mtm-bar-wrap{height:7px;background:var(--sur2);border-radius:4px;overflow:hidden;margin-top:.25rem;}
-.mtm-bar-fill{height:100%;border-radius:4px;transition:width .4s cubic-bezier(.16,1,.3,1),background .4s;}
-.mtm-badge{font-size:.62rem;font-weight:700;padding:.3rem .75rem;border-radius:99px;display:inline-block;margin-top:.55rem;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;transition:background .3s,color .3s;}
-.mtm-note{font-size:.72rem;color:var(--ink3);margin-top:.75rem;line-height:1.55;border-top:1px solid var(--div);padding-top:.65rem;}
-</style>
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 </head>
 <body>
@@ -38,6 +15,7 @@
 <div id="topbar">
   <div id="progress-bar" style="width:10%"></div>
   <div class="tb-brand"><div class="tb-line"></div>Caso Ashanti &middot; Derivados</div>
+  <div id="tb-phases"></div>
   <div class="tb-pills" id="tb-pills"></div>
   <div class="tb-counter" id="tb-cnt">01 / 11</div>
 </div>
@@ -97,20 +75,14 @@
     <div class="lbl lbl-gold reveal">Contexto &middot; 1975&ndash;2005</div>
     <h2 class="t-h reveal">El mercado del oro en dos d&eacute;cadas</h2>
     <div class="g2 mt5">
-      <div class="reveal">
-        <div class="cc">
-          <div class="cc-t">Precio del oro 1975&ndash;2005</div>
-          <div class="cc-s">USD / onza troy &middot; fuente: LBMA</div>
-          <div id="ch1" style="height:220px;"></div>
-        </div>
-      </div>
+      <div class="reveal"><div class="cc"><div class="cc-t">Precio del oro 1975&ndash;2005</div><div class="cc-s">USD / onza troy &middot; fuente: LBMA</div><div id="ch1" style="height:220px;"></div></div></div>
       <div class="reveal">
         <div class="stats mt3">
           <div class="stat"><div class="stat-n ng">$850</div><div class="stat-l">M&aacute;ximo 1980</div></div>
           <div class="stat"><div class="stat-n nr">$256</div><div class="stat-l">M&iacute;nimo 1999</div></div>
           <div class="stat"><div class="stat-n nb">&#8722;70%</div><div class="stat-l">Ca&iacute;da total</div></div>
         </div>
-        <div class="co co-gold mt4"><div class="co-mark cm-gold">CONTEXTO</div><div class="co-text">En 1999 el oro llevaba <strong>casi 20 a&ntilde;os en tendencia bajista</strong>. Era racional asumir que el precio seguir&iacute;a bajo o estable.</div></div>
+        <div class="co co-gold mt4"><div class="co-mark cm-gold">CONTEXTO</div><div class="co-text">En 1999 el oro llevaba <strong>casi 20 a&ntilde;os en tendencia bajista</strong>. Era racional asumir que el precio seguir&iacute;a bajo.</div></div>
         <div class="co co-red mt3"><div class="co-mark cm-red">RIESGO</div><div class="co-text"><strong>Cubrir demasiado volumen a precio fijo convierte una cobertura en una apuesta inversa</strong> si el mercado gira bruscamente.</div></div>
       </div>
     </div>
@@ -123,20 +95,14 @@
     <div class="lbl lbl-red reveal">Detonante &middot; 26 septiembre 1999</div>
     <h2 class="t-h reveal">El Acuerdo de Washington</h2>
     <div class="g2 mt5">
-      <div class="reveal">
-        <div class="cc">
-          <div class="cc-t">Oro spot &mdash; 1999 al 2000</div>
-          <div class="cc-s">USD / oz &middot; zona roja = ventana de crisis</div>
-          <div id="ch2" style="height:220px;"></div>
-        </div>
-      </div>
+      <div class="reveal"><div class="cc"><div class="cc-t">Oro spot &mdash; 1999 al 2000</div><div class="cc-s">USD / oz &middot; zona roja = ventana de crisis</div><div id="ch2" style="height:220px;"></div></div></div>
       <div class="reveal">
         <div class="stats">
           <div class="stat"><div class="stat-n ng">+32%</div><div class="stat-l">Alza en 2 semanas</div></div>
           <div class="stat"><div class="stat-n nr">$570M</div><div class="stat-l">P&eacute;rdida MTM</div></div>
           <div class="stat"><div class="stat-n nb">17</div><div class="stat-l">Bancos contraparte</div></div>
         </div>
-        <div class="co co-red mt4"><div class="co-mark cm-red">EVENTO</div><div class="co-text"><strong>15 bancos centrales europeos</strong> acordaron limitar ventas y pr&eacute;stamos de oro por 5 a&ntilde;os. El precio dispar&oacute; +32% en horas.</div></div>
+        <div class="co co-red mt4"><div class="co-mark cm-red">EVENTO</div><div class="co-text"><strong>15 bancos centrales europeos</strong> acordaron limitar ventas de oro por 5 a&ntilde;os. El precio dispar&oacute; +32% en horas.</div></div>
         <div class="co co-gold mt3"><div class="co-mark cm-gold">IMPACTO</div><div class="co-text">Ashanti ten&iacute;a forwards a ~$300/oz. Con el spot en $338, el <strong>hedge book mostraba p&eacute;rdidas MTM de $570M</strong>.</div></div>
       </div>
     </div>
@@ -191,12 +157,26 @@
     <div class="lbl lbl-blue reveal">Anatom&iacute;a del derivado</div>
     <h2 class="t-h reveal">Flujos entre los tres actores</h2>
     <p class="t-sub reveal">Tres actores, flujos cruzados y un detonante que ninguno model&oacute; correctamente.</p>
-    <div class="dia reveal mt5">
+    <div class="dia reveal mt4">
       <div class="dia-row">
         <div class="dbox db-gold"><div class="dname">Bancos Centrales</div><div class="dsub">Prestamistas de oro<br>~1% tasa anual</div></div>
-        <div class="darr"><svg width="28" height="16" viewBox="0 0 28 16" fill="none"><path d="M2 8h24M18 3l6 5-6 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Oro f&iacute;sico</span></div>
+        <div class="darr">
+          <div class="darr-svg-wrap">
+            <div class="darr-line darr-line-gold"></div>
+            <div class="darr-particle darr-particle-gold"></div>
+            <svg class="darr-head" width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:absolute;right:0;"><path d="M2 7h10M8 3l4 4-4 4" stroke="#a87000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="darr-lbl" style="color:#a87000;">Oro f&iacute;sico</div>
+        </div>
         <div class="dbox db-blue"><div class="dname">17 Bancos</div><div class="dsub">Contrapartes<br>forwards &amp; opciones</div></div>
-        <div class="darr"><svg width="28" height="16" viewBox="0 0 28 16" fill="none"><path d="M2 8h24M18 3l6 5-6 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Contratos</span></div>
+        <div class="darr">
+          <div class="darr-svg-wrap">
+            <div class="darr-line darr-line-blue"></div>
+            <div class="darr-particle darr-particle-blue"></div>
+            <svg class="darr-head" width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:absolute;right:0;"><path d="M2 7h10M8 3l4 4-4 4" stroke="#1565a0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="darr-lbl" style="color:#1565a0;">Contratos</div>
+        </div>
         <div class="dbox db-red"><div class="dname">Ashanti</div><div class="dsub">Minera &amp; deudor<br>de oro f&iacute;sico</div></div>
       </div>
       <div class="dia-alert"><div class="dia-bar"></div><div class="dia-txt"><strong>Cuando el precio subi&oacute; +32%:</strong> los 17 bancos exigieron colateral simult&aacute;neamente. Ashanti no ten&iacute;a efectivo. Estuvo a horas del default.</div></div>
@@ -221,11 +201,11 @@
   </div>
 </section>
 
-<!-- 09 SIMULADOR MTM ★ NUEVO ★ -->
+<!-- 09 SIMULADOR MTM -->
 <section class="slide th-light" data-i="8">
   <div class="inner">
     <div class="lbl lbl-red reveal">Simulador interactivo</div>
-    <h2 class="t-h reveal">¿Cuánto pierde Ashanti si el oro sube?</h2>
+    <h2 class="t-h reveal">&iquest;Cu&aacute;nto pierde Ashanti si el oro sube?</h2>
     <p class="t-sub reveal">Mueve el slider y observa el MTM, el colateral exigido y el estado del hedge book en tiempo real.</p>
     <div class="mtm-sim reveal mt4">
       <div class="mtm-top">
@@ -236,10 +216,10 @@
           <div class="mtm-range"><span>$200</span><span>Forward $300</span><span>$500</span></div>
           <div class="mtm-lbl" style="margin-top:.2rem;">Presets r&aacute;pidos</div>
           <div class="mtm-presets">
-            <button class="mtm-btn" onclick="setSpot(256)">1999 pre-WAG $256</button>
+            <button class="mtm-btn" onclick="setSpot(256)">Pre-WAG $256</button>
             <button class="mtm-btn" onclick="setSpot(300)">Forward $300</button>
             <button class="mtm-btn" onclick="setSpot(338)">Crisis real $338</button>
-            <button class="mtm-btn" onclick="setSpot(420)">Escenario extremo $420</button>
+            <button class="mtm-btn" onclick="setSpot(420)">Extremo $420</button>
           </div>
         </div>
         <div class="mtm-result">
@@ -248,14 +228,8 @@
             <div class="mtm-metric-val" id="mtm-val">+$440M</div>
             <div class="mtm-bar-wrap"><div class="mtm-bar-fill" id="mtm-bar" style="width:60%;background:#5fa87a;"></div></div>
           </div>
-          <div class="mtm-metric">
-            <div class="mtm-metric-lbl">Colateral estimado exigido</div>
-            <div class="mtm-metric-val" id="mtm-col">$0</div>
-          </div>
-          <div class="mtm-metric">
-            <div class="mtm-metric-lbl">Resultado por onza</div>
-            <div class="mtm-metric-val" id="mtm-poz">+$44/oz</div>
-          </div>
+          <div class="mtm-metric"><div class="mtm-metric-lbl">Colateral estimado exigido</div><div class="mtm-metric-val" id="mtm-col">$0</div></div>
+          <div class="mtm-metric"><div class="mtm-metric-lbl">Resultado por onza</div><div class="mtm-metric-val" id="mtm-poz">+$44/oz</div></div>
           <div class="mtm-badge" id="mtm-badge" style="background:#e8f5ee;color:#2a7a4a;">&#10003; Cobertura operando bien</div>
         </div>
       </div>
@@ -272,8 +246,8 @@
     <p class="t-sub reveal">El caso Ashanti no fue solo un error t&eacute;cnico. Involucra decisiones que cuestionan el gobierno corporativo y el rol de los bancos.</p>
     <div class="g3 mt5">
       <div class="eth eg reveal"><div class="eth-n">Gobierno corporativo</div><div class="eth-t">&iquest;Sab&iacute;a la junta directiva el tama&ntilde;o real del riesgo?</div><div class="eth-b">El hedge book era tan complejo que incluso los directivos ten&iacute;an dificultad para entender la exposici&oacute;n real.</div><div class="eth-q">&ldquo;El riesgo que no se entiende no se puede gestionar.&rdquo;</div></div>
-      <div class="eth eb reveal"><div class="eth-n">Rol de los bancos</div><div class="eth-t">&iquest;Los bancos contrapartes actuaron responsablemente?</div><div class="eth-b">Los 17 bancos construyeron posiciones enormes con Ashanti y luego exigieron colateral simult&aacute;neamente.</div><div class="eth-q">&ldquo;La contraparte siempre act&uacute;a en su propio inter&eacute;s.&rdquo;</div></div>
-      <div class="eth er reveal"><div class="eth-n">Responsabilidad social</div><div class="eth-t">&iquest;Qu&eacute; habr&iacute;a pasado con Ghana si Ashanti quebraba?</div><div class="eth-b">Ashanti era el mayor empleador privado de Ghana. Un default hubiera tenido consecuencias devastadoras.</div><div class="eth-q">&ldquo;Las empresas estrat&eacute;gicas llevan riesgos que van m&aacute;s all&aacute; de sus balances.&rdquo;</div></div>
+      <div class="eth eb reveal"><div class="eth-n">Rol de los bancos</div><div class="eth-t">&iquest;Los bancos contrapartes actuaron responsablemente?</div><div class="eth-b">Los 17 bancos construyeron posiciones enormes y luego exigieron colateral simult&aacute;neamente, acelerando la crisis.</div><div class="eth-q">&ldquo;La contraparte siempre act&uacute;a en su propio inter&eacute;s.&rdquo;</div></div>
+      <div class="eth er reveal"><div class="eth-n">Responsabilidad social</div><div class="eth-t">&iquest;Qu&eacute; habr&iacute;a pasado con Ghana si Ashanti quebraba?</div><div class="eth-b">Ashanti era el mayor empleador privado de Ghana. Un default hubiera tenido consecuencias devastadoras para el pa&iacute;s.</div><div class="eth-q">&ldquo;Las empresas estrat&eacute;gicas llevan riesgos m&aacute;s all&aacute; de sus balances.&rdquo;</div></div>
     </div>
   </div>
 </section>
@@ -285,8 +259,8 @@
     <h2 class="t-h reveal" style="color:#f0ece0;">Lo que Ashanti nos ense&ntilde;a</h2>
     <p class="t-sub reveal" style="color:rgba(240,236,224,.38);">El caso sigue siendo referencia global en gesti&oacute;n de riesgo, derivados y gobierno corporativo.</p>
     <div class="g4 mt5">
-      <div class="les la reveal"><div class="les-n">01</div><div class="les-t">Tama&ntilde;o de la cobertura</div><div class="les-b">Cubrir m&aacute;s del 100% de la producci&oacute;n futura convierte el hedge en especulaci&oacute;n inversa. El l&iacute;mite razonable es 18&ndash;24 meses.</div></div>
-      <div class="les lb reveal"><div class="les-n">02</div><div class="les-t">Liquidez vs. solvencia</div><div class="les-b">Ashanti era solvente (ten&iacute;a minas) pero il&iacute;quida (sin caja para margin calls). Son conceptos distintos y los dos importan.</div></div>
+      <div class="les la reveal"><div class="les-n">01</div><div class="les-t">Tama&ntilde;o de la cobertura</div><div class="les-b">Cubrir m&aacute;s del 100% de la producci&oacute;n futura convierte el hedge en especulaci&oacute;n inversa. L&iacute;mite razonable: 18&ndash;24 meses.</div></div>
+      <div class="les lb reveal"><div class="les-n">02</div><div class="les-t">Liquidez vs. solvencia</div><div class="les-b">Ashanti era solvente (minas) pero il&iacute;quida (sin caja para margin calls). Son conceptos distintos y los dos importan.</div></div>
       <div class="les lc reveal"><div class="les-n">03</div><div class="les-t">Riesgo de correlaci&oacute;n</div><div class="les-b">Cuando todos los instrumentos comparten el mismo supuesto, no hay diversificaci&oacute;n real. En crisis, todo cae junto.</div></div>
       <div class="les ld reveal"><div class="les-n">04</div><div class="les-t">Transparencia interna</div><div class="les-b">Si la junta no entiende el riesgo que toma, la empresa est&aacute; expuesta independientemente de lo que digan los modelos.</div></div>
     </div>
@@ -298,38 +272,30 @@
 <script src="js/main.js"></script>
 <script>
 (function(){
-  var FWD=300, OZ=10e6;
-  function calc(spot){ return (FWD-spot)*OZ; }
-  function fmt(v){
-    var s=v>=0?'+':'-', a=Math.abs(v)/1e6;
-    return s+'$'+a.toFixed(0)+'M';
-  }
+  var FWD=300,OZ=10e6;
+  function calc(s){return(FWD-s)*OZ;}
+  function fmt(v){var s=v>=0?'+':'-',a=Math.abs(v)/1e6;return s+'$'+a.toFixed(0)+'M';}
   function update(spot){
-    var mtm=calc(spot), poz=FWD-spot, col=mtm<0?Math.abs(mtm)*.6:0;
-    document.getElementById('mtm-price').textContent='$'+spot+'/oz';
-    document.getElementById('mtm-price').style.color=spot<=FWD?'#1565a0':'#8b2020';
-    var vEl=document.getElementById('mtm-val');
-    vEl.textContent=fmt(mtm); vEl.style.color=mtm>=0?'#2a7a4a':'#8b2020';
-    var bar=document.getElementById('mtm-bar');
-    bar.style.width=mtm>=0?Math.min((mtm/(FWD*OZ))*100,100)+'%':'0%';
-    bar.style.background=mtm>=0?'#5fa87a':'#c06060';
-    document.getElementById('mtm-col').textContent=col>0?'$'+Math.abs(col/1e6).toFixed(0)+'M':'$0';
-    document.getElementById('mtm-col').style.color=col>0?'#8b2020':'#2a7a4a';
-    document.getElementById('mtm-poz').textContent=(poz>=0?'+':'')+'$'+poz.toFixed(0)+'/oz';
-    document.getElementById('mtm-poz').style.color=poz>=0?'#2a7a4a':'#8b2020';
+    var mtm=calc(spot),poz=FWD-spot,col=mtm<0?Math.abs(mtm)*.6:0;
+    var prEl=document.getElementById('mtm-price');if(!prEl)return;
+    prEl.textContent='$'+spot+'/oz';prEl.style.color=spot<=FWD?'#1565a0':'#8b2020';
+    var vEl=document.getElementById('mtm-val');vEl.textContent=fmt(mtm);vEl.style.color=mtm>=0?'#2a7a4a':'#8b2020';
+    var bar=document.getElementById('mtm-bar');bar.style.width=mtm>=0?Math.min((mtm/(FWD*OZ))*100,100)+'%':'0%';bar.style.background=mtm>=0?'#5fa87a':'#c06060';
+    var cEl=document.getElementById('mtm-col');cEl.textContent=col>0?'$'+Math.abs(col/1e6).toFixed(0)+'M':'$0';cEl.style.color=col>0?'#8b2020':'#2a7a4a';
+    var pEl=document.getElementById('mtm-poz');pEl.textContent=(poz>=0?'+':'')+'$'+poz.toFixed(0)+'/oz';pEl.style.color=poz>=0?'#2a7a4a':'#8b2020';
     var b=document.getElementById('mtm-badge');
-    if(spot<FWD-20){b.textContent='\u2713 Cobertura operando bien';b.style.background='#e8f5ee';b.style.color='#2a7a4a';}
-    else if(spot<=FWD){b.textContent='\u26A0 Zona de alerta';b.style.background='#fef9e7';b.style.color='#a87000';}
+    if(spot<280){b.textContent='\u2713 Cobertura operando bien';b.style.background='#e8f5ee';b.style.color='#2a7a4a';}
+    else if(spot<=300){b.textContent='\u26A0 Zona de alerta';b.style.background='#fef9e7';b.style.color='#a87000';}
     else if(spot<338){b.textContent='\uD83D\uDD34 MTM negativo — margin calls';b.style.background='#fdeaea';b.style.color='#8b2020';}
     else{b.textContent='\uD83D\uDC80 Crisis — equivalente Ashanti 1999';b.style.background='#8b2020';b.style.color='#fff';}
     var n=document.getElementById('mtm-note');
-    if(mtm>=0) n.innerHTML='Con el oro a <strong>$'+spot+'/oz</strong>, el spot est\u00e1 por debajo del forward ($'+FWD+'). El hedge genera valor positivo de <strong>'+fmt(mtm)+'</strong>. Sin margin calls.';
-    else if(spot<338) n.innerHTML='\u26A0 Con el oro a <strong>$'+spot+'/oz</strong>, el MTM es <strong style="color:#8b2020;">'+fmt(mtm)+'</strong>. Los bancos exigen colateral estimado de <strong style="color:#8b2020;">$'+Math.abs(col/1e6).toFixed(0)+'M</strong>. Ashanti no tiene esa caja.';
-    else n.innerHTML='\uD83D\uDD34 <strong>Escenario crisis real.</strong> MTM de <strong style="color:#8b2020;">'+fmt(mtm)+'</strong> — equivalente al colapso de sep 1999. Los 17 bancos exigen colateral simult\u00e1neamente.';
+    if(mtm>=0)n.innerHTML='Con el oro a <strong>$'+spot+'/oz</strong>, el hedge genera valor positivo de <strong>'+fmt(mtm)+'</strong>. Sin margin calls.';
+    else if(spot<338)n.innerHTML='<strong>Alerta:</strong> MTM de <strong style="color:#8b2020;">'+fmt(mtm)+'</strong>. Colateral estimado: <strong style="color:#8b2020;">$'+Math.abs(col/1e6).toFixed(0)+'M</strong>.';
+    else n.innerHTML='<strong style="color:#8b2020;">Escenario crisis real.</strong> MTM: <strong style="color:#8b2020;">'+fmt(mtm)+'</strong>. Equivalente al colapso de sep 1999.';
   }
   var sl=document.getElementById('mtm-slider');
-  if(sl){ sl.addEventListener('input',function(){update(+this.value);}); update(256); }
-  window.setSpot=function(p){if(sl){sl.value=p;update(p);}};
+  if(sl){sl.addEventListener('input',function(){update(+this.value);});update(256);}
+  window.setSpot=function(p){if(sl){sl.value=p;update(p);}}
 })();
 </script>
 </body>
