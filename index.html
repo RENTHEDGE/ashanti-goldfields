@@ -263,7 +263,7 @@
             <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#c06060;">&#9632; Put vendida (5M oz @ $280)</span><span class="mtm-b-val" id="bd-pv">+$60M</span></div>
           </div>
           <div class="mtm-metric" style="margin-top:.5rem;"><div class="mtm-metric-lbl">Colateral estimado exigido</div><div class="mtm-metric-val" id="mtm-col">$0</div></div>
-          <div class="mtm-badge" id="mtm-badge" style="background:#e8f5ee;color:#2a7a4a;">&#10003; Cobertura operando bien</div>
+          <div class="mtm-badge" id="mtm-badge" style="background:#e8f5ee;color:#2a7a4a;">Cobertura OK — operando bien</div>
         </div>
       </div>
       <div class="mtm-note" id="mtm-note">Con el oro a <strong>$256/oz</strong>, el spot est&aacute; por debajo del forward ($300). El hedge genera valor positivo. Sin margin calls.</div>
@@ -385,16 +385,16 @@
     /* badge */
     var b = document.getElementById('mtm-badge');
     if(spot < 280){
-      b.textContent='\u2713 Cobertura operando bien';
+      b.textContent='Cobertura OK \u2014 operando bien';
       b.style.background='#e8f5ee'; b.style.color='#2a7a4a';
     } else if(spot <= 300){
-      b.textContent='\u26A0 Zona de alerta';
+      b.textContent='ALERTA \u2014 zona de peligro';
       b.style.background='#fef9e7'; b.style.color='#a87000';
     } else if(spot < 338){
-      b.textContent='\uD83D\uDD34 MTM negativo \u2014 margin calls activos';
+      b.textContent='MTM NEGATIVO \u2014 margin calls activos';
       b.style.background='#fdeaea'; b.style.color='#8b2020';
     } else {
-      b.textContent='\uD83D\uDC80 Crisis \u2014 equivalente Ashanti 1999';
+      b.textContent='CRISIS \u2014 equivalente Ashanti 1999';
       b.style.background='#8b2020'; b.style.color='#fff';
     }
 

@@ -372,8 +372,8 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
    ============================================================ */
 #trans-veil{
   position:fixed;inset:0;z-index:500;pointer-events:none;
-  opacity:0;will-change:opacity;
-  background:radial-gradient(ellipse 80% 55% at 50% 50%,rgba(168,112,0,.14) 0%,rgba(0,0,0,.26) 100%);
+  opacity:0;will-change:opacity,background;
+  mix-blend-mode:screen;
 }
 
 /* ============================================================
