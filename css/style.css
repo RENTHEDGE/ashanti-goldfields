@@ -366,3 +366,49 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
 }
 .pfi-note.danger{border-left-color:#8b2020;background:var(--red-d);color:#8b2020;}
 .pfi-note strong{color:var(--ink);}
+
+/* ============================================================
+   TRANSICIÓN CINEMATOGRÁFICA v2
+   ============================================================ */
+#trans-veil{
+  position:fixed;inset:0;z-index:500;pointer-events:none;
+  opacity:0;will-change:opacity;
+  background:radial-gradient(ellipse 80% 55% at 50% 50%,rgba(168,112,0,.14) 0%,rgba(0,0,0,.26) 100%);
+}
+
+/* ============================================================
+   IMÁGENES DE FONDO — slides con slide-img
+   ============================================================ */
+.slide-img{
+  position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+}
+.slide-img img{
+  width:100%;height:100%;object-fit:cover;
+  opacity:.13;filter:grayscale(25%) brightness(.72) saturate(.8);
+  transition:opacity 1.5s ease;
+}
+.th-dark .slide-img img{opacity:.1;filter:grayscale(15%) brightness(.6);}
+.th-light .slide-img img{opacity:.08;filter:grayscale(40%) brightness(.6);}
+
+/* ============================================================
+   PANELES DE IMAGEN — decoración en columnas de contenido
+   ============================================================ */
+.img-panel{
+  border-radius:16px;overflow:hidden;position:relative;
+  background:var(--sur2);margin-bottom:.7rem;
+}
+.img-panel img{
+  width:100%;height:155px;object-fit:cover;display:block;
+  filter:saturate(.65) brightness(.82);
+  transition:transform .8s var(--ease),filter .5s ease;
+}
+.img-panel:hover img{transform:scale(1.06);filter:saturate(.9) brightness(.92);}
+.img-panel-tag{
+  position:absolute;bottom:.5rem;left:.6rem;
+  font-family:var(--mono);font-size:.52rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.07em;
+  padding:.18rem .55rem;border-radius:99px;
+  background:rgba(0,0,0,.55);color:rgba(255,255,255,.82);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.1);
+}
