@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashanti Goldfields · Oro, Cobertura y Riesgo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+
+<div id="topbar">
+  <div id="progress-bar" style="width:10%"></div>
+  <div class="tb-brand"><div class="tb-line"></div>Caso Ashanti &middot; Derivados</div>
+  <div class="tb-pills" id="tb-pills"></div>
+  <div class="tb-counter" id="tb-cnt">01 / 10</div>
+</div>
+
+<div id="ticker-strip"><div class="ticker-track" id="ticker-track"></div></div>
+
+<button class="nav-arrow off" id="nav-prev" aria-label="Anterior"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 5L8 10l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="nav-arrow" id="nav-next" aria-label="Siguiente"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<div id="keyhint"><div class="keybadge">&#8592;</div><div class="keybadge">&#8594;</div><span>flechas del teclado</span></div>
+
+<div id="deck">
+
+<!-- 01 PORTADA -->
+<section class="slide th-dark active" data-i="0">
+  <canvas id="liquid-canvas"></canvas>
+  <div class="cover-bg"></div>
+  <div class="inner">
+    <div class="lbl lbl-gold reveal">Clase de Derivados Financieros &middot; Caso de Estudio &middot; 1999</div>
+    <h1 class="t-xl reveal" style="color:#f0ece0;">Oro, cobertura<br>y <em>riesgo extremo</em></h1>
+    <p class="t-sub reveal" style="color:rgba(240,236,224,.42);max-width:52ch;">La segunda minera de oro del mundo estuvo a horas del default en 1999. No por falta de reservas &mdash; sino por su propia estrategia de cobertura con derivados.</p>
+    <div class="cover-meta reveal">
+      <div class="cover-meta-item"><div class="ml">Empresa</div><div class="mv">Ashanti Goldfields Co.</div></div>
+      <div class="cover-meta-item"><div class="ml">Pa&iacute;s</div><div class="mv">Ghana &middot; Londres &middot; NY</div></div>
+      <div class="cover-meta-item"><div class="ml">Evento cr&iacute;tico</div><div class="mv">26 sep 1999 &mdash; WAG</div></div>
+      <div class="cover-meta-item"><div class="ml">P&eacute;rdida MTM</div><div class="mv" style="color:#c06060;">USD 570 M</div></div>
+    </div>
+    <div class="cover-authors reveal">
+      <div class="cover-author"><div class="cover-author-dot"></div><div class="cover-author-name">Ana Sof&iacute;a Rojas Valderrama</div></div>
+      <div class="cover-author"><div class="cover-author-dot"></div><div class="cover-author-name">Juan Felipe Barriga Beltr&aacute;n</div></div>
+    </div>
+  </div>
+  <div class="cover-n">01</div>
+</section>
+
+<!-- 02 ÍNDICE -->
+<section class="slide th-dark" data-i="1">
+  <div class="inner">
+    <div class="lbl lbl-dim reveal">&Iacute;ndice de contenidos</div>
+    <h2 class="t-h reveal" style="color:#f0ece0;">Estructura de la presentaci&oacute;n</h2>
+    <div class="idx-grid reveal">
+      <button class="idx-item" data-goto="2"><span class="idx-num">01</span><div><div class="idx-title">El mercado del oro</div><div class="idx-sub">Contexto hist&oacute;rico 1975&ndash;2005</div></div><svg class="idx-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="idx-item" data-goto="3"><span class="idx-num">02</span><div><div class="idx-title">El evento detonante</div><div class="idx-sub">Acuerdo de Washington &middot; 26 sep 1999</div></div><svg class="idx-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="idx-item" data-goto="4"><span class="idx-num">03</span><div><div class="idx-title">La empresa</div><div class="idx-sub">Ashanti Goldfields: perfil</div></div><svg class="idx-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="idx-item" data-goto="5"><span class="idx-num">04</span><div><div class="idx-title">Los instrumentos</div><div class="idx-sub">Forwards, opciones y pr&eacute;stamos de oro</div></div><svg class="idx-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="idx-item" data-goto="6"><span class="idx-num">05</span><div><div class="idx-title">Anatom&iacute;a del derivado</div><div class="idx-sub">Flujos de oro, efectivo y colateral</div></div><svg class="idx-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="idx-item" data-goto="7"><span class="idx-num">06</span><div><div class="idx-title">Mec&aacute;nica del colapso</div><div class="idx-sub">5 pasos: de la cobertura a la crisis</div></div><svg class="idx-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="idx-item" data-goto="8"><span class="idx-num">07</span><div><div class="idx-title">&Eacute;tica y gobierno</div><div class="idx-sub">Preguntas que el caso plantea</div></div><svg class="idx-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="idx-item" data-goto="9"><span class="idx-num">08</span><div><div class="idx-title">Lecciones</div><div class="idx-sub">Lo que aprendemos para siempre</div></div><svg class="idx-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- 03 MERCADO DEL ORO -->
+<section class="slide th-light" data-i="2">
+  <div class="inner">
+    <div class="lbl lbl-gold reveal">Contexto &middot; 1975&ndash;2005</div>
+    <h2 class="t-h reveal">El mercado del oro en dos d&eacute;cadas</h2>
+    <div class="g2 mt5">
+      <div class="reveal">
+        <div class="cc">
+          <div class="cc-t">Precio del oro 1975&ndash;2005</div>
+          <div class="cc-s">USD / onza troy &middot; fuente: LBMA</div>
+          <div id="ch1" style="height:220px;"></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="stats mt3">
+          <div class="stat"><div class="stat-n ng">$850</div><div class="stat-l">M&aacute;ximo 1980</div></div>
+          <div class="stat"><div class="stat-n nr">$256</div><div class="stat-l">M&iacute;nimo 1999</div></div>
+          <div class="stat"><div class="stat-n nb">&#8722;70%</div><div class="stat-l">Ca&iacute;da total</div></div>
+        </div>
+        <div class="co co-gold mt4">
+          <div class="co-mark cm-gold">CONTEXTO</div>
+          <div class="co-text">En 1999 el oro llevaba <strong>casi 20 a&ntilde;os en tendencia bajista</strong>. Era racional asumir que el precio seguir&iacute;a bajo o estable. Eso justificaba la cobertura de Ashanti.</div>
+        </div>
+        <div class="co co-red mt3">
+          <div class="co-mark cm-red">RIESGO</div>
+          <div class="co-text">El problema: <strong>cubrir demasiado volumen a precio fijo convierte una cobertura en una apuesta inversa</strong> si el mercado gira bruscamente.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 ACUERDO DE WASHINGTON -->
+<section class="slide th-light" data-i="3">
+  <div class="inner">
+    <div class="lbl lbl-red reveal">Detonante &middot; 26 septiembre 1999</div>
+    <h2 class="t-h reveal">El Acuerdo de Washington</h2>
+    <div class="g2 mt5">
+      <div class="reveal">
+        <div class="cc">
+          <div class="cc-t">Oro spot &mdash; 1999 al 2000</div>
+          <div class="cc-s">USD / oz &middot; zona roja = ventana de crisis</div>
+          <div id="ch2" style="height:220px;"></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="stats">
+          <div class="stat"><div class="stat-n ng">+32%</div><div class="stat-l">Alza en 2 semanas</div></div>
+          <div class="stat"><div class="stat-n nr">$570M</div><div class="stat-l">P&eacute;rdida MTM</div></div>
+          <div class="stat"><div class="stat-n nb">17</div><div class="stat-l">Bancos contraparte</div></div>
+        </div>
+        <div class="co co-red mt4">
+          <div class="co-mark cm-red">EVENTO</div>
+          <div class="co-text"><strong>15 bancos centrales europeos</strong> acordaron limitar ventas y pr&eacute;stamos de oro por 5 a&ntilde;os. El mercado interpret&oacute; esto como escasez futura y el precio dispar&oacute; +32% en horas.</div>
+        </div>
+        <div class="co co-gold mt3">
+          <div class="co-mark cm-gold">IMPACTO</div>
+          <div class="co-text">Ashanti ten&iacute;a forwards vendidos a ~$300/oz. Con el spot en $338, su <strong>hedge book mostraba p&eacute;rdidas MTM de $570M</strong>. Los 17 bancos contraparte exigieron colateral de forma simult&aacute;nea.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 LA EMPRESA -->
+<section class="slide th-alt" data-i="4">
+  <div class="inner">
+    <div class="lbl lbl-gold reveal">La empresa</div>
+    <h2 class="t-h reveal">Ashanti Goldfields Co.</h2>
+    <div class="g2 mt5">
+      <div class="reveal">
+        <div class="stats">
+          <div class="stat"><div class="stat-n ng">#2</div><div class="stat-l">Minera de oro mundial</div></div>
+          <div class="stat"><div class="stat-n nb">26M</div><div class="stat-l">Oz reservas probadas</div></div>
+        </div>
+        <div class="co co-gold mt4">
+          <div class="co-mark cm-gold">FUNDADA</div>
+          <div class="co-text">Fundada en <strong>1897 en Ghana</strong>. Primera empresa africana listada en NYSE. Operaba en Ghana, Guinea, Zimbabwe, Tanzania y Mali.</div>
+        </div>
+        <div class="co co-blue mt3">
+          <div class="co-mark cm-blue">FINANZAS</div>
+          <div class="co-text">Ingresos anuales ~$500M. Producci&oacute;n: <strong>~1.6M oz/a&ntilde;o</strong>. Balance s&oacute;lido en activos f&iacute;sicos pero con <strong>alta exposici&oacute;n a derivados</strong> fuera de balance.</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="co co-red">
+          <div class="co-mark cm-red">EL PROBLEMA</div>
+          <div class="co-text">El hedge book acumulaba posiciones equivalentes a <strong>m&aacute;s de 6 a&ntilde;os de producci&oacute;n</strong>. Cualquier movimiento brusco del precio generaba margin calls que la caja no pod&iacute;a cubrir.</div>
+        </div>
+        <div class="tbl-wrap mt4">
+          <table class="tbl">
+            <thead><tr><th>Indicador</th><th>Valor (1999)</th></tr></thead>
+            <tbody>
+              <tr><td>Producci&oacute;n anual</td><td class="mono">~1.6M oz</td></tr>
+              <tr><td>Reservas probadas</td><td class="mono">26M oz</td></tr>
+              <tr><td>Oz cubiertas forward</td><td class="mono">~10M oz</td></tr>
+              <tr><td>A&ntilde;os de producci&oacute;n cubiertos</td><td class="mono" style="color:#8b2020;">6.3x</td></tr>
+              <tr><td>P&eacute;rdida MTM post-WAG</td><td class="mono" style="color:#8b2020;">$570M</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 LOS INSTRUMENTOS -->
+<section class="slide th-light" data-i="5">
+  <div class="inner">
+    <div class="lbl lbl-blue reveal">Instrumentos derivados</div>
+    <h2 class="t-h reveal">El hedge book: tres capas de riesgo</h2>
+    <div class="tbl-wrap mt5 reveal">
+      <table class="tbl">
+        <thead><tr><th>Instrumento</th><th>C&oacute;mo funciona</th><th>Apuesta impl&iacute;cita</th><th>Riesgo ignorado</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="tag tg">Forward de oro</span><br>Venta adelantada a precio fijo</td>
+            <td>Ashanti se compromete a entregar oro al precio pactado hoy.</td>
+            <td>El spot estar&iacute;a igual o m&aacute;s bajo al vencimiento.</td>
+            <td>Si el precio sube, p&eacute;rdidas MTM exigen colateral inmediato.</td>
+          </tr>
+          <tr>
+            <td><span class="tag tr">Opciones put vendidas</span><br>Vendieron puts para cobrar prima</td>
+            <td>Ashanti cobr&oacute; prima a cambio de comprometerse a comprar oro si ca&iacute;a de cierto nivel.</td>
+            <td>El oro no caer&iacute;a m&aacute;s. La prima era ingreso adicional.</td>
+            <td>Si el oro cae mucho, deben comprar al strike superior al spot.</td>
+          </tr>
+          <tr>
+            <td><span class="tag tb">Pr&eacute;stamos de oro</span><br>Gold leasing con bancos centrales</td>
+            <td>Tom&oacute; oro f&iacute;sico prestado a ~1%/a&ntilde;o, lo vendi&oacute; y deb&iacute;a devolver el metal.</td>
+            <td>El oro seguir&iacute;a barato: devolver el metal costar&iacute;a menos.</td>
+            <td>Si el precio sube, deben comprar en mercado o aportar colateral adicional.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="co co-red mt5 reveal">
+      <div class="co-mark cm-red">RIESGO CONCENTRADO</div>
+      <div class="co-text">Los tres instrumentos compartían el mismo supuesto implícito: <strong>el oro seguiría bajo</strong>. Cuando ese supuesto falló el 26 de septiembre de 1999, los tres generaron pérdidas simultáneas sin compensación posible.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 ANATOMÍA DEL DERIVADO -->
+<section class="slide th-alt" data-i="6">
+  <div class="inner">
+    <div class="lbl lbl-blue reveal">Anatom&iacute;a del derivado</div>
+    <h2 class="t-h reveal">Flujos entre los tres actores</h2>
+    <p class="t-sub reveal">Tres actores, flujos cruzados y un detonante que ninguno model&oacute; correctamente.</p>
+    <div class="dia reveal mt5">
+      <div class="dia-row">
+        <div class="dbox db-gold">
+          <div class="dname">Bancos Centrales</div>
+          <div class="dsub">Prestamistas de oro<br>~1% tasa anual</div>
+        </div>
+        <div class="darr">
+          <svg width="28" height="16" viewBox="0 0 28 16" fill="none"><path d="M2 8h24M18 3l6 5-6 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Oro f&iacute;sico</span>
+        </div>
+        <div class="dbox db-blue">
+          <div class="dname">17 Bancos</div>
+          <div class="dsub">Contrapartes<br>forwards &amp; opciones</div>
+        </div>
+        <div class="darr">
+          <svg width="28" height="16" viewBox="0 0 28 16" fill="none"><path d="M2 8h24M18 3l6 5-6 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Contratos</span>
+        </div>
+        <div class="dbox db-red">
+          <div class="dname">Ashanti</div>
+          <div class="dsub">Minera &amp; deudor<br>de oro f&iacute;sico</div>
+        </div>
+      </div>
+      <div class="dia-alert">
+        <div class="dia-bar"></div>
+        <div class="dia-txt"><strong>Cuando el precio subi&oacute; +32%:</strong> los 17 bancos exigieron colateral simult&aacute;neamente. Ashanti no ten&iacute;a efectivo suficiente. Estuvo a horas de declarar default — lo que hubiera desencadenado el cierre de sus minas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 MECÁNICA DEL COLAPSO -->
+<section class="slide crisis-slide th-dark" data-i="7">
+  <div class="inner">
+    <div class="lbl lbl-red reveal">Mec&aacute;nica &middot; 5 pasos</div>
+    <h2 class="t-h reveal" style="color:#f0ece0;">De la cobertura a la crisis</h2>
+    <p class="t-sub reveal" style="color:rgba(240,236,224,.4);">El fallo no fue que subi&oacute; el oro. Fue la cadena de consecuencias que ese movimiento desencaden&oacute;.</p>
+    <div class="seq mt5 reveal">
+      <div class="seq-item">
+        <div class="s-step">Paso 1</div>
+        <div class="s-txt">Cobertura masiva</div>
+        <div class="s-sub">10M oz en forwards<br>a ~$300/oz</div>
+        <div class="s-arr">&rsaquo;</div>
+      </div>
+      <div class="seq-item">
+        <div class="s-step">Paso 2</div>
+        <div class="s-txt">WAG: +32%</div>
+        <div class="s-sub">Spot sube a $338<br>en 2 semanas</div>
+        <div class="s-arr">&rsaquo;</div>
+      </div>
+      <div class="seq-item">
+        <div class="s-step">Paso 3</div>
+        <div class="s-txt">MTM negativo</div>
+        <div class="s-sub">P&eacute;rdida contable<br>de $570M</div>
+        <div class="s-arr">&rsaquo;</div>
+      </div>
+      <div class="seq-item">
+        <div class="s-step">Paso 4</div>
+        <div class="s-txt">Margin calls</div>
+        <div class="s-sub">17 bancos exigen<br>colateral inmediato</div>
+        <div class="s-arr">&rsaquo;</div>
+      </div>
+      <div class="seq-item">
+        <div class="s-step">Paso 5</div>
+        <div class="s-txt" style="color:#c06060;">Crisis de liquidez</div>
+        <div class="s-sub">Ashanti no puede<br>pagar. Al borde del default.</div>
+      </div>
+    </div>
+    <div class="co co-gold mt5 reveal">
+      <div class="co-mark cm-gold">RESOLUCI&Oacute;N</div>
+      <div class="co-text">Los 17 bancos aceptaron <strong>suspender los margin calls por 3 a&ntilde;os</strong> a cambio de participaci&oacute;n accionaria. Ashanti sobrevivi&oacute;, pero perdi&oacute; su independencia. En 2004 fue adquirida por AngloGold.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 ÉTICA -->
+<section class="slide th-light" data-i="8">
+  <div class="inner">
+    <div class="lbl lbl-blue reveal">&Eacute;tica y gobierno corporativo</div>
+    <h2 class="t-h reveal">Preguntas que el caso plantea</h2>
+    <p class="t-sub reveal">El caso Ashanti no fue solo un error t&eacute;cnico. Involucra decisiones que cuestionan el gobierno corporativo y el rol de los bancos.</p>
+    <div class="g3 mt5">
+      <div class="eth eg reveal">
+        <div class="eth-n">Gobierno corporativo</div>
+        <div class="eth-t">&iquest;Sab&iacute;a la junta directiva el tama&ntilde;o real del riesgo?</div>
+        <div class="eth-b">El hedge book era tan complejo que incluso los directivos ten&iacute;an dificultad para entender la exposici&oacute;n real. La transparencia interna fall&oacute; antes que los mercados.</div>
+        <div class="eth-q">&ldquo;El riesgo que no se entiende no se puede gestionar.&rdquo;</div>
+      </div>
+      <div class="eth eb reveal">
+        <div class="eth-n">Rol de los bancos</div>
+        <div class="eth-t">&iquest;Los bancos contrapartes actuaron responsablemente?</div>
+        <div class="eth-b">Los 17 bancos construyeron posiciones enormes con Ashanti y luego exigieron colateral simult&aacute;neamente, acelerando la crisis que ellos mismos hab&iacute;an contribuido a crear.</div>
+        <div class="eth-q">&ldquo;La contraparte siempre act&uacute;a en su propio inter&eacute;s.&rdquo;</div>
+      </div>
+      <div class="eth er reveal">
+        <div class="eth-n">Responsabilidad social</div>
+        <div class="eth-t">&iquest;Qu&eacute; habr&iacute;a pasado con Ghana si Ashanti quebraba?</div>
+        <div class="eth-b">Ashanti era el mayor empleador privado de Ghana y una fuente clave de divisas. Un default hubiera tenido consecuencias macroecon&oacute;micas devastadoras para el pa&iacute;s.</div>
+        <div class="eth-q">&ldquo;Las empresas estrat&eacute;gicas llevan riesgos que van m&aacute;s all&aacute; de sus balances.&rdquo;</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 LECCIONES -->
+<section class="slide th-dark" data-i="9">
+  <div class="inner">
+    <div class="lbl lbl-dim reveal">Lecciones permanentes</div>
+    <h2 class="t-h reveal" style="color:#f0ece0;">Lo que Ashanti nos ense&ntilde;a</h2>
+    <p class="t-sub reveal" style="color:rgba(240,236,224,.38);">El caso sigue siendo referencia global en gesti&oacute;n de riesgo, derivados y gobierno corporativo.</p>
+    <div class="g4 mt5">
+      <div class="les la reveal">
+        <div class="les-n">01</div>
+        <div class="les-t">Tama&ntilde;o de la cobertura</div>
+        <div class="les-b">Cubrir m&aacute;s del 100% de la producci&oacute;n futura convierte el hedge en especulaci&oacute;n inversa. El l&iacute;mite razonable es 18&ndash;24 meses de producci&oacute;n.</div>
+      </div>
+      <div class="les lb reveal">
+        <div class="les-n">02</div>
+        <div class="les-t">Liquidez vs. solvencia</div>
+        <div class="les-b">Ashanti era solvente (ten&iacute;a minas y reservas), pero il&iacute;quida (no ten&iacute;a caja para margin calls). Son conceptos distintos y los dos importan.</div>
+      </div>
+      <div class="les lc reveal">
+        <div class="les-n">03</div>
+        <div class="les-t">Riesgo de correlaci&oacute;n</div>
+        <div class="les-b">Cuando todos los instrumentos del portafolio comparten el mismo supuesto, no hay diversificaci&oacute;n real. En una crisis, todo cae al mismo tiempo.</div>
+      </div>
+      <div class="les ld reveal">
+        <div class="les-n">04</div>
+        <div class="les-t">Transparencia interna</div>
+        <div class="les-b">Si la junta directiva no entiende el riesgo que est&aacute; tomando, la empresa est&aacute; expuesta independientemente de lo que digan los modelos.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /deck -->
+
+<script src="js/main.js"></script>
+</body>
+</html>
