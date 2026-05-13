@@ -7,7 +7,7 @@
     {n:'S&P 500',v:'5,659.91',c:'+0.51%',u:true},
     {n:'US 10Y',v:'4.38%',c:'+2bp',u:false},
     {n:'EUR/USD',v:'1.1243',c:'+0.18%',u:true},
-    {n:'Ashanti (1999)',v:'$256→$338',c:'+32%',u:true},
+    {n:'Ashanti (1999)',v:'$256\u2192$338',c:'+32%',u:true},
     {n:'COMEX GC',v:'$3,318.50',c:'+0.79%',u:true},
     {n:'VIX',v:'23.40',c:'-1.2%',u:false},
     {n:'BTC/USD',v:'$103,421',c:'+1.3%',u:true},
@@ -17,6 +17,39 @@
     return '<div class="ticker-item"><span class="t-name">'+d.n+'</span><span>'+d.v+'</span><span class="'+(d.u?'t-up':'t-dn')+'">'+d.c+'</span></div>';
   }).join('');
   track.innerHTML=html;
+
+  /* FASES TOPBAR */
+  var PHASES=[
+    {label:'Portada',slides:[0,1]},
+    {label:'Contexto',slides:[2,3]},
+    {label:'Empresa',slides:[4,5]},
+    {label:'Instrumentos',slides:[6,7]},
+    {label:'Simulador',slides:[8]},
+    {label:'Reflexi\u00f3n',slides:[9,10]}
+  ];
+  var phaseEl=document.getElementById('tb-phases');
+  var phaseItems=[];
+  PHASES.forEach(function(ph,pi){
+    if(pi>0){
+      var sep=document.createElement('span');
+      sep.className='tb-phase-sep';sep.textContent='\u203a';
+      phaseEl.appendChild(sep);
+    }
+    var btn=document.createElement('button');
+    btn.className='tb-phase';
+    btn.innerHTML='<div class="tb-phase-dot"></div><span>'+ph.label+'</span>';
+    btn.title=ph.label;
+    btn.addEventListener('click',function(){go(ph.slides[0]);});
+    phaseEl.appendChild(btn);
+    phaseItems.push(btn);
+  });
+
+  function updatePhase(idx){
+    PHASES.forEach(function(ph,pi){
+      var active=ph.slides.indexOf(idx)>-1;
+      phaseItems[pi].classList.toggle('active',active);
+    });
+  }
 
   /* LIQUID GOLD CANVAS */
   var lc=document.getElementById('liquid-canvas');
@@ -98,6 +131,7 @@
     prevBtn.classList.toggle('off',i===0);
     nextBtn.classList.toggle('off',i===N-1);
     pb.style.width=Math.round((i/(N-1))*100)+'%';
+    updatePhase(i);
   }
 
   function animateIn(slide){
@@ -146,8 +180,8 @@
     var y=[161,125,148,193,307,614,460,376,424,361,317,368,447,437,381,383,362,344,360,384,384,388,331,294,278,279,271,310,363,410,444];
     var ex=[1980,1999,2001],ey=[614,278,271],ec=['#a87000','#8b2020','#1565a0'];
     Plotly.newPlot('ch1',[
-      {x:x,y:y,type:'scatter',mode:'lines',line:{color:'#1565a0',width:2.5,shape:'spline'},fill:'tozeroy',fillcolor:'rgba(21,101,160,.06)',hovertemplate:'<b>%{x}</b> — $%{y}/oz<extra></extra>'},
-      {x:ex,y:ey,type:'scatter',mode:'markers',marker:{color:ec,size:14,symbol:'circle',line:{width:2.5,color:'#fff'}},customdata:['<b>1980</b><br>Pico $850/oz','<b>1999</b><br>Acuerdo Washington<br>Crisis Ashanti','<b>2001</b><br>Mínimo post-crisis'],hovertemplate:'%{customdata}<extra></extra>',showlegend:false}
+      {x:x,y:y,type:'scatter',mode:'lines',line:{color:'#1565a0',width:2.5,shape:'spline'},fill:'tozeroy',fillcolor:'rgba(21,101,160,.06)',hovertemplate:'<b>%{x}</b> \u2014 $%{y}/oz<extra></extra>'},
+      {x:ex,y:ey,type:'scatter',mode:'markers',marker:{color:ec,size:14,symbol:'circle',line:{width:2.5,color:'#fff'}},customdata:['<b>1980</b><br>Pico $850/oz','<b>1999</b><br>Acuerdo Washington<br>Crisis Ashanti','<b>2001</b><br>M\u00ednimo post-crisis'],hovertemplate:'%{customdata}<extra></extra>',showlegend:false}
     ],{
       paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',
       margin:{t:6,b:36,l:52,r:10},
@@ -175,7 +209,7 @@
         size:x2.map(function(v){return v==='1999-09-27'?11:5;})
       },
       fill:'tozeroy',fillcolor:'rgba(21,101,160,.06)',
-      hovertemplate:'<b>%{x}</b> — $%{y}/oz<extra></extra>'
+      hovertemplate:'<b>%{x}</b> \u2014 $%{y}/oz<extra></extra>'
     }],{
       paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',
       margin:{t:6,b:36,l:54,r:10},
@@ -187,7 +221,7 @@
                line:{color:'rgba(139,32,32,.3)',width:1}}],
       annotations:[{
         x:'1999-09-27',y:318,xref:'x',yref:'y',
-        text:'<b>Acuerdo de Washington</b><br>26 sep 1999 · +32% en 2 sem.',
+        text:'<b>Acuerdo de Washington</b><br>26 sep 1999 \u00b7 +32% en 2 sem.',
         showarrow:true,arrowhead:2,ax:78,ay:-44,
         font:{size:11,color:'#8b2020',family:monoFont},
         bgcolor:'rgba(245,222,222,.96)',bordercolor:'rgba(139,32,32,.3)',
