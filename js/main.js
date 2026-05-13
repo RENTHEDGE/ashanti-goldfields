@@ -51,6 +51,36 @@
     });
   }
 
+  /* FULLSCREEN */
+  var fsBtn=document.getElementById('fs-btn');
+  var FS_ENTER='<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 5V2h3M10 2h3v3M13 10v3h-3M5 13H2v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var FS_EXIT='<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M5 2v3H2M13 5h-3V2M10 13v-3h3M2 10h3v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function isFull(){return !!(document.fullscreenElement||document.webkitFullscreenElement||document.mozFullScreenElement);}
+  function syncFsBtn(){
+    if(!fsBtn)return;
+    fsBtn.innerHTML=isFull()?FS_EXIT:FS_ENTER;
+    fsBtn.title=isFull()?'Salir de pantalla completa (F)':'Pantalla completa (F)';
+    fsBtn.classList.toggle('fs-active',isFull());
+  }
+  function toggleFS(){
+    if(!isFull()){
+      var el=document.documentElement;
+      if(el.requestFullscreen)el.requestFullscreen();
+      else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
+      else if(el.mozRequestFullScreen)el.mozRequestFullScreen();
+    } else {
+      if(document.exitFullscreen)document.exitFullscreen();
+      else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
+      else if(document.mozCancelFullScreen)document.mozCancelFullScreen();
+    }
+  }
+  if(fsBtn)fsBtn.addEventListener('click',toggleFS);
+  document.addEventListener('fullscreenchange',syncFsBtn);
+  document.addEventListener('webkitfullscreenchange',syncFsBtn);
+  document.addEventListener('mozfullscreenchange',syncFsBtn);
+  syncFsBtn();
+
   /* LIQUID GOLD CANVAS */
   var lc=document.getElementById('liquid-canvas');
   if(lc){
@@ -164,6 +194,7 @@
   prevBtn.addEventListener('click',function(){go(cur-1);});
   nextBtn.addEventListener('click',function(){go(cur+1);});
   document.addEventListener('keydown',function(e){
+    if(e.key==='f'||e.key==='F'){toggleFS();return;}
     if(['ArrowRight','ArrowDown','PageDown',' '].indexOf(e.key)>-1){e.preventDefault();go(cur+1);}
     if(['ArrowLeft','ArrowUp','PageUp'].indexOf(e.key)>-1){e.preventDefault();go(cur-1);}
   });
