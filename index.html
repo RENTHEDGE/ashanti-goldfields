@@ -243,20 +243,34 @@
 <section class="slide th-alt" data-i="9">
   <div class="inner">
     <div class="lbl lbl-blue reveal">Perfil de riesgo del hedge book</div>
-    <h2 class="t-h reveal">&iquest;Qu&eacute; gana y qu&eacute; pierde Ashanti seg&uacute;n el precio del oro?</h2>
-    <div class="g2 mt4">
-      <div class="reveal">
-        <div class="cc">
-          <div class="cc-t">Payoff por instrumento &mdash; Ashanti 1999</div>
-          <div class="cc-s">USD millones &middot; vs precio spot del oro ($/oz)</div>
-          <div id="ch-payoff" style="height:300px;"></div>
-        </div>
+    <h2 class="t-h reveal">Explora cada instrumento</h2>
+
+    <!-- BOTONES SELECTOR -->
+    <div class="pf-tabs reveal" id="pf-tabs">
+      <button class="pf-tab active" data-pf="all">
+        <span class="pf-tab-dot" style="background:#1a1a2e;"></span>Vista general
+      </button>
+      <button class="pf-tab" data-pf="fwd">
+        <span class="pf-tab-dot" style="background:#1565a0;"></span>Forward vendido
+      </button>
+      <button class="pf-tab" data-pf="pc">
+        <span class="pf-tab-dot" style="background:#2a7a4a;"></span>Put comprada
+      </button>
+      <button class="pf-tab" data-pf="pv">
+        <span class="pf-tab-dot" style="background:#c06060;"></span>Put vendida
+      </button>
+    </div>
+
+    <div class="pf-body reveal">
+      <!-- Gráfico -->
+      <div class="cc pf-chart-wrap">
+        <div class="cc-t" id="pf-chart-title">Payoff combinado &mdash; Ashanti 1999</div>
+        <div class="cc-s" id="pf-chart-sub">USD millones &middot; vs precio spot del oro ($/oz)</div>
+        <div id="ch-payoff" style="height:260px;"></div>
       </div>
-      <div class="reveal" style="display:flex;flex-direction:column;gap:.6rem;justify-content:center;">
-        <div class="co co-blue"><div class="co-mark cm-blue">FORWARD VENDIDO</div><div class="co-text">Ashanti vende 10M oz a $300. Si el spot <strong>sube sobre $300</strong>, pierde d&oacute;lar por d&oacute;lar. L&iacute;nea recta descendente sin l&iacute;mite de p&eacute;rdida.</div></div>
-        <div class="co co-gold"><div class="co-mark cm-gold">PUT COMPRADA</div><div class="co-text">Pag&oacute; prima $8/oz por derecho a vender a $280 (2M oz). Solo ayuda si el spot <strong>cae bajo $280</strong>. Protecci&oacute;n muy limitada.</div></div>
-        <div class="co co-red"><div class="co-mark cm-red">PUT VENDIDA</div><div class="co-text">Cobr&oacute; prima $12/oz comprometiendo <strong>compra de 5M oz</strong> si el spot cae. 2.5&times; m&aacute;s grande que la put comprada &mdash; cancela la cobertura.</div></div>
-        <div class="co" style="background:#1a1a2e;border-left:3px solid #e8c060;"><div class="co-mark" style="background:#e8c060;color:#1a1a2e;font-size:.55rem;padding:.15rem .4rem;border-radius:3px;font-weight:700;letter-spacing:.04em;">LA TRAMPA</div><div class="co-text" style="color:#f0ece0;">Las puts vendidas eran <strong style="color:#c06060;">2.5&times; m&aacute;s grandes</strong>. El P&amp;L neto era negativo en cualquier escenario extremo &mdash; arriba <em>o</em> abajo.</div></div>
+      <!-- Panel descripción -->
+      <div class="pf-info" id="pf-info">
+        <!-- se llena dinámicamente -->
       </div>
     </div>
   </div>
@@ -311,8 +325,8 @@
     var b=document.getElementById('mtm-badge');
     if(spot<280){b.textContent='\u2713 Cobertura operando bien';b.style.background='#e8f5ee';b.style.color='#2a7a4a';}
     else if(spot<=300){b.textContent='\u26A0 Zona de alerta';b.style.background='#fef9e7';b.style.color='#a87000';}
-    else if(spot<338){b.textContent='\uD83D\uDD34 MTM negativo — margin calls';b.style.background='#fdeaea';b.style.color='#8b2020';}
-    else{b.textContent='\uD83D\uDC80 Crisis — equivalente Ashanti 1999';b.style.background='#8b2020';b.style.color='#fff';}
+    else if(spot<338){b.textContent='\uD83D\uDD34 MTM negativo \u2014 margin calls';b.style.background='#fdeaea';b.style.color='#8b2020';}
+    else{b.textContent='\uD83D\uDC80 Crisis \u2014 equivalente Ashanti 1999';b.style.background='#8b2020';b.style.color='#fff';}
     var n=document.getElementById('mtm-note');
     if(mtm>=0)n.innerHTML='Con el oro a <strong>$'+spot+'/oz</strong>, el hedge genera valor positivo de <strong>'+fmt(mtm)+'</strong>. Sin margin calls.';
     else if(spot<338)n.innerHTML='<strong>Alerta:</strong> MTM de <strong style="color:#8b2020;">'+fmt(mtm)+'</strong>. Colateral estimado: <strong style="color:#8b2020;">$'+Math.abs(col/1e6).toFixed(0)+'M</strong>.';
