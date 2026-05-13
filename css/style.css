@@ -55,6 +55,10 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
 .tb-brand{font-family:var(--serif);font-size:.9rem;color:rgba(240,236,224,.6);display:flex;align-items:center;gap:.55rem;flex-shrink:0;}
 .tb-line{width:16px;height:2px;background:#a87000;border-radius:2px;flex-shrink:0;}
 
+/* Botón fullscreen en topbar */
+#fs-btn:hover{background:rgba(255,255,255,.14) !important;color:rgba(240,236,224,.9) !important;}
+#fs-btn:active{transform:scale(.92);}
+
 /* FASES TOPBAR */
 #tb-phases{display:flex;align-items:center;gap:2px;flex:1;justify-content:center;overflow:hidden;}
 .tb-phase{display:flex;align-items:center;gap:4px;padding:.22rem .55rem;border-radius:99px;font-family:var(--mono);font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(240,236,224,.25);border:1px solid transparent;transition:color .35s,background .35s,border-color .35s,transform .3s var(--ease);white-space:nowrap;cursor:pointer;}
@@ -268,6 +272,39 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
 .mtm-bar-fill{height:100%;border-radius:4px;transition:width .4s cubic-bezier(.16,1,.3,1),background .4s;}
 .mtm-badge{font-size:.62rem;font-weight:700;padding:.3rem .75rem;border-radius:99px;display:inline-block;margin-top:.55rem;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;transition:background .3s,color .3s;}
 .mtm-note{font-size:.72rem;color:var(--ink3);margin-top:.75rem;line-height:1.55;border-top:1px solid var(--div);padding-top:.65rem;}
+
+/* Desglose por instrumento en el simulador MTM */
+.mtm-breakdown{
+  background:var(--sur2);
+  border:1px solid var(--brd);
+  border-radius:12px;
+  padding:.6rem .8rem;
+  margin:.5rem 0;
+  display:flex;
+  flex-direction:column;
+  gap:.28rem;
+}
+.mtm-brow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:.5rem;
+}
+.mtm-b-lbl{
+  font-family:var(--mono);
+  font-size:.6rem;
+  color:var(--ink2);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.mtm-b-val{
+  font-family:var(--mono);
+  font-size:.65rem;
+  font-weight:700;
+  flex-shrink:0;
+  transition:color .3s;
+}
 
 /* ===================== PAYOFF TABS (slide 09) ===================== */
 .pf-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;}
