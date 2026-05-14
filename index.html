@@ -60,7 +60,6 @@
 
 <!-- ============================================================
      02  ASHANTI GOLDFIELDS — perfil de la empresa  (posición 1)
-     Fuentes: Ashanti Annual Report 1998; SEC 20-F; World Gold Council
      ============================================================ -->
 <section class="slide th-alt" data-i="1">
   <div class="slide-img">
@@ -99,8 +98,6 @@
 
 <!-- ============================================================
      03  MERCADO DEL ORO — contexto histórico 1975–2005  (posición 2)
-     $850/oz = London PM Fix, 21 enero 1980 (LBMA)
-     $256/oz = LBMA PM Fix, agosto 1999
      ============================================================ -->
 <section class="slide th-light" data-i="2">
   <div class="inner">
@@ -134,8 +131,6 @@
 
 <!-- ============================================================
      04  INSTRUMENTOS — cuatro componentes del hedge book  (posición 3)
-     Estructura correcta: forwards + put comprada + call vendida (collar) + préstamo de oro
-     Fuentes: Tufano (1996); Adam (2009); Ashanti SEC 20-F filings
      ============================================================ -->
 <section class="slide th-light" data-i="3">
   <div class="slide-img">
@@ -158,8 +153,7 @@
 </section>
 
 <!-- ============================================================
-     05  SIMULADOR MTM — interactivo  (posición 4, era posición 5)
-     Estructura corregida: calls vendidas financian la protección bajista
+     05  SIMULADOR MTM — interactivo  (posición 4)
      ============================================================ -->
 <section class="slide th-light" data-i="4">
   <div class="slide-img">
@@ -205,8 +199,7 @@
 </section>
 
 <!-- ============================================================
-     06  PERFIL DE RIESGO — payoff interactivo  (posición 5, era posición 6)
-     Corregido: tab "Call vendida" reemplaza "Put vendida"
+     06  PERFIL DE RIESGO — payoff interactivo  (posición 5)
      ============================================================ -->
 <section class="slide th-alt" data-i="5">
   <div class="slide-img">
@@ -233,8 +226,7 @@
 </section>
 
 <!-- ============================================================
-     07  EVENTO DETONANTE: ACUERDO DE WASHINGTON (WAG)  (posición 6, era posición 7)
-     Fuentes: BIS Working Paper; Reuters 26 sep 1999; LBMA price data; FT coverage WAG
+     07  EVENTO DETONANTE: ACUERDO DE WASHINGTON (WAG)  (posición 6)
      ============================================================ -->
 <section class="slide th-light" data-i="6">
   <div class="slide-img">
@@ -271,8 +263,7 @@
 </section>
 
 <!-- ============================================================
-     08  ANATOMÍA DEL DERIVADO — flujos entre tres actores  (posición 7, era posición 4)
-     Movido a DESPUÉS del WAG: el auditorio ya sabe qué pasó; ahora entiende los mecanismos
+     08  ANATOMÍA DEL DERIVADO — flujos entre tres actores  (posición 7)
      ============================================================ -->
 <section class="slide th-alt" data-i="7">
   <div class="slide-img">
@@ -311,26 +302,25 @@
 
 <!-- ============================================================
      09  MECÁNICA DEL COLAPSO — 5 pasos  (posición 8)
+     FIX: cada seq-item tiene su propio reveal para animación escalonada
      ============================================================ -->
 <section class="slide crisis-slide th-dark" data-i="8">
   <div class="inner">
     <div class="lbl lbl-red reveal">Mec&aacute;nica &middot; 5 pasos</div>
     <h2 class="t-h reveal" style="color:#f0ece0;">De la cobertura a la crisis</h2>
-    <div class="seq reveal">
-      <div class="seq-item"><div class="s-num">01</div><div class="s-step">Paso 1</div><div class="s-txt">Cobertura masiva</div><div class="s-sub">~10M oz en forwards<br>a ~$300/oz</div><div class="s-arr">&rsaquo;</div></div>
-      <div class="seq-item"><div class="s-num">02</div><div class="s-step">Paso 2</div><div class="s-txt">WAG: +32%</div><div class="s-sub">Spot sube a ~$338<br>en ~2 semanas</div><div class="s-arr">&rsaquo;</div></div>
-      <div class="seq-item"><div class="s-num">03</div><div class="s-step">Paso 3</div><div class="s-txt">MTM negativo</div><div class="s-sub">P&eacute;rdida contable<br>de ~$570M</div><div class="s-arr">&rsaquo;</div></div>
-      <div class="seq-item"><div class="s-num">04</div><div class="s-step">Paso 4</div><div class="s-txt">Margin calls</div><div class="s-sub">M&uacute;ltiples bancos exigen<br>colateral inmediato</div><div class="s-arr">&rsaquo;</div></div>
-      <div class="seq-item"><div class="s-num" style="color:rgba(192,96,96,.12);">05</div><div class="s-step">Paso 5</div><div class="s-txt" style="color:#c06060;">Crisis de liquidez</div><div class="s-sub">Al borde del default</div></div>
+    <div class="seq mt5">
+      <div class="seq-item reveal"><div class="s-num">01</div><div class="s-step">Paso 1</div><div class="s-txt">Cobertura masiva</div><div class="s-sub">~10M oz en forwards<br>a ~$300/oz</div><div class="s-arr">&rsaquo;</div></div>
+      <div class="seq-item reveal"><div class="s-num">02</div><div class="s-step">Paso 2</div><div class="s-txt">WAG: +32%</div><div class="s-sub">Spot sube a ~$338<br>en ~2 semanas</div><div class="s-arr">&rsaquo;</div></div>
+      <div class="seq-item reveal"><div class="s-num">03</div><div class="s-step">Paso 3</div><div class="s-txt">MTM negativo</div><div class="s-sub">P&eacute;rdida contable<br>de ~$570M</div><div class="s-arr">&rsaquo;</div></div>
+      <div class="seq-item reveal"><div class="s-num">04</div><div class="s-step">Paso 4</div><div class="s-txt">Margin calls</div><div class="s-sub">M&uacute;ltiples bancos exigen<br>colateral inmediato</div><div class="s-arr">&rsaquo;</div></div>
+      <div class="seq-item reveal"><div class="s-num" style="color:rgba(192,96,96,.12);">05</div><div class="s-step">Paso 5</div><div class="s-txt" style="color:#c06060;">Crisis de liquidez</div><div class="s-sub">Al borde del default</div></div>
     </div>
     <div class="co co-gold reveal"><div class="co-mark cm-gold">CONTENCI&Oacute;N</div><div class="co-text">Los bancos contrapartes acordaron un <strong>standstill</strong> en octubre de 1999, suspendiendo los margin calls a cambio de warrants accionarios. La crisis fue contenida &mdash; ver diapositiva siguiente.</div></div>
   </div>
 </section>
 
 <!-- ============================================================
-     10  RESOLUCIÓN Y DESENLACE (posición 9 — NUEVA)
-     Fuentes: Reuters, 9 oct 1999; Ashanti press releases 1999–2004;
-              AngloGold Annual Report 2004; SEC filings; Financial Times
+     10  RESOLUCIÓN Y DESENLACE (posición 9)
      ============================================================ -->
 <section class="slide th-dark compact-slide" data-i="9">
   <div class="slide-img">
@@ -363,7 +353,7 @@
 </section>
 
 <!-- ============================================================
-     11  ÉTICA Y GOBIERNO CORPORATIVO  (posición 10, era posición 9)
+     11  ÉTICA Y GOBIERNO CORPORATIVO  (posición 10)
      ============================================================ -->
 <section class="slide th-light" data-i="10">
   <div class="slide-img">
@@ -397,7 +387,7 @@
 </section>
 
 <!-- ============================================================
-     12  LECCIONES PERMANENTES  (posición 11, era posición 10)
+     12  LECCIONES PERMANENTES  (posición 11)
      ============================================================ -->
 <section class="slide th-dark" data-i="11">
   <div class="slide-img">
@@ -433,7 +423,7 @@
 </section>
 
 <!-- ============================================================
-     13  CIERRE  (posición 12, era posición 11)
+     13  CIERRE  (posición 12)
      ============================================================ -->
 <section class="slide th-dark" data-i="12">
   <div class="slide-img">
