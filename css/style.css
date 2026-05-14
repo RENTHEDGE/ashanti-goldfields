@@ -479,19 +479,24 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
 .img-panel:hover{box-shadow:0 8px 32px rgba(0,0,0,.22);}
 
 /* ============================================================
-   SLIDE 09 — Mecánica del colapso: full-height, seq ocupa el espacio
+   SLIDE 09 — Mecánica del colapso: CSS Grid garantiza full-height
+   inner: auto(lbl) auto(h2) 1fr(seq) auto(callout)
    ============================================================ */
 .crisis-slide{
   justify-content:flex-start;
+  align-items:stretch;
 }
 .crisis-slide .inner{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
+  /* flex item que se expande en el slide-column */
+  flex:1 1 0%;
+  /* grid container: 4 filas, seq lleva el 1fr */
+  display:grid;
+  grid-template-rows:auto auto 1fr auto;
   width:100%;
   max-width:1100px;
   margin:0 auto;
+  /* Necesario para que el grid hijo pueda medir el 1fr */
+  min-height:0;
 }
 .crisis-slide .lbl{
   margin-bottom:.45rem;
@@ -500,11 +505,13 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
   font-size:clamp(1.5rem,2.8vw,2.2rem);
   margin-bottom:.5rem;
 }
+/* El seq ocupa la fila 1fr del grid */
 .crisis-slide .seq{
-  flex:1;
-  align-items:stretch;
+  align-self:stretch;
   margin-top:.8rem;
   min-height:120px;
+  /* flex interno del seq para distribuir los 5 pasos en fila */
+  align-items:stretch;
 }
 .crisis-slide .seq-item{
   display:flex;
@@ -522,10 +529,9 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
   margin-bottom:.25rem;
 }
 .crisis-slide .s-step{font-size:.56rem;margin-bottom:.2rem;}
-.crisis-slide .s-txt{font-size:.82rem;margin-bottom:.18rem;}
-.crisis-slide .s-sub{font-size:.62rem;}
+.crisis-slide .s-txt{font-size:.85rem;margin-bottom:.18rem;}
+.crisis-slide .s-sub{font-size:.68rem;}
 .crisis-slide .co{
-  flex-shrink:0;
   margin-top:.7rem;
   margin-bottom:0;
 }
