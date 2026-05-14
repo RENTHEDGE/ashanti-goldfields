@@ -30,7 +30,7 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
 .th-blue{background:#00334e;color:#ddeaf5;--ink:#ddeaf5;--ink2:#8bb4cc;--ink3:#4e7a96;--sur:rgba(255,255,255,.06);--brd:rgba(255,255,255,.1);--div:rgba(255,255,255,.06);--bg:#00334e;}
 
 /* Crisis scanline */
-.crisis-slide{position:relative;}
+.crisis-slide{position:absolute;}
 .crisis-slide::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(139,32,32,.016) 3px,rgba(139,32,32,.016) 4px);animation:scanShift 10s linear infinite;}
 @keyframes scanShift{from{background-position:0 0;}to{background-position:0 100px;}}
 
