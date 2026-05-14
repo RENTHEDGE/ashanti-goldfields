@@ -21,10 +21,10 @@
   /* FASES TOPBAR */
   var PHASES=[
     {label:'Empresa',  slides:[0,1]},
-    {label:'Contexto', slides:[2,3,4]},
-    {label:'Simulador',slides:[5,6]},
-    {label:'Crisis',   slides:[7,8]},
-    {label:'Reflexi\u00f3n',slides:[9,10,11]}
+    {label:'Contexto', slides:[2,3]},
+    {label:'Simulador',slides:[4,5]},
+    {label:'Crisis',   slides:[6,7,8,9]},
+    {label:'Reflexi\u00f3n',slides:[10,11,12]}
   ];
   var phaseEl=document.getElementById('tb-phases');
   var phaseItems=[];
@@ -218,8 +218,8 @@
       });
       busy=false;
       if(idx===2&&!charts[2])buildChart1();
-      if(idx===7&&!charts[7])buildChart2();
-      if(idx===6&&!charts[6])buildChart9();
+      if(idx===6&&!charts[6])buildChart2();
+      if(idx===5&&!charts[5])buildChart9();
     },680);
   }
 
@@ -264,7 +264,7 @@
   }
 
   function buildChart2(){
-    charts[7]=true;
+    charts[6]=true;
     var x2=['1999-01','1999-02','1999-03','1999-04','1999-05','1999-06','1999-07','1999-08','1999-09-01','1999-09-15','1999-09-24','1999-09-27','1999-09-30','1999-10-05','1999-10-15','1999-11','1999-12','2000-01','2000-03','2000-06'];
     var y2=[288,286,282,280,277,270,256,258,258,257,258,310,331,338,330,295,285,284,280,278];
     Plotly.newPlot('ch2',[{x:x2,y:y2,type:'scatter',mode:'lines+markers',line:{color:'#1565a0',width:2.5,shape:'spline'},marker:{color:x2.map(function(v){return v==='1999-09-27'?'#8b2020':'#1565a0';}),size:x2.map(function(v){return v==='1999-09-27'?11:5;})},fill:'tozeroy',fillcolor:'rgba(21,101,160,.06)',hovertemplate:'<b>%{x}</b> \u2014 $%{y}/oz<extra></extra>'}],{
@@ -290,9 +290,9 @@
           +'<div class="pfi-title">Los cuatro instrumentos juntos</div>'
           +'<div class="pfi-row"><span class="pfi-key">Forward vendido</span><span class="pfi-val" style="color:#1565a0;">10M oz @ $300</span></div>'
           +'<div class="pfi-row"><span class="pfi-key">Put comprada</span><span class="pfi-val" style="color:#2a7a4a;">2M oz @ $280, prima $8</span></div>'
-          +'<div class="pfi-row"><span class="pfi-key">Put vendida</span><span class="pfi-val" style="color:#c06060;">5M oz @ $280, prima $12</span></div>'
+          +'<div class="pfi-row"><span class="pfi-key">Call vendida</span><span class="pfi-val" style="color:#c06060;">5M oz @ $300, prima $12</span></div>'
           +'<div class="pfi-row"><span class="pfi-key">Precio crisis WAG</span><span class="pfi-val" style="color:#8b2020;">$338/oz</span></div>'
-          +'<div class="pfi-note danger"><strong>La trampa:</strong> las puts vendidas son 2.5&times; más grandes que las compradas. El P&L neto es negativo tanto si el precio sube <em>como</em> si baja extremo.</div>';
+          +'<div class="pfi-note danger"><strong>La trampa:</strong> las calls vendidas amplifican las pérdidas cuando el precio sube. El P&L neto es fuertemente negativo tanto con subidas extremas <em>como</em> con caídas extremas.</div>';
       }
     },
     fwd:{
@@ -326,20 +326,20 @@
           +'<div class="pfi-note"><strong>Cobertura muy parcial:</strong> solo 2M de las 10M oz cubiertas en forward tienen protección por caída. Además, no protege contra subida.</div>';
       }
     },
-    pv:{
-      title:'Put vendida \u2014 strike $280, prima $12',
-      sub:'Ashanti cobra prima comprometiendo compra si el oro cae',
+    cv:{
+      title:'Call vendida \u2014 strike $300, prima $12',
+      sub:'Ashanti cobra prima cediendo el derecho de compra al alza',
       color:'#c06060',
-      label:'Put vendida',
+      label:'Call vendida',
       infoHtml:function(){
-        return '<div class="pfi-label"><div class="pfi-label-dot" style="background:#c06060;"></div><span style="color:#c06060;">Put Vendida</span></div>'
-          +'<div class="pfi-title">Ingreso de prima con riesgo latente</div>'
+        return '<div class="pfi-label"><div class="pfi-label-dot" style="background:#c06060;"></div><span style="color:#c06060;">Call Vendida</span></div>'
+          +'<div class="pfi-title">Prima cobrada; pérdida cuando el oro sube</div>'
           +'<div class="pfi-row"><span class="pfi-key">Volumen</span><span class="pfi-val">5,000,000 oz</span></div>'
-          +'<div class="pfi-row"><span class="pfi-key">Strike</span><span class="pfi-val">$280/oz</span></div>'
+          +'<div class="pfi-row"><span class="pfi-key">Strike</span><span class="pfi-val">$300/oz</span></div>'
           +'<div class="pfi-row"><span class="pfi-key">Prima cobrada</span><span class="pfi-val" style="color:#2a7a4a;">$12/oz = $60M</span></div>'
-          +'<div class="pfi-row"><span class="pfi-key">Breakeven</span><span class="pfi-val">$268/oz</span></div>'
+          +'<div class="pfi-row"><span class="pfi-key">Pérdida si spot=$338</span><span class="pfi-val" style="color:#8b2020;">−$130M</span></div>'
           +'<div class="pfi-row"><span class="pfi-key">Relación vs. put comprada</span><span class="pfi-val" style="color:#8b2020;">2.5\u00d7 mayor volumen</span></div>'
-          +'<div class="pfi-note danger"><strong>El error crítico:</strong> cobrar prima vendiendo 5M oz cancela y supera la protección de la put comprada. Ashanti queda <em>net long volatilidad bajista</em> con exposición neta de 3M oz sin cobertura.</div>';
+          +'<div class="pfi-note danger"><strong>El error crítico:</strong> vender calls financió la protección bajista pero creó pérdidas al alza. Con el WAG, este instrumento generó ~$130M adicionales de pérdida.</div>';
       }
     }
   };
@@ -347,18 +347,18 @@
   var pfActive='all';
 
   function buildChart9(){
-    charts[6]=true;
+    charts[5]=true;
 
     /* calcular datos */
     var spots=[];for(var s=200;s<=500;s+=2)spots.push(s);
-    var FWD=300,OZ_FWD=10e6,STK=280,PRIMA_C=8,OZ_PC=2e6,PRIMA_V=12,OZ_PV=5e6;
-    var fwd=[],pc=[],pv=[],neto=[];
+    var FWD=300,OZ_FWD=10e6,STK=280,PRIMA_C=8,OZ_PC=2e6,STK_CV=300,PRIMA_V=12,OZ_CV=5e6;
+    var fwd=[],pc=[],cv=[],neto=[];
     for(var i=0;i<spots.length;i++){
       var sp=spots[i];
       var f=(FWD-sp)*OZ_FWD/1e6;
       var c=(Math.max(STK-sp,0)-PRIMA_C)*OZ_PC/1e6;
-      var v=-(Math.max(STK-sp,0)-PRIMA_V)*OZ_PV/1e6;
-      fwd.push(f);pc.push(c);pv.push(v);neto.push(f+c+v);
+      var v=-(Math.max(sp-STK_CV,0)-PRIMA_V)*OZ_CV/1e6;
+      fwd.push(f);pc.push(c);cv.push(v);neto.push(f+c+v);
     }
 
     var baseLayout={
@@ -386,14 +386,14 @@
     var allTraces=[
       {x:spots,y:fwd,name:'Forward vendido',mode:'lines',line:{color:'rgba(21,101,160,.35)',width:1.5},hovertemplate:'Forward: <b>%{y:.0f}M</b><extra></extra>'},
       {x:spots,y:pc,name:'Put comprada',mode:'lines',line:{color:'rgba(42,122,74,.35)',width:1.5,dash:'dot'},hovertemplate:'Put comprada: <b>%{y:.0f}M</b><extra></extra>'},
-      {x:spots,y:pv,name:'Put vendida',mode:'lines',line:{color:'rgba(192,96,96,.35)',width:1.5,dash:'dot'},hovertemplate:'Put vendida: <b>%{y:.0f}M</b><extra></extra>'},
+      {x:spots,y:cv,name:'Call vendida',mode:'lines',line:{color:'rgba(192,96,96,.35)',width:1.5,dash:'dot'},hovertemplate:'Call vendida: <b>%{y:.0f}M</b><extra></extra>'},
       {x:spots,y:neto,name:'P&L Neto',mode:'lines',line:{color:'#1a1a2e',width:3.5},hovertemplate:'<b>Neto: %{y:.0f}M</b><extra></extra>'}
     ];
 
     var singleTraces={
       fwd:[{x:spots,y:fwd,name:'Forward vendido',mode:'lines',fill:'tozeroy',fillcolor:'rgba(21,101,160,.07)',line:{color:'#1565a0',width:3},hovertemplate:'$%{x}/oz \u2014 P&L: <b>%{y:.0f}M</b><extra></extra>'}],
       pc: [{x:spots,y:pc, name:'Put comprada', mode:'lines',fill:'tozeroy',fillcolor:'rgba(42,122,74,.07)', line:{color:'#2a7a4a',width:3},hovertemplate:'$%{x}/oz \u2014 P&L: <b>%{y:.0f}M</b><extra></extra>'}],
-      pv: [{x:spots,y:pv, name:'Put vendida',  mode:'lines',fill:'tozeroy',fillcolor:'rgba(192,96,96,.07)',  line:{color:'#c06060',width:3},hovertemplate:'$%{x}/oz \u2014 P&L: <b>%{y:.0f}M</b><extra></extra>'}]
+      cv: [{x:spots,y:cv, name:'Call vendida', mode:'lines',fill:'tozeroy',fillcolor:'rgba(192,96,96,.07)', line:{color:'#c06060',width:3},hovertemplate:'$%{x}/oz \u2014 P&L: <b>%{y:.0f}M</b><extra></extra>'}]
     };
 
     Plotly.newPlot('ch-payoff',allTraces,baseLayout,{responsive:true,displayModeBar:false});

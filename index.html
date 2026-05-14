@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=6">
+<link rel="stylesheet" href="css/style.css?v=7">
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 </head>
 <body>
@@ -17,7 +17,7 @@
   <div class="tb-brand"><div class="tb-line"></div>Caso Ashanti &middot; Derivados</div>
   <div id="tb-phases"></div>
   <div class="tb-pills" id="tb-pills"></div>
-  <div class="tb-counter" id="tb-cnt">01 / 12</div>
+  <div class="tb-counter" id="tb-cnt">01 / 13</div>
   <button id="fs-btn" title="Pantalla completa (F)" aria-label="Pantalla completa" style="margin-left:.5rem;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(240,236,224,.5);transition:background .2s,color .2s;flex-shrink:0;">
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 5V2h3M10 2h3v3M13 10v3h-3M5 13H2v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
@@ -32,9 +32,7 @@
 <div id="deck">
 
 <!-- ============================================================
-     01 PORTADA
-     Correcciones: "segunda minera" → "una de las principales de África"
-                   "a horas del default" → "al borde de un default"
+     01  PORTADA  (posición 0)
      ============================================================ -->
 <section class="slide th-dark active" data-i="0">
   <div class="slide-img">
@@ -45,8 +43,6 @@
   <div class="inner">
     <div class="lbl lbl-gold reveal">Clase de Derivados Financieros &middot; Caso de Estudio &middot; 1999</div>
     <h1 class="t-xl reveal" style="color:#f0ece0;">Oro, cobertura<br>y <em>riesgo extremo</em></h1>
-    <!-- CORRECCIÓN 1 + 2: "segunda minera del mundo" → "una de las principales de África"
-         CORRECCIÓN 2: "a horas del default" → "al borde de un default" -->
     <p class="t-sub reveal" style="color:rgba(240,236,224,.42);max-width:52ch;">Una de las principales mineras de oro de &Aacute;frica estuvo al borde de un default en 1999. No por falta de reservas &mdash; sino por su propia estrategia de cobertura con derivados.</p>
     <div class="cover-meta reveal">
       <div class="cover-meta-item"><div class="ml">Empresa</div><div class="mv">Ashanti Goldfields Co.</div></div>
@@ -63,10 +59,8 @@
 </section>
 
 <!-- ============================================================
-     02 ASHANTI GOLDFIELDS — perfil de la empresa
-     (Era slide 05. Ahora slide 02: el auditorio conoce al protagonista antes del mercado.)
-     Correcciones: "#2 mundial" eliminado; "26M" → "~26M"; "Primera empresa africana" → "Una de las primeras"
-     Fuentes: Annual Report Ashanti 1998; SEC filing 20-F; World Gold Council historical data
+     02  ASHANTI GOLDFIELDS — perfil de la empresa  (posición 1)
+     Fuentes: Ashanti Annual Report 1998; SEC 20-F; World Gold Council
      ============================================================ -->
 <section class="slide th-alt" data-i="1">
   <div class="slide-img">
@@ -77,16 +71,12 @@
     <h2 class="t-h reveal">Ashanti Goldfields Co.</h2>
     <div class="g2 mt5">
       <div class="reveal">
-        <!-- CORRECCIÓN 1: eliminado stat "#2 mundial". Nuevos stats verificables. -->
-        <!-- CORRECCIÓN 5: "26M oz" → "~26M oz" (cifra aproximada; Annual Report 1998) -->
         <div class="stats">
           <div class="stat"><div class="stat-n ng">1897</div><div class="stat-l">Fundada en Ghana</div></div>
           <div class="stat"><div class="stat-n nb">~1.6M</div><div class="stat-l">Oz producidas / a&ntilde;o</div></div>
           <div class="stat"><div class="stat-n nr">~26M</div><div class="stat-l">Oz en reservas</div></div>
         </div>
-        <!-- CORRECCIÓN 6: "Primera empresa africana" → "Una de las primeras empresas africanas" -->
         <div class="co co-gold mt4"><div class="co-mark cm-gold">ORIGEN</div><div class="co-text">Fundada en Ghana en 1897. Una de las primeras empresas africanas listadas en NYSE (1996).</div></div>
-        <!-- CORRECCIÓN 1: eliminada mención a ranking "#2 mundial" -->
         <div class="co co-blue mt3"><div class="co-mark cm-blue">POSICI&Oacute;N</div><div class="co-text">Una de las principales mineras de oro de &Aacute;frica. Operaciones en Ghana, Guinea, Zimbabwe y Tanzania.</div></div>
       </div>
       <div class="reveal">
@@ -95,7 +85,6 @@
           <span class="img-panel-tag">Obuasi Gold Mine &middot; Ghana</span>
         </div>
         <div class="co co-red"><div class="co-mark cm-red">EL PROBLEMA</div><div class="co-text">El hedge book acumulaba posiciones equivalentes a <strong>m&aacute;s de 6 a&ntilde;os de producci&oacute;n</strong>. Un movimiento brusco generaba margin calls que la caja no pod&iacute;a cubrir.</div></div>
-        <!-- CORRECCIÓN 5: "26M oz" → "~26M oz" en tabla -->
         <div class="tbl-wrap mt4"><table class="tbl"><thead><tr><th>Indicador</th><th>Valor estimado (1999)</th></tr></thead><tbody>
           <tr><td>Producci&oacute;n anual</td><td class="mono">~1.6M oz</td></tr>
           <tr><td>Reservas probadas</td><td class="mono">~26M oz</td></tr>
@@ -109,18 +98,23 @@
 </section>
 
 <!-- ============================================================
-     03 MERCADO DEL ORO — contexto histórico 1975–2005
-     (Era slide 03. Posición sin cambio.)
-     Datos verificados: LBMA historical gold price data
-     $850/oz = London PM Fix, 21 enero 1980
-     $256/oz = LBMA PM Fix, agosto 1999 (mínimo de 20 años)
+     03  MERCADO DEL ORO — contexto histórico 1975–2005  (posición 2)
+     $850/oz = London PM Fix, 21 enero 1980 (LBMA)
+     $256/oz = LBMA PM Fix, agosto 1999
      ============================================================ -->
 <section class="slide th-light" data-i="2">
   <div class="inner">
     <div class="lbl lbl-gold reveal">Contexto &middot; 1975&ndash;2005</div>
     <h2 class="t-h reveal">Veinte a&ntilde;os de ca&iacute;da en el precio del oro</h2>
     <div class="g2 mt5">
-      <div class="reveal"><div class="cc"><div class="cc-t">Precio del oro 1975&ndash;2005</div><div class="cc-s">USD / onza troy &middot; fuente: LBMA historical fix</div><div id="ch1" style="height:220px;"></div></div></div>
+      <div class="reveal">
+        <div class="cc">
+          <div class="cc-t">Precio del oro 1975&ndash;2005</div>
+          <div class="cc-s">USD / onza troy &middot; fuente: LBMA historical fix</div>
+          <div id="ch1" style="height:220px;"></div>
+        </div>
+        <div class="co co-blue mt3"><div class="co-mark cm-blue">L&Oacute;GICA DEL HEDGE</div><div class="co-text">Con precios cayendo durante dos d&eacute;cadas, asegurar un precio de venta futuro parec&iacute;a prudente. La pregunta era cu&aacute;nto cubrir &mdash; y Ashanti cubri&oacute; demasiado.</div></div>
+      </div>
       <div class="reveal">
         <div class="img-panel">
           <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=700&q=72" alt="Mercado de oro" loading="lazy" onerror="this.parentNode.style.display='none'">
@@ -139,9 +133,8 @@
 </section>
 
 <!-- ============================================================
-     04 INSTRUMENTOS — cuatro componentes del hedge book
-     (Era slide 06. Se agrega el 4.º instrumento: put comprada.)
-     CORRECCIÓN 7: añadir fila "Put comprada" como 2.° instrumento
+     04  INSTRUMENTOS — cuatro componentes del hedge book  (posición 3)
+     Estructura correcta: forwards + put comprada + call vendida (collar) + préstamo de oro
      Fuentes: Tufano (1996); Adam (2009); Ashanti SEC 20-F filings
      ============================================================ -->
 <section class="slide th-light" data-i="3">
@@ -150,73 +143,25 @@
   </div>
   <div class="inner">
     <div class="lbl lbl-blue reveal">Instrumentos derivados</div>
-    <!-- CORRECCIÓN 7: "tres capas" → "cuatro componentes" -->
     <h2 class="t-h reveal">El hedge book: cuatro componentes</h2>
     <div class="tbl-wrap mt5 reveal"><table class="tbl">
       <thead><tr><th>Instrumento</th><th>C&oacute;mo funciona</th><th>Supuesto impl&iacute;cito</th><th>Riesgo ignorado</th></tr></thead>
       <tbody>
         <tr><td><span class="tag tg">Forward vendido</span><br>Venta adelantada</td><td>Vende oro hoy a precio pactado para entrega futura.</td><td>El spot se mantendr&iacute;a bajo o igual.</td><td>Si sube, la p&eacute;rdida MTM exige colateral inmediato.</td></tr>
-        <!-- CORRECCIÓN 7: fila nueva — put comprada -->
-        <tr><td><span class="tag tb">Put comprada</span><br>Protecci&oacute;n bajista</td><td>Derecho a vender oro a precio fijo si el mercado cae.</td><td>El precio pod&iacute;a caer.</td><td>El volumen de puts vendidas era ~2.5&times; mayor. La cobertura era insuficiente.</td></tr>
-        <tr><td><span class="tag tr">Put vendida</span><br>Cobro de prima</td><td>Cobra prima comprometiendo compra de oro si el precio cae.</td><td>El oro no caer&iacute;a m&aacute;s.</td><td>Si cae mucho, compra al strike cuando spot &lt; strike.</td></tr>
+        <tr><td><span class="tag tb">Put comprada</span><br>Protecci&oacute;n bajista</td><td>Derecho a vender oro a precio fijo si el mercado cae.</td><td>El precio pod&iacute;a caer.</td><td>El volumen de calls vendidas era ~2.5&times; mayor. La cobertura era insuficiente.</td></tr>
+        <tr><td><span class="tag tr">Call vendida</span><br>Venta de opci&oacute;n de compra</td><td>Cobra prima otorgando al comprador el derecho de comprar oro a precio fijo.</td><td>El precio no subir&iacute;a m&aacute;s all&aacute; del strike.</td><td>Si el precio sube, las p&eacute;rdidas crecen por encima del strike. El volumen vendido era ~2.5&times; el de puts compradas.</td></tr>
         <tr><td><span class="tag tg">Pr&eacute;stamo de oro</span><br>Gold leasing</td><td>Tom&oacute; oro prestado a ~1&ndash;2% anual y lo vendi&oacute; en spot.</td><td>El precio seguir&iacute;a bajo para poder devolver.</td><td>Si sube, comprar en mercado para devolver = p&eacute;rdida.</td></tr>
       </tbody>
     </table></div>
-    <!-- CORRECCIÓN 7: "tres instrumentos" → "cuatro instrumentos" -->
     <div class="co co-red mt5 reveal"><div class="co-mark cm-red">RIESGO CONCENTRADO</div><div class="co-text">Los cuatro instrumentos compart&iacute;an el mismo supuesto: <strong>el oro seguir&iacute;a bajo</strong>. Cuando el precio subi&oacute;, los cuatro generaron p&eacute;rdidas al mismo tiempo.</div></div>
   </div>
 </section>
 
 <!-- ============================================================
-     05 ANATOMÍA DEL DERIVADO — flujos entre tres actores
-     (Era slide 07.)
-     CORRECCIÓN 4: "17 Bancos" → "~17 bancos"
-     CORRECCIÓN 2: "a horas del default" → "al borde de un default"
+     05  SIMULADOR MTM — interactivo  (posición 4, era posición 5)
+     Estructura corregida: calls vendidas financian la protección bajista
      ============================================================ -->
-<section class="slide th-alt" data-i="4">
-  <div class="slide-img">
-    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
-  </div>
-  <div class="inner">
-    <div class="lbl lbl-blue reveal">Anatom&iacute;a del derivado</div>
-    <h2 class="t-h reveal">Tres actores, flujos cruzados</h2>
-    <p class="t-sub reveal">Cuando el precio subi&oacute;, cada actor reaccion&oacute; en su propio inter&eacute;s. El resultado fue simult&aacute;neo y devastador para Ashanti.</p>
-    <div class="dia reveal mt4">
-      <div class="dia-row">
-        <div class="dbox db-gold"><div class="dname">Bancos Centrales</div><div class="dsub">Prestamistas de oro<br>~1&ndash;2% tasa anual</div></div>
-        <div class="darr">
-          <div class="darr-svg-wrap">
-            <div class="darr-line darr-line-gold"></div>
-            <div class="darr-particle darr-particle-gold"></div>
-            <svg class="darr-head" width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:absolute;right:0;"><path d="M2 7h10M8 3l4 4-4 4" stroke="#a87000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="darr-lbl" style="color:#a87000;">Oro f&iacute;sico</div>
-        </div>
-        <!-- CORRECCIÓN 4: "17 Bancos" → "~17 bancos" -->
-        <div class="dbox db-blue"><div class="dname">~17 bancos</div><div class="dsub">Contrapartes<br>forwards y opciones</div></div>
-        <div class="darr">
-          <div class="darr-svg-wrap">
-            <div class="darr-line darr-line-blue"></div>
-            <div class="darr-particle darr-particle-blue"></div>
-            <svg class="darr-head" width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:absolute;right:0;"><path d="M2 7h10M8 3l4 4-4 4" stroke="#1565a0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div class="darr-lbl" style="color:#1565a0;">Contratos</div>
-        </div>
-        <div class="dbox db-red"><div class="dname">Ashanti</div><div class="dsub">Minera y deudor<br>de oro f&iacute;sico</div></div>
-      </div>
-      <!-- CORRECCIÓN 4 + 2: "17 bancos exigieron" → "múltiples bancos exigieron"; "a horas" → "al borde" -->
-      <div class="dia-alert"><div class="dia-bar"></div><div class="dia-txt"><strong>Cuando el precio subi&oacute; ~32%:</strong> m&uacute;ltiples bancos exigieron colateral simult&aacute;neamente. Ashanti no ten&iacute;a efectivo. Estuvo al borde de un default.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     06 SIMULADOR MTM — interactivo
-     (Era slide 09. Ahora aparece antes del WAG: el auditorio
-      experimenta la pérdida antes de ver el evento real.)
-     Sin cambios factuales — ya incluye disclaimer "valores ilustrativos"
-     ============================================================ -->
-<section class="slide th-light" data-i="5">
+<section class="slide th-light" data-i="4">
   <div class="slide-img">
     <img src="https://images.unsplash.com/photo-1589758438368-0ad531db3366?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
   </div>
@@ -248,7 +193,7 @@
           <div class="mtm-breakdown" id="mtm-breakdown">
             <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#1565a0;">&#9632; Forward (10M oz @ $300)</span><span class="mtm-b-val" id="bd-fwd">+$440M</span></div>
             <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#2a7a4a;">&#9632; Put comprada (2M oz @ $280)</span><span class="mtm-b-val" id="bd-pc">&minus;$16M</span></div>
-            <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#c06060;">&#9632; Put vendida (5M oz @ $280)</span><span class="mtm-b-val" id="bd-pv">+$60M</span></div>
+            <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#c06060;">&#9632; Call vendida (5M oz @ $300)</span><span class="mtm-b-val" id="bd-pv">+$60M</span></div>
           </div>
           <div class="mtm-metric" style="margin-top:.5rem;"><div class="mtm-metric-lbl">Colateral estimado exigido</div><div class="mtm-metric-val" id="mtm-col">$0</div></div>
           <div class="mtm-badge" id="mtm-badge" style="background:#e8f5ee;color:#2a7a4a;">Cobertura OK &mdash; operando bien</div>
@@ -260,11 +205,10 @@
 </section>
 
 <!-- ============================================================
-     07 PERFIL DE RIESGO — payoff interactivo
-     (Era slide 10. Sigue al simulador: misma lógica, más detalle.)
-     Sin cambios factuales.
+     06  PERFIL DE RIESGO — payoff interactivo  (posición 5, era posición 6)
+     Corregido: tab "Call vendida" reemplaza "Put vendida"
      ============================================================ -->
-<section class="slide th-alt" data-i="6">
+<section class="slide th-alt" data-i="5">
   <div class="slide-img">
     <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
   </div>
@@ -275,7 +219,7 @@
       <button class="pf-tab active" data-pf="all"><span class="pf-tab-dot" style="background:#1a1a2e;"></span>Vista general</button>
       <button class="pf-tab" data-pf="fwd"><span class="pf-tab-dot" style="background:#1565a0;"></span>Forward vendido</button>
       <button class="pf-tab" data-pf="pc"><span class="pf-tab-dot" style="background:#2a7a4a;"></span>Put comprada</button>
-      <button class="pf-tab" data-pf="pv"><span class="pf-tab-dot" style="background:#c06060;"></span>Put vendida</button>
+      <button class="pf-tab" data-pf="cv"><span class="pf-tab-dot" style="background:#c06060;"></span>Call vendida</button>
     </div>
     <div class="pf-body reveal">
       <div class="cc pf-chart-wrap">
@@ -289,15 +233,10 @@
 </section>
 
 <!-- ============================================================
-     08 EVENTO DETONANTE: ACUERDO DE WASHINGTON (WAG)
-     (Era slide 04. Ahora aparece DESPUÉS del simulador:
-      el auditorio ya sabe cuánto duele un alza — luego ve el alza real.)
-     CORRECCIÓN 3: "+32% en horas" → "~32% en aproximadamente dos semanas"
-     CORRECCIÓN 4: stat "17 bancos" → stat "15 B.C. firmantes" (los 17 son contrapartes de Ashanti,
-                   distintos a los 15 firmantes del WAG)
+     07  EVENTO DETONANTE: ACUERDO DE WASHINGTON (WAG)  (posición 6, era posición 7)
      Fuentes: BIS Working Paper; Reuters 26 sep 1999; LBMA price data; FT coverage WAG
      ============================================================ -->
-<section class="slide th-light" data-i="7">
+<section class="slide th-light" data-i="6">
   <div class="slide-img">
     <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
   </div>
@@ -305,23 +244,26 @@
     <div class="lbl lbl-red reveal">Evento detonante &middot; 26 septiembre 1999</div>
     <h2 class="t-h reveal">El Acuerdo de Washington</h2>
     <div class="g2 mt5">
-      <div class="reveal"><div class="cc"><div class="cc-t">Oro spot &mdash; 1999 al 2000</div><div class="cc-s">USD / oz &middot; zona roja = ventana de crisis</div><div id="ch2" style="height:220px;"></div></div></div>
+      <div class="reveal">
+        <div class="cc">
+          <div class="cc-t">Oro spot &mdash; 1999 al 2000</div>
+          <div class="cc-s">USD / oz &middot; zona roja = ventana de crisis</div>
+          <div id="ch2" style="height:220px;"></div>
+        </div>
+        <div class="co co-red mt3"><div class="co-mark cm-red">EL SHOCK</div><div class="co-text">El acuerdo se anunci&oacute; el 26 de septiembre de 1999 sin previo aviso, durante la reuni&oacute;n anual del FMI en Washington. El mercado estaba fuertemente corto en oro; la reacci&oacute;n fue inmediata y violenta.</div></div>
+      </div>
       <div class="reveal">
         <div class="img-panel">
           <img src="https://images.unsplash.com/photo-1605792657660-596af9009e82?auto=format&fit=crop&w=700&q=72" alt="Reservas de oro bancos centrales" loading="lazy" onerror="this.parentNode.style.display='none'">
           <span class="img-panel-tag">Reservas de oro &middot; Bancos Centrales Europeos</span>
         </div>
-        <!-- CORRECCIÓN 3: "+32% en horas" → "~32% en ~2 semanas"
-             CORRECCIÓN 4: stat "17 bancos" → "15 B.C. firmantes" (datos del WAG, no de Ashanti) -->
         <div class="stats">
           <div class="stat"><div class="stat-n ng">+32%</div><div class="stat-l">Alza en ~2 semanas</div></div>
           <div class="stat"><div class="stat-n nr">~$570M</div><div class="stat-l">P&eacute;rdida MTM Ashanti</div></div>
           <div class="stat"><div class="stat-n nb">15</div><div class="stat-l">B.C. europeos firmantes</div></div>
         </div>
-        <!-- Tres callouts simples: QUÉ FUE / POR QUÉ SUBIÓ / IMPACTO -->
         <div class="co co-blue mt4"><div class="co-mark cm-blue">QU&Eacute; FUE</div><div class="co-text">15 bancos centrales europeos acordaron limitar sus ventas de oro por 5 a&ntilde;os. El mercado tem&iacute;a ventas masivas de reservas oficiales.</div></div>
         <div class="co co-gold mt3"><div class="co-mark cm-gold">POR QU&Eacute; SUBI&Oacute;</div><div class="co-text">Esa amenaza de ventas era lo que manten&iacute;a el precio bajo. Al desaparecer, el oro subi&oacute; aproximadamente un 32% en alrededor de dos semanas.</div></div>
-        <!-- CORRECCIÓN 3: sin "en horas" -->
         <div class="co co-red mt3"><div class="co-mark cm-red">IMPACTO</div><div class="co-text">Ashanti ten&iacute;a contratos a ~$300/oz. Con el precio en ~$338, el hedge book registr&oacute; p&eacute;rdidas contables de aproximadamente $570M.</div></div>
       </div>
     </div>
@@ -329,10 +271,46 @@
 </section>
 
 <!-- ============================================================
-     09 MECÁNICA DEL COLAPSO — 5 pasos
-     (Era slide 08.)
-     CORRECCIÓN 4: "17 bancos exigen" → "múltiples bancos exigen"
-                   "Los 17 bancos aceptaron" → "Los bancos contrapartes aceptaron"
+     08  ANATOMÍA DEL DERIVADO — flujos entre tres actores  (posición 7, era posición 4)
+     Movido a DESPUÉS del WAG: el auditorio ya sabe qué pasó; ahora entiende los mecanismos
+     ============================================================ -->
+<section class="slide th-alt" data-i="7">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
+  <div class="inner">
+    <div class="lbl lbl-blue reveal">Anatom&iacute;a del derivado</div>
+    <h2 class="t-h reveal">Tres actores, flujos cruzados</h2>
+    <p class="t-sub reveal">Cuando el precio subi&oacute;, cada actor reaccion&oacute; en su propio inter&eacute;s. El resultado fue simult&aacute;neo y devastador para Ashanti.</p>
+    <div class="dia reveal mt4">
+      <div class="dia-row">
+        <div class="dbox db-gold"><div class="dname">Bancos Centrales</div><div class="dsub">Prestamistas de oro<br>~1&ndash;2% tasa anual</div></div>
+        <div class="darr">
+          <div class="darr-svg-wrap">
+            <div class="darr-line darr-line-gold"></div>
+            <div class="darr-particle darr-particle-gold"></div>
+            <svg class="darr-head" width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:absolute;right:0;"><path d="M2 7h10M8 3l4 4-4 4" stroke="#a87000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="darr-lbl" style="color:#a87000;">Oro f&iacute;sico</div>
+        </div>
+        <div class="dbox db-blue"><div class="dname">~17 bancos</div><div class="dsub">Contrapartes<br>forwards y opciones</div></div>
+        <div class="darr">
+          <div class="darr-svg-wrap">
+            <div class="darr-line darr-line-blue"></div>
+            <div class="darr-particle darr-particle-blue"></div>
+            <svg class="darr-head" width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:absolute;right:0;"><path d="M2 7h10M8 3l4 4-4 4" stroke="#1565a0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="darr-lbl" style="color:#1565a0;">Contratos</div>
+        </div>
+        <div class="dbox db-red"><div class="dname">Ashanti</div><div class="dsub">Minera y deudor<br>de oro f&iacute;sico</div></div>
+      </div>
+      <div class="dia-alert"><div class="dia-bar"></div><div class="dia-txt"><strong>Cuando el precio subi&oacute; ~32%:</strong> m&uacute;ltiples bancos exigieron colateral simult&aacute;neamente. Ashanti no ten&iacute;a efectivo. Estuvo al borde de un default.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     09  MECÁNICA DEL COLAPSO — 5 pasos  (posición 8)
      ============================================================ -->
 <section class="slide crisis-slide th-dark" data-i="8">
   <div class="slide-img">
@@ -345,22 +323,52 @@
       <div class="seq-item"><div class="s-num">01</div><div class="s-step">Paso 1</div><div class="s-txt">Cobertura masiva</div><div class="s-sub">~10M oz en forwards<br>a ~$300/oz</div><div class="s-arr">&rsaquo;</div></div>
       <div class="seq-item"><div class="s-num">02</div><div class="s-step">Paso 2</div><div class="s-txt">WAG: +32%</div><div class="s-sub">Spot sube a ~$338<br>en ~2 semanas</div><div class="s-arr">&rsaquo;</div></div>
       <div class="seq-item"><div class="s-num">03</div><div class="s-step">Paso 3</div><div class="s-txt">MTM negativo</div><div class="s-sub">P&eacute;rdida contable<br>de ~$570M</div><div class="s-arr">&rsaquo;</div></div>
-      <!-- CORRECCIÓN 4: "17 bancos exigen" → "múltiples bancos exigen" -->
       <div class="seq-item"><div class="s-num">04</div><div class="s-step">Paso 4</div><div class="s-txt">Margin calls</div><div class="s-sub">M&uacute;ltiples bancos exigen<br>colateral inmediato</div><div class="s-arr">&rsaquo;</div></div>
       <div class="seq-item"><div class="s-num" style="color:rgba(192,96,96,.12);">05</div><div class="s-step">Paso 5</div><div class="s-txt" style="color:#c06060;">Crisis de liquidez</div><div class="s-sub">Al borde del default</div></div>
     </div>
-    <!-- CORRECCIÓN 4: "Los 17 bancos aceptaron" → "Los bancos contrapartes aceptaron" -->
-    <div class="co co-gold reveal"><div class="co-mark cm-gold">RESOLUCI&Oacute;N</div><div class="co-text">Los bancos contrapartes aceptaron <strong>suspender los margin calls</strong> a cambio de participaci&oacute;n accionaria. En 2004 AngloGold adquiri&oacute; Ashanti.</div></div>
+    <div class="co co-gold reveal"><div class="co-mark cm-gold">CONTENCI&Oacute;N</div><div class="co-text">Los bancos contrapartes acordaron un <strong>standstill</strong> en octubre de 1999, suspendiendo los margin calls a cambio de warrants accionarios. La crisis fue contenida &mdash; ver diapositiva siguiente.</div></div>
   </div>
 </section>
 
 <!-- ============================================================
-     10 ÉTICA Y GOBIERNO CORPORATIVO
-     (Era slide 11.)
-     CORRECCIÓN 4: "Los 17 bancos construyeron" → "Los bancos contrapartes construyeron"
-     Texto más corto y directo en cada tarjeta.
+     10  RESOLUCIÓN Y DESENLACE (posición 9 — NUEVA)
+     Fuentes: Reuters, 9 oct 1999; Ashanti press releases 1999–2004;
+              AngloGold Annual Report 2004; SEC filings; Financial Times
      ============================================================ -->
-<section class="slide th-light" data-i="9">
+<section class="slide th-dark" data-i="9">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
+  <div class="inner">
+    <div class="lbl lbl-gold reveal">Resoluci&oacute;n &middot; Octubre 1999 &ndash; Abril 2004</div>
+    <h2 class="t-h reveal" style="color:#f0ece0;">La negociaci&oacute;n que evit&oacute; el default</h2>
+    <p class="t-sub reveal" style="color:rgba(240,236,224,.38);">Ashanti sobrevivi&oacute; mediante un acuerdo sin precedentes con sus contrapartes bancarias, seguido de una reestructuraci&oacute;n y, finalmente, una fusi&oacute;n.</p>
+    <div class="g3 mt5">
+      <div class="les la reveal">
+        <div class="les-n">01</div>
+        <div class="les-t">Acuerdo de standstill</div>
+        <div class="les-b">En octubre de 1999, ~17 bancos contrapartes acordaron suspender temporalmente los margin calls. Ashanti no fue a default.</div>
+      </div>
+      <div class="les lb reveal">
+        <div class="les-n">02</div>
+        <div class="les-t">Warrants accionarios</div>
+        <div class="les-b">A cambio de la suspensi&oacute;n, Ashanti emiti&oacute; warrants sobre aproximadamente 15.5 millones de acciones nuevas a los bancos contrapartes.</div>
+      </div>
+      <div class="les lc reveal">
+        <div class="les-n">03</div>
+        <div class="les-t">Fusi&oacute;n con AngloGold</div>
+        <div class="les-b">En agosto de 2003, AngloGold Limited formul&oacute; una oferta de adquisici&oacute;n. La fusi&oacute;n se complet&oacute; en abril de 2004, creando AngloGold Ashanti.</div>
+      </div>
+    </div>
+    <div class="co co-gold mt4 reveal"><div class="co-mark cm-gold">LEGADO</div><div class="co-text">AngloGold Ashanti se constituy&oacute; formalmente en abril de 2004. Es hoy una de las mineras de oro m&aacute;s grandes del mundo, listada en NYSE, JSE y la Bolsa de Ghana. El caso Ashanti redefinir&iacute;a la gesti&oacute;n del riesgo en la industria minera global.</div></div>
+    <div class="co co-blue mt3 reveal"><div class="co-mark cm-blue">LECI&Oacute;N DE LIQUIDEZ</div><div class="co-text">La empresa era solvente &mdash; ten&iacute;a minas, reservas y producci&oacute;n. Quebr&oacute; de liquidez: no pod&iacute;a pagar colateral en efectivo. La distinción entre solvencia y liquidez es central en derivados.</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11  ÉTICA Y GOBIERNO CORPORATIVO  (posición 10, era posición 9)
+     ============================================================ -->
+<section class="slide th-light" data-i="10">
   <div class="slide-img">
     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
   </div>
@@ -375,7 +383,6 @@
         <div class="eth-b">El hedge book era tan complejo que incluso directivos ten&iacute;an dificultad para entender la exposici&oacute;n real.</div>
         <div class="eth-q">&ldquo;El riesgo que no se entiende no se puede gestionar.&rdquo;</div>
       </div>
-      <!-- CORRECCIÓN 4: "Los 17 bancos" → "Los bancos contrapartes" -->
       <div class="eth eb reveal">
         <div class="eth-n">Rol de los bancos</div>
         <div class="eth-t">&iquest;Las contrapartes actuaron responsablemente?</div>
@@ -393,10 +400,9 @@
 </section>
 
 <!-- ============================================================
-     11 LECCIONES PERMANENTES
-     (Era slide 12. Sin cambios factuales; texto acortado.)
+     12  LECCIONES PERMANENTES  (posición 11, era posición 10)
      ============================================================ -->
-<section class="slide th-dark" data-i="10">
+<section class="slide th-dark" data-i="11">
   <div class="slide-img">
     <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
   </div>
@@ -430,12 +436,9 @@
 </section>
 
 <!-- ============================================================
-     12 CIERRE
-     (Nueva diapositiva. Reemplaza el Índice, que ya no es necesario
-      con el nuevo orden narrativo claro.)
-     Función: cerrar el arco argumental con la tesis central del caso.
+     13  CIERRE  (posición 12, era posición 11)
      ============================================================ -->
-<section class="slide th-dark" data-i="11">
+<section class="slide th-dark" data-i="12">
   <div class="slide-img">
     <img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
   </div>
@@ -453,25 +456,25 @@
       <div class="cover-author"><div class="cover-author-dot"></div><div class="cover-author-name">Juan Felipe Barriga Beltr&aacute;n</div></div>
     </div>
   </div>
-  <div class="cover-n">12</div>
+  <div class="cover-n">13</div>
 </section>
 
 </div><!-- /deck -->
 
-<script src="js/main.js?v=6"></script>
+<script src="js/main.js?v=7"></script>
 
 <script>
-/* ===== SIMULADOR MTM — forward + puts (valores ilustrativos) ===== */
+/* ===== SIMULADOR MTM — forward + puts compradas + calls vendidas (valores ilustrativos) ===== */
 (function(){
   var FWD=300, OZ_FWD=10e6;
-  var STK=280,  OZ_PC=2e6,  PRIMA_C=8;
-  var            OZ_PV=5e6,  PRIMA_V=12;
+  var STK=280, OZ_PC=2e6, PRIMA_C=8;
+  var STK_CV=300, OZ_CV=5e6, PRIMA_V=12;
 
   function calcComponents(spot){
     var fwd = (FWD - spot) * OZ_FWD;
     var pc  = (Math.max(STK - spot, 0) - PRIMA_C) * OZ_PC;
-    var pv  = -(Math.max(STK - spot, 0) - PRIMA_V) * OZ_PV;
-    return {fwd:fwd, pc:pc, pv:pv, total:fwd+pc+pv};
+    var cv  = -(Math.max(spot - STK_CV, 0) - PRIMA_V) * OZ_CV;
+    return {fwd:fwd, pc:pc, cv:cv, total:fwd+pc+cv};
   }
 
   function fmtM(v){
@@ -500,7 +503,7 @@
     var bdPv  = document.getElementById('bd-pv');
     if(bdFwd){ bdFwd.textContent = fmtM(c.fwd); bdFwd.style.color = colorM(c.fwd); }
     if(bdPc) { bdPc.textContent  = fmtM(c.pc);  bdPc.style.color  = colorM(c.pc);  }
-    if(bdPv) { bdPv.textContent  = fmtM(c.pv);  bdPv.style.color  = colorM(c.pv);  }
+    if(bdPv) { bdPv.textContent  = fmtM(c.cv);  bdPv.style.color  = colorM(c.cv);  }
 
     var cEl = document.getElementById('mtm-col');
     cEl.textContent = col > 0 ? '$' + (col/1e6).toFixed(0) + 'M' : '$0';
@@ -522,15 +525,15 @@
     }
 
     var n = document.getElementById('mtm-note');
-    var pvNote = spot < STK
-      ? ' Las puts vendidas <strong style="color:#c06060;">amplifican la pérdida</strong>: Ashanti vendió ~2.5× más puts de las que compró.'
-      : ' Las puts (compradas y vendidas) están <em>fuera del dinero</em> — solo la prima neta afecta.';
+    var cvNote = spot > STK_CV
+      ? ' Las calls vendidas <strong style="color:#c06060;">amplifican la p&eacute;rdida</strong>: con spot sobre $300, Ashanti pierde por cada onza de call vendida.'
+      : ' Las calls vendidas est&aacute;n <em>fuera del dinero</em> (spot &lt; $300) &mdash; Ashanti retiene la prima de $60M.';
     if(total >= 0){
-      n.innerHTML = 'Con el oro a <strong>$'+spot+'/oz</strong>, el hedge book genera valor positivo de <strong style="color:#2a7a4a;">'+fmtM(total)+'</strong>. Sin margin calls.' + pvNote;
+      n.innerHTML = 'Con el oro a <strong>$'+spot+'/oz</strong>, el hedge book genera valor positivo de <strong style="color:#2a7a4a;">'+fmtM(total)+'</strong>. Sin margin calls.' + cvNote;
     } else if(spot < 338){
-      n.innerHTML = '<strong>Alerta:</strong> MTM total de <strong style="color:#8b2020;">'+fmtM(total)+'</strong>. Colateral estimado: <strong style="color:#8b2020;">$'+(col/1e6).toFixed(0)+'M</strong>.' + pvNote;
+      n.innerHTML = '<strong>Alerta:</strong> MTM total de <strong style="color:#8b2020;">'+fmtM(total)+'</strong>. Colateral estimado: <strong style="color:#8b2020;">$'+(col/1e6).toFixed(0)+'M</strong>.' + cvNote;
     } else {
-      n.innerHTML = '<strong style="color:#8b2020;">Escenario crisis real.</strong> MTM hedge book: <strong style="color:#8b2020;">'+fmtM(total)+'</strong>. Equivalente al colapso de sep 1999.' + pvNote;
+      n.innerHTML = '<strong style="color:#8b2020;">Escenario crisis real.</strong> MTM hedge book: <strong style="color:#8b2020;">'+fmtM(total)+'</strong>. Equivalente al colapso de sep 1999.' + cvNote;
     }
   }
 
