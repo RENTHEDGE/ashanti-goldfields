@@ -24,7 +24,7 @@
     {label:'Contexto', slides:[2,3]},
     {label:'Simulador',slides:[4,5]},
     {label:'Crisis',   slides:[6,7,8,9]},
-    {label:'Reflexi\u00f3n',slides:[10,11,12]}
+    {label:'Reflexi\u00f3n',slides:[10,11,12,13]}
   ];
   var phaseEl=document.getElementById('tb-phases');
   var phaseItems=[];
