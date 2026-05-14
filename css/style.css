@@ -479,25 +479,8 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
 .img-panel:hover{box-shadow:0 8px 32px rgba(0,0,0,.22);}
 
 /* ============================================================
-   SLIDE 09 — Mecánica del colapso: CSS Grid garantiza full-height
-   inner: auto(lbl) auto(h2) 1fr(seq) auto(callout)
+   SLIDE 09 — Mecánica del colapso: centrado normal, sin imagen
    ============================================================ */
-.crisis-slide{
-  justify-content:flex-start;
-  align-items:stretch;
-}
-.crisis-slide .inner{
-  /* flex item que se expande en el slide-column */
-  flex:1 1 0%;
-  /* grid container: 4 filas, seq lleva el 1fr */
-  display:grid;
-  grid-template-rows:auto auto 1fr auto;
-  width:100%;
-  max-width:1100px;
-  margin:0 auto;
-  /* Necesario para que el grid hijo pueda medir el 1fr */
-  min-height:0;
-}
 .crisis-slide .lbl{
   margin-bottom:.45rem;
 }
@@ -505,12 +488,8 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
   font-size:clamp(1.5rem,2.8vw,2.2rem);
   margin-bottom:.5rem;
 }
-/* El seq ocupa la fila 1fr del grid */
 .crisis-slide .seq{
-  align-self:stretch;
   margin-top:.8rem;
-  min-height:120px;
-  /* flex interno del seq para distribuir los 5 pasos en fila */
   align-items:stretch;
 }
 .crisis-slide .seq-item{
@@ -518,7 +497,7 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  padding:1.1rem .7rem;
+  padding:1.4rem .7rem;
 }
 .crisis-slide .s-num{
   font-family:var(--mono);
@@ -532,7 +511,7 @@ button{cursor:pointer;font:inherit;border:0;background:none;}
 .crisis-slide .s-txt{font-size:.85rem;margin-bottom:.18rem;}
 .crisis-slide .s-sub{font-size:.68rem;}
 .crisis-slide .co{
-  margin-top:.7rem;
+  margin-top:.8rem;
   margin-bottom:0;
 }
 
