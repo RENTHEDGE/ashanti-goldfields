@@ -49,94 +49,109 @@ html,body{width:100%;height:100%;overflow:hidden;background:#080c12;color:#e6edf
 
 /* ── Bloomberg top bar ──────────────────────────────────────────── */
 #bb-bar{
-  position:fixed;top:2px;left:0;right:0;height:26px;z-index:99;
-  background:#080c12;
-  border-bottom:1px solid rgba(255,102,0,.18);
-  display:flex;align-items:center;gap:0;
-  font-family:var(--mono);font-size:10px;
-  overflow:hidden;
+  position:fixed;top:2px;left:0;right:0;height:28px;z-index:99;
+  background:#000;
+  border-bottom:2px solid #FF6600;
+  display:flex;align-items:stretch;gap:0;
+  font-family:'Courier New',Courier,monospace;font-size:11px;
+  overflow:hidden;user-select:none;
 }
-#bb-logo{
-  padding:0 12px;height:100%;
-  display:flex;align-items:center;gap:6px;
-  border-right:1px solid rgba(255,102,0,.2);
-  flex-shrink:0;
+/* Orange function-key menu sections */
+.bb-fn{
+  display:flex;align-items:center;padding:0 10px;
+  background:#FF6600;color:#000;
+  font-weight:700;font-size:10px;letter-spacing:.04em;
+  border-right:1px solid rgba(0,0,0,.3);
+  flex-shrink:0;white-space:nowrap;cursor:default;
 }
-#bb-logo .bb-sq{
-  width:16px;height:16px;background:var(--bb);
-  display:flex;align-items:center;justify-content:center;
-  font-size:9px;font-weight:700;color:#000;letter-spacing:-.02em;
+.bb-fn:hover{background:#e55a00;}
+.bb-fn .fn-num{opacity:.7;margin-right:3px;font-size:9px;}
+/* Separator pipe */
+.bb-pipe{
+  display:flex;align-items:center;
+  color:#FF6600;font-size:13px;opacity:.35;
+  padding:0 4px;flex-shrink:0;
 }
-#bb-logo .bb-name{color:var(--bb);letter-spacing:.14em;font-size:9.5px;font-weight:600;}
+/* Market data cells */
 #bb-mkt{
-  display:flex;align-items:center;flex:1;overflow:hidden;gap:0;
+  display:flex;align-items:center;flex:1;overflow:hidden;
 }
 .bb-cell{
-  display:flex;align-items:center;gap:6px;
-  padding:0 14px;height:26px;
-  border-right:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;gap:5px;
+  padding:0 10px;height:100%;
+  border-right:1px solid rgba(255,102,0,.12);
   flex-shrink:0;white-space:nowrap;
 }
-.bb-sym{color:rgba(230,237,243,.45);font-size:9px;letter-spacing:.08em;}
-.bb-val{color:#e6edf3;font-size:10px;font-weight:500;}
-.bb-chg{font-size:9px;font-weight:500;}
+.bb-sym{
+  color:#FF6600;font-size:9.5px;font-weight:700;
+  letter-spacing:.04em;font-family:'Courier New',monospace;
+}
+.bb-val{color:#fff;font-size:10.5px;font-weight:700;font-family:'Courier New',monospace;}
+.bb-chg{font-size:9.5px;font-weight:700;font-family:'Courier New',monospace;}
 .bb-up{color:#22C55E;}
 .bb-dn{color:#EF4444;}
-.bb-flat{color:rgba(230,237,243,.4);}
+.bb-flat{color:rgba(255,255,255,.35);}
+/* Clock + command */
 #bb-clock{
-  padding:0 14px;flex-shrink:0;
-  color:rgba(230,237,243,.35);font-size:9.5px;letter-spacing:.06em;
-  border-left:1px solid rgba(255,102,0,.15);
+  padding:0 10px;flex-shrink:0;
+  display:flex;align-items:center;
+  color:rgba(255,255,255,.5);font-size:10px;
+  font-family:'Courier New',monospace;letter-spacing:.04em;
+  border-left:1px solid rgba(255,102,0,.2);
 }
 #bb-cmd{
   padding:0 10px;flex-shrink:0;height:100%;
-  display:flex;align-items:center;gap:5px;
-  border-left:1px solid rgba(255,102,0,.2);
-  color:var(--bb);font-size:9.5px;letter-spacing:.04em;
+  display:flex;align-items:center;gap:4px;
+  border-left:2px solid #FF6600;
+  background:rgba(255,102,0,.08);
+  color:#FF6600;font-size:10.5px;font-weight:700;
+  font-family:'Courier New',monospace;letter-spacing:.06em;min-width:130px;
 }
+#bb-cmd .cmd-text{color:#fff;}
 #bb-cmd .cmd-cursor{
-  display:inline-block;width:1px;height:11px;
-  background:var(--bb);animation:blink 1s step-end infinite;
-  vertical-align:middle;margin-left:1px;
+  display:inline-block;width:8px;height:12px;
+  background:#FF6600;animation:blink .9s step-end infinite;
+  vertical-align:middle;
 }
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
 
 /* ── Ticker tape ────────────────────────────────────────────────── */
 #ticker-wrap{
-  position:fixed;bottom:0;left:0;right:0;height:26px;z-index:99;
-  background:rgba(8,12,18,.97);
-  border-top:1px solid rgba(255,102,0,.15);
-  overflow:hidden;display:flex;align-items:center;
+  position:fixed;bottom:0;left:0;right:0;height:24px;z-index:99;
+  background:#000;border-top:2px solid #FF6600;
+  overflow:hidden;display:flex;align-items:stretch;
 }
 #ticker-label{
-  padding:0 10px;height:100%;flex-shrink:0;
-  display:flex;align-items:center;gap:5px;
-  background:var(--bb);color:#000;
-  font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;
-  text-transform:uppercase;
+  padding:0 12px;flex-shrink:0;
+  display:flex;align-items:center;
+  background:#FF6600;color:#000;
+  font-family:'Courier New',monospace;font-size:9.5px;
+  font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  border-right:2px solid #000;
+  white-space:nowrap;
 }
-#ticker-track-wrap{flex:1;overflow:hidden;height:100%;position:relative;}
+#ticker-track-wrap{flex:1;overflow:hidden;position:relative;}
 #ticker-track{
   display:flex;align-items:center;gap:0;
   height:100%;white-space:nowrap;
-  animation:tickerScroll 55s linear infinite;
-  position:absolute;left:0;
+  animation:tickerScroll 60s linear infinite;
+  position:absolute;left:0;top:0;
 }
 @keyframes tickerScroll{
   from{transform:translateX(0);}
   to{transform:translateX(-50%);}
 }
 .tk-item{
-  display:flex;align-items:center;gap:7px;
-  padding:0 18px;height:100%;
-  font-family:var(--mono);font-size:10px;
-  border-right:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;gap:6px;
+  padding:0 14px;height:100%;
+  font-family:'Courier New',monospace;font-size:10.5px;
+  border-right:1px solid rgba(255,102,0,.15);
   flex-shrink:0;
 }
-.tk-sym{color:rgba(230,237,243,.45);font-size:9px;letter-spacing:.07em;}
-.tk-val{color:#e6edf3;font-weight:500;}
-.tk-chg{font-size:9px;}
-.tk-sep{color:rgba(255,102,0,.4);font-size:11px;padding:0 8px;}
+.tk-sym{color:#FF6600;font-size:10px;font-weight:700;letter-spacing:.03em;}
+.tk-val{color:#fff;font-weight:700;}
+.tk-chg{font-size:10px;font-weight:700;}
+.tk-sep{color:#FF6600;font-size:10px;padding:0 6px;opacity:.6;}
 
 /* ── Progress bar ───────────────────────────────────────────────── */
 #top-bar{
@@ -152,7 +167,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#080c12;color:#e6edf
 
 /* ── Slide counter ──────────────────────────────────────────────── */
 #slide-counter{
-  position:fixed;top:38px;right:28px;z-index:100;
+  position:fixed;top:40px;right:28px;z-index:100;
   font-family:var(--mono);font-size:10.5px;
   color:var(--faint);letter-spacing:.10em;
   pointer-events:none;
@@ -160,7 +175,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#080c12;color:#e6edf
 
 /* ── Phase label ────────────────────────────────────────────────── */
 #phase-label{
-  position:fixed;top:38px;left:28px;z-index:100;
+  position:fixed;top:40px;left:28px;z-index:100;
   font-family:var(--mono);font-size:9px;
   color:var(--faint2);letter-spacing:.16em;text-transform:uppercase;
   pointer-events:none;transition:opacity .3s;
@@ -486,22 +501,22 @@ input[type="range"]::-moz-range-thumb{
 
 <!-- Bloomberg top bar -->
 <div id="bb-bar">
-  <div id="bb-logo">
-    <div class="bb-sq">B</div>
-    <span class="bb-name">TERMINAL</span>
-  </div>
+  <div class="bb-fn"><span class="fn-num">1)</span>EQUITY</div>
+  <div class="bb-fn"><span class="fn-num">2)</span>INDEX</div>
+  <div class="bb-fn"><span class="fn-num">3)</span>OPTIONS</div>
+  <div class="bb-fn"><span class="fn-num">4)</span>CMDTY</div>
+  <div class="bb-fn" style="border-right:2px solid #000;"><span class="fn-num">5)</span>CORP</div>
   <div id="bb-mkt">
-    <div class="bb-cell"><span class="bb-sym">SPX</span><span class="bb-val" id="bb-spx">5,312.40</span><span class="bb-chg bb-up" id="bb-spx-c">+0.84%</span></div>
-    <div class="bb-cell"><span class="bb-sym">NDX</span><span class="bb-val">18,847.20</span><span class="bb-chg bb-up">+1.12%</span></div>
-    <div class="bb-cell"><span class="bb-sym">VIX</span><span class="bb-val" id="bb-vix">18.30</span><span class="bb-chg bb-dn" id="bb-vix-c">-1.24%</span></div>
-    <div class="bb-cell"><span class="bb-sym">SKEW</span><span class="bb-val">134.2</span><span class="bb-chg bb-flat">±0</span></div>
-    <div class="bb-cell"><span class="bb-sym">MOVE</span><span class="bb-val">98.2</span><span class="bb-chg bb-dn">-0.6%</span></div>
+    <div class="bb-cell"><span class="bb-sym">SPX&nbsp;US</span><span class="bb-val" id="bb-spx">5,312.40</span><span class="bb-chg bb-up">▲+0.84%</span></div>
+    <div class="bb-cell"><span class="bb-sym">VIX&nbsp;US</span><span class="bb-val" id="bb-vix">18.30</span><span class="bb-chg bb-dn">▼-1.24%</span></div>
+    <div class="bb-cell"><span class="bb-sym">SKEW</span><span class="bb-val">134.2</span><span class="bb-chg bb-flat">—</span></div>
     <div class="bb-cell"><span class="bb-sym">SOFR</span><span class="bb-val">5.31%</span><span class="bb-chg bb-flat">unch</span></div>
-    <div class="bb-cell"><span class="bb-sym">10Y</span><span class="bb-val">4.28%</span><span class="bb-chg bb-dn">-2bp</span></div>
-    <div class="bb-cell"><span class="bb-sym">USD/EUR</span><span class="bb-val">1.0842</span><span class="bb-chg bb-dn">-0.18%</span></div>
+    <div class="bb-cell"><span class="bb-sym">10Y&nbsp;UST</span><span class="bb-val">4.28%</span><span class="bb-chg bb-dn">-2bp</span></div>
+    <div class="bb-cell"><span class="bb-sym">MOVE</span><span class="bb-val">98.2</span><span class="bb-chg bb-dn">-0.6%</span></div>
+    <div class="bb-cell"><span class="bb-sym">GOLD</span><span class="bb-val">2,341</span><span class="bb-chg bb-up">▲+0.31%</span></div>
   </div>
-  <div id="bb-clock" id="bb-clock-el">--:--:-- EST</div>
-  <div id="bb-cmd">OPTIONS<span class="cmd-cursor"></span></div>
+  <div id="bb-clock">--:--:-- UTC</div>
+  <div id="bb-cmd"><span class="cmd-text">OPTIONS IV&nbsp;</span><span class="cmd-cursor"></span></div>
 </div>
 
 <!-- Ticker tape -->
