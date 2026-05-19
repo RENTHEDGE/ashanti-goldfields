@@ -42,7 +42,101 @@ html,body{width:100%;height:100%;overflow:hidden;background:#080c12;color:#e6edf
   --violet2:#7c3aed;
   --mono:'JetBrains Mono',monospace;
   --ease:cubic-bezier(.16,1,.3,1);
+  --bb:#FF6600;
+  --bb2:rgba(255,102,0,.12);
+  --bb-border:rgba(255,102,0,.22);
 }
+
+/* ── Bloomberg top bar ──────────────────────────────────────────── */
+#bb-bar{
+  position:fixed;top:2px;left:0;right:0;height:26px;z-index:99;
+  background:#080c12;
+  border-bottom:1px solid rgba(255,102,0,.18);
+  display:flex;align-items:center;gap:0;
+  font-family:var(--mono);font-size:10px;
+  overflow:hidden;
+}
+#bb-logo{
+  padding:0 12px;height:100%;
+  display:flex;align-items:center;gap:6px;
+  border-right:1px solid rgba(255,102,0,.2);
+  flex-shrink:0;
+}
+#bb-logo .bb-sq{
+  width:16px;height:16px;background:var(--bb);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;color:#000;letter-spacing:-.02em;
+}
+#bb-logo .bb-name{color:var(--bb);letter-spacing:.14em;font-size:9.5px;font-weight:600;}
+#bb-mkt{
+  display:flex;align-items:center;flex:1;overflow:hidden;gap:0;
+}
+.bb-cell{
+  display:flex;align-items:center;gap:6px;
+  padding:0 14px;height:26px;
+  border-right:1px solid rgba(255,255,255,.05);
+  flex-shrink:0;white-space:nowrap;
+}
+.bb-sym{color:rgba(230,237,243,.45);font-size:9px;letter-spacing:.08em;}
+.bb-val{color:#e6edf3;font-size:10px;font-weight:500;}
+.bb-chg{font-size:9px;font-weight:500;}
+.bb-up{color:#22C55E;}
+.bb-dn{color:#EF4444;}
+.bb-flat{color:rgba(230,237,243,.4);}
+#bb-clock{
+  padding:0 14px;flex-shrink:0;
+  color:rgba(230,237,243,.35);font-size:9.5px;letter-spacing:.06em;
+  border-left:1px solid rgba(255,102,0,.15);
+}
+#bb-cmd{
+  padding:0 10px;flex-shrink:0;height:100%;
+  display:flex;align-items:center;gap:5px;
+  border-left:1px solid rgba(255,102,0,.2);
+  color:var(--bb);font-size:9.5px;letter-spacing:.04em;
+}
+#bb-cmd .cmd-cursor{
+  display:inline-block;width:1px;height:11px;
+  background:var(--bb);animation:blink 1s step-end infinite;
+  vertical-align:middle;margin-left:1px;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+/* ── Ticker tape ────────────────────────────────────────────────── */
+#ticker-wrap{
+  position:fixed;bottom:0;left:0;right:0;height:26px;z-index:99;
+  background:rgba(8,12,18,.97);
+  border-top:1px solid rgba(255,102,0,.15);
+  overflow:hidden;display:flex;align-items:center;
+}
+#ticker-label{
+  padding:0 10px;height:100%;flex-shrink:0;
+  display:flex;align-items:center;gap:5px;
+  background:var(--bb);color:#000;
+  font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;
+}
+#ticker-track-wrap{flex:1;overflow:hidden;height:100%;position:relative;}
+#ticker-track{
+  display:flex;align-items:center;gap:0;
+  height:100%;white-space:nowrap;
+  animation:tickerScroll 55s linear infinite;
+  position:absolute;left:0;
+}
+@keyframes tickerScroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+.tk-item{
+  display:flex;align-items:center;gap:7px;
+  padding:0 18px;height:100%;
+  font-family:var(--mono);font-size:10px;
+  border-right:1px solid rgba(255,255,255,.05);
+  flex-shrink:0;
+}
+.tk-sym{color:rgba(230,237,243,.45);font-size:9px;letter-spacing:.07em;}
+.tk-val{color:#e6edf3;font-weight:500;}
+.tk-chg{font-size:9px;}
+.tk-sep{color:rgba(255,102,0,.4);font-size:11px;padding:0 8px;}
 
 /* ── Progress bar ───────────────────────────────────────────────── */
 #top-bar{
@@ -58,7 +152,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#080c12;color:#e6edf
 
 /* ── Slide counter ──────────────────────────────────────────────── */
 #slide-counter{
-  position:fixed;top:16px;right:28px;z-index:100;
+  position:fixed;top:38px;right:28px;z-index:100;
   font-family:var(--mono);font-size:10.5px;
   color:var(--faint);letter-spacing:.10em;
   pointer-events:none;
@@ -66,7 +160,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#080c12;color:#e6edf
 
 /* ── Phase label ────────────────────────────────────────────────── */
 #phase-label{
-  position:fixed;top:16px;left:28px;z-index:100;
+  position:fixed;top:38px;left:28px;z-index:100;
   font-family:var(--mono);font-size:9px;
   color:var(--faint2);letter-spacing:.16em;text-transform:uppercase;
   pointer-events:none;transition:opacity .3s;
@@ -74,7 +168,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#080c12;color:#e6edf
 
 /* ── Nav buttons ────────────────────────────────────────────────── */
 #nav-btns{
-  position:fixed;bottom:24px;right:28px;z-index:100;
+  position:fixed;bottom:50px;right:28px;z-index:100;
   display:flex;gap:10px;align-items:center;
 }
 .nav-btn{
@@ -95,7 +189,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#080c12;color:#e6edf
 
 /* ── Pip indicators ─────────────────────────────────────────────── */
 #nav-pips{
-  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+  position:fixed;bottom:56px;left:50%;transform:translateX(-50%);
   z-index:100;display:flex;gap:6px;align-items:center;
 }
 .pip{
@@ -113,7 +207,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#080c12;color:#e6edf
 .slide{
   position:fixed;inset:0;
   display:flex;flex-direction:column;
-  padding:52px 68px 56px;
+  padding:78px 68px 82px;
   opacity:0;pointer-events:none;
   transition:opacity .55s var(--ease);
   overflow:hidden;
@@ -286,7 +380,8 @@ input[type="range"]::-moz-range-thumb{
 #s00 .cover-content{
   position:relative;z-index:1;
   display:grid;grid-template-columns:1fr 430px;
-  gap:0;height:100%;padding:56px 72px 60px;
+  gap:0;height:100%;padding:56px 72px 52px;
+  padding-top:calc(28px + 38px);
   align-items:center;
 }
 #s00 .cover-left{display:flex;flex-direction:column;gap:0;padding-right:56px;}
@@ -388,6 +483,34 @@ input[type="range"]::-moz-range-thumb{
 <div id="top-bar"><div id="progress-bar"></div></div>
 <div id="phase-label">Derivados Exóticos</div>
 <div id="slide-counter">01 / 08</div>
+
+<!-- Bloomberg top bar -->
+<div id="bb-bar">
+  <div id="bb-logo">
+    <div class="bb-sq">B</div>
+    <span class="bb-name">TERMINAL</span>
+  </div>
+  <div id="bb-mkt">
+    <div class="bb-cell"><span class="bb-sym">SPX</span><span class="bb-val" id="bb-spx">5,312.40</span><span class="bb-chg bb-up" id="bb-spx-c">+0.84%</span></div>
+    <div class="bb-cell"><span class="bb-sym">NDX</span><span class="bb-val">18,847.20</span><span class="bb-chg bb-up">+1.12%</span></div>
+    <div class="bb-cell"><span class="bb-sym">VIX</span><span class="bb-val" id="bb-vix">18.30</span><span class="bb-chg bb-dn" id="bb-vix-c">-1.24%</span></div>
+    <div class="bb-cell"><span class="bb-sym">SKEW</span><span class="bb-val">134.2</span><span class="bb-chg bb-flat">±0</span></div>
+    <div class="bb-cell"><span class="bb-sym">MOVE</span><span class="bb-val">98.2</span><span class="bb-chg bb-dn">-0.6%</span></div>
+    <div class="bb-cell"><span class="bb-sym">SOFR</span><span class="bb-val">5.31%</span><span class="bb-chg bb-flat">unch</span></div>
+    <div class="bb-cell"><span class="bb-sym">10Y</span><span class="bb-val">4.28%</span><span class="bb-chg bb-dn">-2bp</span></div>
+    <div class="bb-cell"><span class="bb-sym">USD/EUR</span><span class="bb-val">1.0842</span><span class="bb-chg bb-dn">-0.18%</span></div>
+  </div>
+  <div id="bb-clock" id="bb-clock-el">--:--:-- EST</div>
+  <div id="bb-cmd">OPTIONS<span class="cmd-cursor"></span></div>
+</div>
+
+<!-- Ticker tape -->
+<div id="ticker-wrap">
+  <div id="ticker-label">LIVE MKT</div>
+  <div id="ticker-track-wrap">
+    <div id="ticker-track"></div>
+  </div>
+</div>
 
 <!-- Navigation -->
 <div id="nav-pips">
@@ -671,6 +794,67 @@ const charts = { s2: null, s3: null, s5a: null, s5b: null, s5c: null };
 function initS2() { /* populated when slide 2 is built */ }
 function initS3() { /* populated when slide 3 is built */ }
 function initS5() { /* populated when slide 5 is built */ }
+
+/* ════════════════════════════════════════════════════════════════
+   BLOOMBERG CHROME
+   ════════════════════════════════════════════════════════════════ */
+(function() {
+  const TICK_DATA = [
+    { sym:'SPX',    val:'5,312.40', chg:'+0.84%', up:true  },
+    { sym:'NDX',    val:'18,847',   chg:'+1.12%', up:true  },
+    { sym:'VIX',    val:'18.30',    chg:'-1.24%', up:false },
+    { sym:'SKEW',   val:'134.2',    chg:'±0',     up:null  },
+    { sym:'MOVE',   val:'98.2',     chg:'-0.6%',  up:false },
+    { sym:'SOFR',   val:'5.31%',    chg:'unch',   up:null  },
+    { sym:'10Y UST',val:'4.28%',    chg:'-2bp',   up:false },
+    { sym:'USD/EUR',val:'1.0842',   chg:'-0.18%', up:false },
+    { sym:'GOLD',   val:'2,341',    chg:'+0.31%', up:true  },
+    { sym:'WTI',    val:'78.42',    chg:'-0.54%', up:false },
+    { sym:'ATM IV 1M', val:'22.4%', chg:'+0.8v',  up:true  },
+    { sym:'STRADDLE K=100', val:'$18.53', chg:'T=1y σ=25%', up:null },
+    { sym:'CHOOSER K=100',  val:'$13.60', chg:'tc=0.5y ↓26%', up:false },
+    { sym:'PUT-CALL RATIO', val:'0.82',   chg:'-0.04', up:false },
+    { sym:'GEX',    val:'+$2.1B',   chg:'pinning', up:null },
+    { sym:'IV RANK',val:'34%',      chg:'30d',    up:null  },
+    { sym:'TERM STRUCT', val:'normal', chg:'contango', up:null },
+  ];
+
+  function buildTicker() {
+    const track = document.getElementById('ticker-track');
+    if (!track) return;
+    const items = TICK_DATA.concat(TICK_DATA);
+    track.innerHTML = items.map(d => {
+      const cls = d.up === true ? 'bb-up' : d.up === false ? 'bb-dn' : 'bb-flat';
+      return `<div class="tk-item"><span class="tk-sym">${d.sym}</span><span class="tk-val">${d.val}</span><span class="tk-chg ${cls}">${d.chg}</span></div>`;
+    }).join('<span class="tk-sep">◆</span>');
+  }
+
+  function updateClock() {
+    const el = document.getElementById('bb-clock');
+    if (!el) return;
+    const now = new Date();
+    const h = String(now.getUTCHours()).padStart(2,'0');
+    const m = String(now.getUTCMinutes()).padStart(2,'0');
+    const s = String(now.getUTCSeconds()).padStart(2,'0');
+    el.textContent = h+':'+m+':'+s+' UTC';
+  }
+
+  let spx = 5312.40, vix = 18.30;
+  function driftPrices() {
+    spx += (Math.random() - 0.498) * 0.8;
+    vix += (Math.random() - 0.502) * 0.04;
+    vix = Math.max(12, Math.min(35, vix));
+    const spxEl = document.getElementById('bb-spx');
+    const vixEl = document.getElementById('bb-vix');
+    if (spxEl) spxEl.textContent = spx.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    if (vixEl) vixEl.textContent = vix.toFixed(2);
+  }
+
+  buildTicker();
+  updateClock();
+  setInterval(updateClock, 1000);
+  setInterval(driftPrices, 2500);
+})();
 
 /* ════════════════════════════════════════════════════════════════
    COVER CANVAS ANIMATION
