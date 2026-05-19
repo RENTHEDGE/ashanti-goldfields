@@ -490,6 +490,96 @@ input[type="range"]::-moz-range-thumb{
   font-size:26px;font-weight:700;color:var(--surface3);
   text-align:center;max-width:480px;line-height:1.3;
 }
+
+/* ════════════════════════════════════════════════════════════════
+   SLIDE 1 — DEFINICIÓN + EJEMPLO NUMÉRICO
+   ════════════════════════════════════════════════════════════════ */
+#s01 .s-eyebrow { margin-top:2px; }
+#s01 .s-title   { margin-bottom:16px; }
+
+#s01-body {
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:32px;flex:1;overflow:hidden;align-items:start;
+}
+#s01-left, #s01-right {
+  display:flex;flex-direction:column;gap:14px;overflow:hidden;
+}
+
+/* Definition block */
+.s01-def-block {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:16px 20px;
+}
+
+/* Decomposition steps */
+.s01-decomp { display:flex;flex-direction:column;gap:7px; }
+
+/* Parameters box */
+.s01-params-box {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:16px 20px;
+}
+.s01-params-grid {
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;
+}
+.s01-param {
+  display:flex;flex-direction:column;gap:3px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:9px;padding:10px 12px;
+}
+.s01-psym {
+  font-family:var(--mono);font-size:13px;font-weight:600;
+  color:var(--faint);line-height:1;
+}
+.s01-pval {
+  font-family:var(--mono);font-size:13.5px;font-weight:500;
+  color:var(--text);
+}
+.s01-pdesc {
+  font-size:10px;color:var(--faint);letter-spacing:.02em;
+  margin-top:1px;
+}
+
+/* Results table */
+.s01-results {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:16px 20px;
+}
+.s01-result-row {
+  display:grid;grid-template-columns:1fr auto auto;
+  gap:12px;align-items:center;padding:8px 0;
+  border-bottom:1px solid var(--border);
+  font-size:13px;
+}
+.s01-result-row:last-child { border-bottom:none; }
+.s01-result-row.header-row {
+  font-family:var(--mono);font-size:10px;color:var(--faint);
+  letter-spacing:.10em;text-transform:uppercase;padding-bottom:6px;
+}
+.res-val {
+  font-family:var(--mono);font-size:14px;font-weight:600;
+  color:var(--text);min-width:58px;text-align:right;
+}
+.res-tag {
+  font-family:var(--mono);font-size:11px;min-width:62px;text-align:right;
+}
+.s01-chooser-row {
+  background:rgba(6,182,212,.05);border-radius:8px;
+  padding:10px 10px !important;margin:4px -6px 0;
+  border-bottom:none !important;
+  border:1px solid rgba(6,182,212,.18);
+}
+.s01-saving {
+  color:#fff;font-weight:700;font-size:11px;
+  background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);
+  border-radius:5px;padding:2px 7px;
+}
+
+/* K* calc block */
+.s01-kstar {
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:13px 17px;
+}
 </style>
 </head>
 <body>
@@ -648,9 +738,124 @@ input[type="range"]::-moz-range-thumb{
      SLIDES 1–7 — PLACEHOLDERS
      ══════════════════════════════════════════════════════════════ -->
 <section class="slide" data-i="1" id="s01">
-  <div class="slide-placeholder">
-    <div class="ph-label">Próxima diapositiva</div>
-    <div class="ph-title">Definición + Ejemplo Numérico</div>
+  <div class="s-eyebrow">Fundamentos</div>
+  <div class="s-title">¿Qué es una Chooser Option?</div>
+  <div id="s01-body">
+
+    <!-- LEFT: Definición formal + descomposición -->
+    <div id="s01-left">
+      <div class="s01-def-block reveal">
+        <div class="mono-lbl" style="color:var(--teal)">Definición formal</div>
+        <div style="font-size:13.5px;color:var(--muted);line-height:1.75;">
+          Una <strong style="color:var(--text)">chooser option</strong> otorga al comprador el derecho de designar,
+          en o antes de la fecha <strong style="color:var(--violet)">t<sub>c</sub></strong>,
+          si el instrumento actuará como <strong style="color:var(--teal)">call europea</strong>
+          o <strong style="color:var(--violet)">put europea</strong> —
+          ambas con el mismo strike <strong style="color:var(--amber)">K</strong>
+          y vencimiento <strong style="color:var(--text)">T &gt; t<sub>c</sub></strong>.
+        </div>
+      </div>
+
+      <div class="card card-teal reveal" style="padding:14px 20px;">
+        <div class="mono-lbl" style="color:var(--teal)">Valor en t<sub>c</sub></div>
+        \[V_{t_c} = \max\!\Bigl(C(S_{t_c},K,T{-}t_c),\; P(S_{t_c},K,T{-}t_c)\Bigr)\]
+      </div>
+
+      <div class="s01-decomp reveal">
+        <div class="mono-lbl" style="color:var(--faint)">Clave de la solución cerrada</div>
+        <div class="step-item" style="margin-bottom:7px;">
+          <span class="step-num">①</span>
+          <div class="step-content">
+            <strong>Identidad algebraica:</strong>
+            \(\max(C,P) = C + \max(P - C,\, 0)\)
+          </div>
+        </div>
+        <div class="step-item" style="margin-bottom:7px;">
+          <span class="step-num">②</span>
+          <div class="step-content">
+            <strong>Paridad put-call:</strong>
+            \(P - C = Ke^{-r(T-t_c)} - Se^{-q(T-t_c)}\)
+          </div>
+        </div>
+        <div class="step-item">
+          <span class="step-num">③</span>
+          <div class="step-content">
+            <strong>Resultado:</strong> \(\max(P-C,0)\) es una put con strike reducido
+            \(K^* = Ke^{-(r-q)(T-t_c)}\), madurez \(t_c\)
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-bar reveal">
+        <strong style="color:var(--amber);font-family:var(--mono);font-size:10px;letter-spacing:.1em;">INSIGHT</strong><br/>
+        La chooser <em>plain</em> se reduce a la suma de <strong style="color:var(--text)">dos opciones europeas estándar</strong>.
+        Fórmula cerrada exacta bajo BSM.
+        \[V_0 = C_{BS}(K,T) \;+\; P_{BS}(K^*,\,t_c)\]
+      </div>
+    </div>
+
+    <!-- RIGHT: Ejemplo numérico -->
+    <div id="s01-right">
+      <div class="s01-params-box reveal">
+        <div class="mono-lbl" style="color:var(--amber)">Ejemplo numérico — parámetros</div>
+        <div class="s01-params-grid">
+          <div class="s01-param"><span class="s01-psym" style="color:var(--teal)">S₀</span><span class="s01-pval">$100.00</span><span class="s01-pdesc">Precio spot</span></div>
+          <div class="s01-param"><span class="s01-psym" style="color:var(--amber)">K</span><span class="s01-pval">$100.00</span><span class="s01-pdesc">Strike (ATM)</span></div>
+          <div class="s01-param"><span class="s01-psym">T</span><span class="s01-pval">1.0 año</span><span class="s01-pdesc">Vencimiento</span></div>
+          <div class="s01-param"><span class="s01-psym" style="color:var(--violet)">t<sub>c</sub></span><span class="s01-pval">0.5 año</span><span class="s01-pdesc">Chooser date</span></div>
+          <div class="s01-param"><span class="s01-psym" style="color:var(--blue)">σ</span><span class="s01-pval">25%</span><span class="s01-pdesc">Volatilidad</span></div>
+          <div class="s01-param"><span class="s01-psym">r</span><span class="s01-pval">5%</span><span class="s01-pdesc">Tasa libre</span></div>
+        </div>
+      </div>
+
+      <div class="s01-results reveal">
+        <div class="mono-lbl" style="color:var(--faint)">Valuación BSM — resultados</div>
+        <div class="s01-result-row header-row">
+          <span>Instrumento</span><span>Precio</span><span>vs Straddle</span>
+        </div>
+        <div class="s01-result-row">
+          <span style="color:var(--teal)">Call europea</span>
+          <span class="res-val">$12.34</span>
+          <span class="res-tag" style="color:var(--faint)">pierna larga</span>
+        </div>
+        <div class="s01-result-row">
+          <span style="color:var(--violet)">Put europea</span>
+          <span class="res-val">$7.45</span>
+          <span class="res-tag" style="color:var(--faint)">pierna corta</span>
+        </div>
+        <div class="s01-result-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:8px;">
+          <span style="color:var(--amber)">Straddle (C+P)</span>
+          <span class="res-val">$19.79</span>
+          <span class="res-tag" style="color:var(--amber)">referencia</span>
+        </div>
+        <div class="s01-result-row s01-chooser-row">
+          <span style="color:var(--text);font-weight:600;">Chooser</span>
+          <span class="res-val" style="color:var(--teal);font-size:16px;font-weight:700;">$17.02</span>
+          <span class="res-tag s01-saving">−14%</span>
+        </div>
+      </div>
+
+      <div class="s01-kstar reveal">
+        <div class="mono-lbl" style="color:var(--faint)">Strike reducido</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+          <div style="font-size:13px;color:var(--muted);">
+            \(K^* = 100\cdot e^{-0.05\times 0.5} = \$97.53\)
+          </div>
+          <div style="font-size:12px;color:var(--faint);text-align:right;line-height:1.5;">
+            Put<sub>BSM</sub>(K*=97.53, t<sub>c</sub>=0.5y)<br/>
+            <strong style="color:var(--text);">= $4.68</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-blue reveal" style="padding:12px 16px;">
+        <div class="mono-lbl" style="color:var(--blue)">Verificación de cotas</div>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.8;">
+          \(\max(12.34,\;7.45) = 12.34 \;\leq\; \underbrace{17.02}_{\text{Chooser}} \;\leq\; 19.79\) ✓
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 <section class="slide" data-i="2" id="s02">
