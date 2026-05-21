@@ -818,6 +818,10 @@ document.getElementById('nav-next').addEventListener('click',()=>goTo(cur+1));
 document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'||e.key==='ArrowDown')goTo(cur+1);
   if(e.key==='ArrowLeft'||e.key==='ArrowUp')goTo(cur-1);
+  if(e.key==='f'||e.key==='F'){
+    if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});
+    else document.exitFullscreen();
+  }
 });
 
 /* ════════════════════════════════════════════════════════════════
