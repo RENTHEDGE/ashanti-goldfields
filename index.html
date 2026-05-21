@@ -298,6 +298,17 @@ input[type="range"]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;b
 .pnl-row:last-child{border-bottom:none;}
 .pnl-lbl{color:var(--ink2);}
 .pnl-val{font-family:var(--mono);font-weight:600;}
+
+/* ── CHART TOOLTIP (sigue al mouse) ──────────────────────────────── */
+.chart-tooltip{
+  position:fixed; z-index:1000; pointer-events:none;
+  background:rgba(10,15,26,.92); backdrop-filter:blur(8px);
+  border:1px solid rgba(45,139,139,.4); border-radius:6px;
+  padding:.4rem .6rem; font-family:var(--mono); font-size:.56rem;
+  color:var(--teal); white-space:nowrap; display:none;
+  box-shadow:0 4px 16px rgba(0,0,0,.4);
+}
+.chart-tooltip.visible { display:block; }
 </style>
 </head>
 <body>
@@ -742,16 +753,38 @@ input[type="range"]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;b
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
-/* ── Native chart zoom/pan (wheel = zoom, drag = pan, dblclick = reset) ── */
+/* ── Native chart zoom/pan + interactive tooltip ── */
 function enableChartZoom(chart) {
   const cv = chart.canvas;
   let drag = null;
   cv.style.cursor = 'crosshair';
 
+  // Create tooltip element
+  let tt = document.querySelector('[data-chart-tt="' + chart.canvas.id + '"]');
+  if (!tt) {
+    tt = document.createElement('div');
+    tt.className = 'chart-tooltip';
+    tt.setAttribute('data-chart-tt', chart.canvas.id);
+    document.body.appendChild(tt);
+  }
+
   function range(sc) {
     return {
       min: sc.options.min !== undefined ? sc.options.min : sc.min,
       max: sc.options.max !== undefined ? sc.options.max : sc.max
+    };
+  }
+
+  function dataAt(px, py) {
+    const ca = chart.chartArea;
+    const xs = chart.scales.x, ys = chart.scales.y;
+    if (!xs || !ys) return null;
+    const xf = Math.max(0, Math.min(1, (px - ca.left) / (ca.right - ca.left)));
+    const yf = Math.max(0, Math.min(1, 1 - (py - ca.top) / (ca.bottom - ca.top)));
+    const xr = range(xs), yr = range(ys);
+    return {
+      x: (xr.min + xf * (xr.max - xr.min)).toFixed(2),
+      y: (yr.min + yf * (yr.max - yr.min)).toFixed(2)
     };
   }
 
@@ -784,24 +817,46 @@ function enableChartZoom(chart) {
     const xs = chart.scales.x, ys = chart.scales.y;
     drag = { x0: e.clientX, y0: e.clientY, xr: xs ? range(xs) : null, yr: ys ? range(ys) : null };
     cv.style.cursor = 'grabbing';
+    tt.classList.remove('visible');
   });
 
-  window.addEventListener('mousemove', e => {
-    if (!drag) return;
-    const ca  = chart.chartArea;
-    const xs  = chart.scales.x, ys = chart.scales.y;
-    const dx  = e.clientX - drag.x0, dy = e.clientY - drag.y0;
-    if (xs && drag.xr) {
-      const s = (drag.xr.max - drag.xr.min) / (ca.right - ca.left);
-      xs.options.min = drag.xr.min - dx * s;
-      xs.options.max = drag.xr.max - dx * s;
+  cv.addEventListener('mousemove', e => {
+    const rect = cv.getBoundingClientRect();
+    const ca = chart.chartArea;
+    const px = e.clientX - rect.left;
+    const py = e.clientY - rect.top;
+    const inChart = px >= ca.left && px <= ca.right && py >= ca.top && py <= ca.bottom;
+
+    if (drag) {
+      const xs = chart.scales.x, ys = chart.scales.y;
+      const dx = e.clientX - drag.x0, dy = e.clientY - drag.y0;
+      if (xs && drag.xr) {
+        const s = (drag.xr.max - drag.xr.min) / (ca.right - ca.left);
+        xs.options.min = drag.xr.min - dx * s;
+        xs.options.max = drag.xr.max - dx * s;
+      }
+      if (ys && drag.yr) {
+        const s = (drag.yr.max - drag.yr.min) / (ca.bottom - ca.top);
+        ys.options.min = drag.yr.min + dy * s;
+        ys.options.max = drag.yr.max + dy * s;
+      }
+      chart.update('none');
+    } else if (inChart) {
+      const d = dataAt(px, py);
+      if (d) {
+        tt.textContent = `X: ${d.x}  Y: ${d.y}`;
+        tt.classList.add('visible');
+        tt.style.left = (e.clientX + 12) + 'px';
+        tt.style.top = (e.clientY - 24) + 'px';
+      }
+    } else {
+      tt.classList.remove('visible');
     }
-    if (ys && drag.yr) {
-      const s = (drag.yr.max - drag.yr.min) / (ca.bottom - ca.top);
-      ys.options.min = drag.yr.min + dy * s;
-      ys.options.max = drag.yr.max + dy * s;
-    }
-    chart.update('none');
+  });
+
+  cv.addEventListener('mouseleave', () => {
+    tt.classList.remove('visible');
+    if (!drag) cv.style.cursor = 'crosshair';
   });
 
   window.addEventListener('mouseup', () => {
