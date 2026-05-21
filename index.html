@@ -741,6 +741,8 @@ input[type="range"]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;b
 </div><!-- end deck -->
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
 <script>
 /* ════════════════════════════════════════════════════════════════
    MATH CORE
@@ -859,7 +861,8 @@ function initS2(){
     if(view==='all'||view==='chooser')ds.push({label:'Chooser',data:pts.map(s=>Math.max(Math.max(s-K,0),Math.max(K-s,0))-pCh),borderColor:'#22C55E',borderWidth:2.5,pointRadius:0,tension:.3});
     return ds;
   }
-  chartPayoff=new Chart(ctx,{type:'line',data:{labels:pts,datasets:mkDatasets('all')},options:{animation:false,plugins:{legend:{labels:{boxWidth:12,font:{size:11}}}},scales:{x:{title:{display:true,text:'S_T',font:{size:10}},ticks:{font:{family:'JetBrains Mono',size:9}},grid:{color:'rgba(255,255,255,.05)'}},y:{title:{display:true,text:'P&L ($)'},grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}},},}}});
+  chartPayoff=new Chart(ctx,{type:'line',data:{labels:pts,datasets:mkDatasets('all')},options:{animation:false,plugins:{legend:{labels:{boxWidth:12,font:{size:11}}},zoom:{zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'xy'},pan:{enabled:true,mode:'xy'}}},scales:{x:{title:{display:true,text:'S_T',font:{size:10}},ticks:{font:{family:'JetBrains Mono',size:9}},grid:{color:'rgba(255,255,255,.05)'}},y:{title:{display:true,text:'P&L ($)'},grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}},},}});
+  ctx.canvas.addEventListener('dblclick',()=>chartPayoff.resetZoom());
   window._s2Update=function(v){chartPayoff.data.datasets=mkDatasets(v);chartPayoff.update('none');};
 }
 function setPayoffView(v,btn){
@@ -882,7 +885,8 @@ const GREEK_META={
 };
 function initS3(){
   const ctx=document.getElementById('chart-greek').getContext('2d');
-  chartGreek=new Chart(ctx,{type:'line',data:{labels:[],datasets:[{label:'',data:[],borderColor:'#06B6D4',borderWidth:2.5,pointRadius:0,tension:.3,fill:false}]},options:{animation:false,plugins:{legend:{display:false}},scales:{x:{title:{display:true,text:'S₀'},grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}}}}});
+  chartGreek=new Chart(ctx,{type:'line',data:{labels:[],datasets:[{label:'',data:[],borderColor:'#06B6D4',borderWidth:2.5,pointRadius:0,tension:.3,fill:false}]},options:{animation:false,plugins:{legend:{display:false},zoom:{zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'xy'},pan:{enabled:true,mode:'xy'}}},scales:{x:{title:{display:true,text:'S₀'},grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}}}}});
+  ctx.canvas.addEventListener('dblclick',()=>chartGreek.resetZoom());
   updGreek();
 }
 function updGreek(){
@@ -952,9 +956,11 @@ let chartSimP=null,chartSimPrem=null;
 function initS5(){
   const c1=document.getElementById('chart-sim-payoff').getContext('2d');
   const c2=document.getElementById('chart-sim-premia').getContext('2d');
-  const lineOpts={animation:false,plugins:{legend:{labels:{boxWidth:10,font:{size:10}}}},scales:{x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}}}};
+  const lineOpts={animation:false,plugins:{legend:{labels:{boxWidth:10,font:{size:10}}},zoom:{zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'xy'},pan:{enabled:true,mode:'xy'}}},scales:{x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}}}};
   chartSimP=new Chart(c1,{type:'line',data:{labels:[],datasets:[{label:'Chooser',borderColor:'#06B6D4',borderWidth:2.5,pointRadius:0,data:[]},{label:'Straddle',borderColor:'#F59E0B',borderWidth:1.5,borderDash:[4,3],pointRadius:0,data:[]},{label:'Call',borderColor:'#3B82F6',borderWidth:1.5,pointRadius:0,data:[]},{label:'Put',borderColor:'#8B5CF6',borderWidth:1.5,pointRadius:0,data:[]}]},options:lineOpts});
   chartSimPrem=new Chart(c2,{type:'line',data:{labels:[],datasets:[{label:'Chooser',borderColor:'#06B6D4',borderWidth:2.5,pointRadius:0,data:[]},{label:'Straddle',borderColor:'#F59E0B',borderWidth:1.5,borderDash:[4,3],pointRadius:0,data:[]},{label:'Call',borderColor:'#3B82F6',borderWidth:1.5,pointRadius:0,data:[]},{label:'Put',borderColor:'#8B5CF6',borderWidth:1.5,pointRadius:0,data:[]}]},options:lineOpts});
+  c1.canvas.addEventListener('dblclick',()=>chartSimP.resetZoom());
+  c2.canvas.addEventListener('dblclick',()=>chartSimPrem.resetZoom());
   updSim();
 }
 function updSim(){
