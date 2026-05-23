@@ -1,1052 +1,573 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Chooser Options — Rubinstein (1991)</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"/>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-<style>
-:root{
-  --serif:"DM Serif Display",Georgia,serif;
-  --sans:"DM Sans",system-ui,sans-serif;
-  --mono:"JetBrains Mono",monospace;
-  --teal:#06B6D4; --teal-s:rgba(6,182,212,.13); --teal-d:rgba(6,182,212,.07);
-  --blue:#3B82F6; --blue-s:rgba(59,130,246,.13); --blue-d:rgba(59,130,246,.07);
-  --amber:#F59E0B; --amber-s:rgba(245,158,11,.13); --amber-d:rgba(245,158,11,.07);
-  --green:#22C55E; --red:#EF4444; --violet:#8B5CF6;
-  --ink:#e6edf3; --ink2:rgba(230,237,243,.6); --ink3:rgba(230,237,243,.32);
-  --bg:#080c12; --sur:rgba(255,255,255,.04); --sur2:rgba(255,255,255,.075);
-  --brd:rgba(255,255,255,.08); --div:rgba(255,255,255,.05);
-  --ease:cubic-bezier(.16,1,.3,1); --ease-back:cubic-bezier(.34,1.56,.64,1);
-  --r:14px; --rx:20px;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;overflow:hidden;font-family:var(--sans);-webkit-font-smoothing:antialiased;}
-body{background:#0a0d14;}
-h1,h2,h3{font-family:var(--serif);line-height:1.1;text-wrap:balance;}
-button{cursor:pointer;font:inherit;border:0;background:none;}
-
-/* ── DECK ─────────────────────────────────────────────────────────── */
-#deck{position:fixed;inset:0;overflow:hidden;}
-.slide{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;justify-content:center;
-  padding:5.5rem 6vw 5rem;
-  overflow-y:auto;opacity:0;pointer-events:none;z-index:1;
-  will-change:opacity;
-}
-.slide.active{opacity:1;pointer-events:all;z-index:10;}
-
-/* themes */
-.th-dark{background:#080c12;color:#e8e5e0;}
-.th-alt {background:#0d1117;color:#e8e5e0;}
-.th-dark::before,.th-alt::before{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.025;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:256px;
-}
-
-/* ── TOPBAR ───────────────────────────────────────────────────────── */
-#topbar{
-  position:fixed;top:0;left:0;right:0;z-index:300;height:52px;
-  display:flex;align-items:center;gap:1rem;padding:0 1.5rem;
-  background:rgba(6,9,16,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(255,255,255,.07);
-}
-#progress-bar{
-  position:absolute;bottom:0;left:0;height:2px;
-  background:linear-gradient(90deg,var(--teal),var(--blue),var(--violet));
-  background-size:200% 100%;
-  animation:progShimmer 3s linear infinite;
-  transition:width .55s var(--ease);
-  border-radius:0 2px 2px 0;
-  box-shadow:0 0 8px rgba(6,182,212,.5);
-}
-@keyframes progShimmer{0%{background-position:100% 0;}100%{background-position:-100% 0;}}
-.tb-brand{
-  font-family:var(--serif);font-size:.9rem;color:rgba(230,237,243,.5);
-  display:flex;align-items:center;gap:.55rem;flex-shrink:0;
-}
-.tb-line{width:16px;height:2px;background:var(--teal);border-radius:2px;flex-shrink:0;}
-#tb-phases{display:flex;align-items:center;gap:2px;flex:1;justify-content:center;overflow:hidden;}
-.tb-phase{
-  display:flex;align-items:center;gap:4px;padding:.22rem .55rem;border-radius:99px;
-  font-family:var(--mono);font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
-  color:rgba(230,237,243,.22);border:1px solid transparent;
-  transition:color .35s,background .35s,border-color .35s;white-space:nowrap;cursor:pointer;
-}
-.tb-phase.active{color:var(--teal);background:var(--teal-s);border-color:rgba(6,182,212,.3);}
-.tb-phase-dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.6;flex-shrink:0;}
-.tb-pills{display:flex;gap:3px;align-items:center;flex-shrink:0;}
-.tb-pill{
-  width:28px;height:6px;border-radius:3px;
-  background:rgba(255,255,255,.1);cursor:pointer;
-  transition:background .2s,width .3s var(--ease);position:relative;overflow:hidden;
-}
-.tb-pill::after{content:'';position:absolute;inset:0;background:var(--teal);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease);}
-.tb-pill.active{width:44px;}
-.tb-pill.active::after{transform:scaleX(1);}
-.tb-counter{font-family:var(--mono);font-size:.68rem;color:rgba(230,237,243,.3);min-width:2.8rem;text-align:right;flex-shrink:0;}
-
-/* ── TICKER ───────────────────────────────────────────────────────── */
-#ticker-strip{
-  position:fixed;top:52px;left:0;right:0;z-index:299;height:24px;
-  overflow:hidden;background:rgba(6,9,16,.7);backdrop-filter:blur(10px);
-  border-bottom:1px solid rgba(6,182,212,.1);display:flex;align-items:center;
-}
-.ticker-track{display:flex;gap:0;animation:tickerScroll 50s linear infinite;white-space:nowrap;}
-.ticker-item{
-  font-family:var(--mono);font-size:.58rem;font-weight:500;
-  padding:0 1.2rem;color:rgba(230,237,243,.28);
-  border-right:1px solid rgba(255,255,255,.04);
-  display:flex;align-items:center;gap:.4rem;
-}
-.t-name{color:rgba(230,237,243,.45);font-weight:700;}
-.t-up{color:#22C55E;}.t-dn{color:#EF4444;}.t-fl{color:rgba(230,237,243,.35);}
-@keyframes tickerScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-
-/* ── NAV ARROWS ───────────────────────────────────────────────────── */
-.nav-arrow{
-  position:fixed;top:50%;z-index:300;transform:translateY(-50%);
-  width:50px;height:50px;border-radius:50%;
-  background:rgba(10,14,20,.75);backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);
-  display:flex;align-items:center;justify-content:center;
-  transition:background .2s,color .2s,transform .25s var(--ease-back),box-shadow .2s;
-  box-shadow:0 4px 24px rgba(0,0,0,.4);
-}
-.nav-arrow:hover{
-  background:var(--teal);color:#fff;
-  transform:translateY(-50%) scale(1.12);
-  box-shadow:0 8px 32px rgba(6,182,212,.35);
-}
-.nav-arrow.off{opacity:0;pointer-events:none;}
-#nav-prev{left:1rem;}#nav-next{right:1rem;}
-#keyhint{
-  position:fixed;bottom:1.2rem;right:1.4rem;z-index:300;
-  font-family:var(--mono);font-size:.56rem;color:rgba(255,255,255,.15);
-  letter-spacing:.04em;display:flex;align-items:center;gap:.5rem;
-}
-.keybadge{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:19px;height:19px;border-radius:4px;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
-  font-size:.58rem;color:rgba(255,255,255,.3);
-}
-
-/* ── REVEAL ───────────────────────────────────────────────────────── */
-.reveal{opacity:0;transform:translateY(32px) scale(.97);filter:blur(4px);transition:opacity .65s var(--ease),transform .65s var(--ease),filter .5s var(--ease);}
-.slide.active .reveal{opacity:1;transform:none;filter:none;}
-.slide.active .reveal:nth-child(1){transition-delay:.05s;}
-.slide.active .reveal:nth-child(2){transition-delay:.15s;}
-.slide.active .reveal:nth-child(3){transition-delay:.27s;}
-.slide.active .reveal:nth-child(4){transition-delay:.39s;}
-.slide.active .reveal:nth-child(5){transition-delay:.51s;}
-.slide.active .reveal:nth-child(6){transition-delay:.63s;}
-.slide.active .reveal:nth-child(7){transition-delay:.74s;}
-
-/* ── INNER + GRIDS ────────────────────────────────────────────────── */
-.inner{width:100%;max-width:1100px;margin:0 auto;position:relative;z-index:1;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
-.mt3{margin-top:.75rem;}.mt4{margin-top:1rem;}.mt5{margin-top:1.25rem;}.mt6{margin-top:1.5rem;}
-
-/* ── LABELS ───────────────────────────────────────────────────────── */
-.lbl{display:inline-flex;align-items:center;gap:.4rem;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.85rem;}
-.lbl::before{content:'';width:12px;height:2px;border-radius:2px;}
-.lbl-teal{color:var(--teal);}.lbl-teal::before{background:var(--teal);}
-.lbl-blue{color:var(--blue);}.lbl-blue::before{background:var(--blue);}
-.lbl-amber{color:var(--amber);}.lbl-amber::before{background:var(--amber);}
-.lbl-dim{color:var(--ink3);}.lbl-dim::before{background:var(--ink3);}
-
-/* ── TYPOGRAPHY ───────────────────────────────────────────────────── */
-.t-xl{font-size:clamp(2.4rem,5.5vw,4.4rem);letter-spacing:-.025em;margin-bottom:1rem;}
-.t-xl em{font-style:italic;color:var(--teal);}
-.t-h{font-size:clamp(1.55rem,2.8vw,2.4rem);margin-bottom:.75rem;}
-.t-sub{font-size:clamp(.87rem,1.3vw,1.02rem);color:var(--ink2);max-width:64ch;margin-bottom:1.2rem;line-height:1.65;}
-.mono{font-family:var(--mono);font-weight:600;}
-
-/* ── CALLOUTS ─────────────────────────────────────────────────────── */
-.co{border-radius:var(--r);padding:.85rem 1.05rem;border:1px solid;display:flex;gap:.65rem;align-items:flex-start;margin-bottom:.65rem;transition:transform .2s var(--ease-back);}
-.co:hover{transform:translateX(3px);}
-.co:last-child{margin-bottom:0;}
-.co-teal{background:var(--teal-d);border-color:rgba(6,182,212,.2);}
-.co-blue{background:var(--blue-d);border-color:rgba(59,130,246,.18);}
-.co-amber{background:var(--amber-d);border-color:rgba(245,158,11,.2);}
-.co-red{background:rgba(239,68,68,.06);border-color:rgba(239,68,68,.18);}
-.co-mark{font-family:var(--mono);font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0;padding-top:.06rem;}
-.cm-teal{color:var(--teal);}.cm-blue{color:var(--blue);}.cm-amber{color:var(--amber);}.cm-red{color:var(--red);}
-.co-text{font-size:.93rem;color:var(--ink2);line-height:1.6;}
-.co-text strong{color:var(--ink);font-weight:600;}
-
-/* ── STATS ────────────────────────────────────────────────────────── */
-.stats{display:flex;gap:1px;background:var(--brd);border:1px solid var(--brd);border-radius:var(--rx);overflow:hidden;}
-.stat{flex:1;background:var(--sur);padding:1.2rem .9rem;text-align:center;transition:background .2s;}
-.stat:hover{background:var(--sur2);}
-.stat-n{font-family:var(--mono);font-size:clamp(1.3rem,2.2vw,1.9rem);font-weight:700;letter-spacing:-.01em;margin-bottom:.22rem;display:inline-block;}
-.stat-n.nt{color:var(--teal);}
-.stat-n.nb{color:var(--blue);}
-.stat-n.na{color:var(--amber);}
-.stat-n.nr{color:var(--red);}
-.stat-l{font-size:.59rem;text-transform:uppercase;letter-spacing:.09em;color:var(--ink3);}
-
-/* ── TABLE ────────────────────────────────────────────────────────── */
-.tbl-wrap{background:var(--sur);border:1px solid var(--brd);border-radius:var(--rx);overflow:hidden;}
-.tbl{width:100%;border-collapse:collapse;font-size:.88rem;}
-.tbl th{text-align:left;padding:.5rem .85rem;font-family:var(--mono);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);border-bottom:2px solid var(--brd);}
-.tbl td{padding:.6rem .85rem;border-bottom:1px solid var(--div);color:var(--ink2);vertical-align:top;line-height:1.5;transition:background .15s;}
-.tbl tr:last-child td{border-bottom:0;}
-.tbl tr:hover td{background:var(--sur2);}
-
-/* ── CHART CONTAINER ──────────────────────────────────────────────── */
-.cc{background:var(--sur);border:1px solid var(--brd);border-radius:var(--rx);padding:1.2rem 1.2rem .6rem;}
-.cc-t{font-family:var(--serif);font-size:.98rem;margin-bottom:.18rem;color:var(--ink);}
-.cc-s{font-family:var(--mono);font-size:.6rem;color:var(--ink3);margin-bottom:.65rem;opacity:.75;}
-
-/* ── TABS ─────────────────────────────────────────────────────────── */
-.tab-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.85rem;}
-.tab-btn{
-  padding:.32rem .9rem;border-radius:6px;font-family:var(--mono);font-size:.68rem;font-weight:600;
-  letter-spacing:.04em;cursor:pointer;background:var(--sur);border:1px solid var(--brd);
-  color:var(--ink3);transition:all .18s;
-}
-.tab-btn:hover{color:var(--ink);border-color:rgba(255,255,255,.18);}
-.tab-btn.active{background:var(--teal-s);border-color:rgba(6,182,212,.35);color:var(--teal);}
-.tab-btn.tab-b.active{background:var(--blue-s);border-color:rgba(59,130,246,.35);color:var(--blue);}
-.tab-btn.tab-a.active{background:var(--amber-s);border-color:rgba(245,158,11,.35);color:var(--amber);}
-
-/* ── SLIDERS ──────────────────────────────────────────────────────── */
-.sl-group{margin-bottom:.7rem;}
-.sl-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
-.sl-name{font-family:var(--mono);font-size:.67rem;color:var(--ink3);}
-.sl-val{font-family:var(--mono);font-size:.75rem;font-weight:600;color:var(--ink);min-width:48px;text-align:right;}
-input[type="range"]{width:100%;-webkit-appearance:none;appearance:none;height:3px;border-radius:2px;outline:none;cursor:pointer;background:rgba(255,255,255,.1);}
-input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--teal);cursor:pointer;box-shadow:0 0 7px rgba(6,182,212,.45);transition:transform .15s;}
-input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.25);}
-input[type="range"]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;border:none;background:var(--teal);}
-
-/* ── LESSON BLOCKS ────────────────────────────────────────────────── */
-.les{border-radius:var(--r);padding:1.1rem;background:var(--sur);border:1px solid var(--brd);position:relative;overflow:hidden;transition:background .2s,transform .22s var(--ease-back);}
-.les:hover{background:var(--sur2);transform:translateY(-3px);}
-.les::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-.les.la::before{background:var(--teal);}
-.les.lb::before{background:var(--blue);}
-.les.lc::before{background:var(--amber);}
-.les.ld::before{background:var(--violet);}
-.les-n{font-family:var(--mono);font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.04);line-height:1;margin-bottom:.5rem;}
-.les-t{font-family:var(--serif);font-size:.88rem;color:var(--ink);margin-bottom:.32rem;}
-.les-b{font-size:.85rem;color:var(--ink2);line-height:1.6;}
-
-/* ── KATEX ────────────────────────────────────────────────────────── */
-.katex-display{overflow-x:auto;overflow-y:hidden;margin:.3em 0;}
-.katex{font-size:.9em !important;}
-
-/* ══════════════════════════════════════════════════════════════════
-   SLIDE 0 — COVER
-   ══════════════════════════════════════════════════════════════════ */
-#s00{padding-top:calc(52px + 24px + 3rem);}
-#s00 canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%;}
-#s00 .inner{max-width:780px;}
-.cover-n{position:absolute;right:4vw;bottom:3rem;font-family:var(--serif);font-size:clamp(6rem,14vw,13rem);color:rgba(255,255,255,.012);line-height:1;pointer-events:none;user-select:none;}
-.cover-meta{display:flex;gap:2rem;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.07);padding-top:1.2rem;margin-top:1.6rem;}
-.cover-meta-item .ml{font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:.2rem;}
-.cover-meta-item .mv{font-family:var(--mono);font-size:.8rem;color:var(--ink2);font-weight:500;}
-.cover-authors{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:.85rem;padding-top:.85rem;border-top:1px solid rgba(255,255,255,.06);}
-.cover-author{display:flex;align-items:center;gap:.5rem;}
-.cover-author-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;animation:dotPulse 2.4s ease-in-out infinite;}
-.cover-author:nth-child(2) .cover-author-dot{animation-delay:.8s;}
-@keyframes dotPulse{0%,100%{box-shadow:0 0 0 0 rgba(6,182,212,.5);}50%{box-shadow:0 0 0 6px rgba(6,182,212,0);}}
-.cover-author-name{font-size:.8rem;color:var(--ink2);font-weight:500;}
-
-/* ══════════════════════════════════════════════════════════════════
-   SLIDE 3 — GREEKS (controls panel)
-   ══════════════════════════════════════════════════════════════════ */
-#s03-body{display:grid;grid-template-columns:260px 1fr;gap:1.5rem;align-items:start;}
-.greek-val-display{font-family:var(--mono);font-size:2.2rem;font-weight:700;color:var(--teal);margin:.5rem 0 .2rem;letter-spacing:-.02em;}
-.greek-formula{font-size:.8rem;color:var(--ink3);line-height:1.5;margin-bottom:.6rem;}
-.greek-panel{background:var(--sur);border:1px solid var(--brd);border-radius:var(--r);padding:1.1rem;}
-.greek-panel-lbl{font-family:var(--mono);font-size:.58rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.65rem;}
-
-/* ══════════════════════════════════════════════════════════════════
-   SLIDE 5 — SIMULATOR
-   ══════════════════════════════════════════════════════════════════ */
-#s05-body{display:grid;grid-template-columns:260px 1fr;gap:1.5rem;align-items:start;}
-.sim-panel{background:var(--sur);border:1px solid var(--brd);border-radius:var(--r);padding:1.1rem;}
-.sim-price{font-family:var(--mono);font-size:1.6rem;font-weight:700;color:var(--teal);margin:.55rem 0 .1rem;letter-spacing:-.01em;}
-.sim-sub{font-size:.78rem;color:var(--ink3);margin-bottom:.75rem;}
-.sim-charts{display:flex;flex-direction:column;gap:.9rem;}
-
-/* ══════════════════════════════════════════════════════════════════
-   SLIDE 4 — CASE STUDY (scenario btns)
-   ══════════════════════════════════════════════════════════════════ */
-.sc-btn{
-  padding:.4rem 1rem;border-radius:8px;font-family:var(--mono);font-size:.68rem;font-weight:600;
-  letter-spacing:.04em;cursor:pointer;background:var(--sur);border:1px solid var(--brd);
-  color:var(--ink3);transition:all .18s;
-}
-.sc-btn:hover{color:var(--ink);border-color:rgba(255,255,255,.18);}
-.sc-btn.s-up{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.3);color:var(--green);}
-.sc-btn.s-dn{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:var(--red);}
-.sc-btn.s-fl{background:var(--amber-s);border-color:rgba(245,158,11,.3);color:var(--amber);}
-.pnl-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--div);font-size:.88rem;}
-.pnl-row:last-child{border-bottom:none;}
-.pnl-lbl{color:var(--ink2);}
-.pnl-val{font-family:var(--mono);font-weight:600;}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashanti Goldfields &middot; Oro, Cobertura y Riesgo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=12">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 </head>
 <body>
 
-<!-- Topbar -->
 <div id="topbar">
-  <div id="progress-bar" style="width:12.5%"></div>
-  <div class="tb-brand"><div class="tb-line"></div>Chooser Options &middot; Derivados</div>
+  <div id="progress-bar" style="width:10%"></div>
+  <div class="tb-brand"><div class="tb-line"></div>Caso Ashanti &middot; Derivados</div>
   <div id="tb-phases"></div>
   <div class="tb-pills" id="tb-pills"></div>
-  <div class="tb-counter" id="tb-cnt">01 / 08</div>
+  <div class="tb-counter" id="tb-cnt">01 / 13</div>
+  <button id="fs-btn" title="Pantalla completa (F)" aria-label="Pantalla completa" style="margin-left:.5rem;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(240,236,224,.5);transition:background .2s,color .2s;flex-shrink:0;">
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 5V2h3M10 2h3v3M13 10v3h-3M5 13H2v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
 </div>
 
-<!-- Ticker -->
 <div id="ticker-strip"><div class="ticker-track" id="ticker-track"></div></div>
 
-<!-- Nav arrows -->
-<button class="nav-arrow off" id="nav-prev" aria-label="Anterior">
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 5L8 10l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</button>
-<button class="nav-arrow" id="nav-next" aria-label="Siguiente">
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</button>
-<div id="keyhint"><div class="keybadge">&#8592;</div><div class="keybadge">&#8594;</div><span>flechas</span></div>
+<button class="nav-arrow off" id="nav-prev" aria-label="Anterior"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M13 5L8 10l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button class="nav-arrow" id="nav-next" aria-label="Siguiente"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<div id="keyhint"><div class="keybadge">&#8592;</div><div class="keybadge">&#8594;</div><span>flechas &middot; F = pantalla completa</span></div>
 
 <div id="deck">
 
-<!-- ══════════════════════════════════════════════════════════════
-     00  PORTADA
-     ══════════════════════════════════════════════════════════════ -->
-<section class="slide th-dark active" data-i="0" id="s00">
-  <canvas id="cover-canvas"></canvas>
+<!-- ============================================================
+     01  PORTADA  (posición 0)
+     ============================================================ -->
+<section class="slide th-dark active" data-i="0">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
+  <canvas id="liquid-canvas"></canvas>
+  <div class="cover-bg"></div>
   <div class="inner">
-    <div class="lbl lbl-teal reveal">Derivados Exóticos &middot; Finanzas Cuantitativas</div>
-    <h1 class="t-xl reveal">
-      <em>Chooser</em><br/>Options
-    </h1>
-    <p class="t-sub reveal" style="max-width:54ch;">
-      Paga una prima hoy. En la fecha <em style="color:#e6edf3;font-style:normal;">t<sub>c</sub></em>,
-      cuando ya sabes hacia dónde fue el mercado, eliges si quieres
-      una <em style="color:#e6edf3;font-style:normal;">call</em> o una <em style="color:#e6edf3;font-style:normal;">put</em>.
-    </p>
-    <div class="reveal" style="margin-top:1.4rem;font-size:clamp(.9rem,1.1vw,1.05rem);color:var(--ink2);line-height:1.65;max-width:50ch;border-left:2px solid rgba(6,182,212,.3);padding-left:1rem;">
-      \[V_0 = C_{BS}(S,K,T,r,q,\sigma) + P_{BS}(S,K^*,t_c,r,q,\sigma)\]
-      <span style="font-size:.75rem;color:var(--ink3);">Rubinstein (1991) &mdash; solución cerrada bajo Black-Scholes</span>
-    </div>
+    <div class="lbl lbl-gold reveal">Clase de Derivados Financieros &middot; Caso de Estudio &middot; 1999</div>
+    <h1 class="t-xl reveal" style="color:#f0ece0;">Oro, cobertura<br>y <em>riesgo extremo</em></h1>
+    <p class="t-sub reveal" style="color:rgba(240,236,224,.42);max-width:52ch;">Una de las principales mineras de oro de &Aacute;frica estuvo al borde de un default en 1999. No por falta de reservas &mdash; sino por su propia estrategia de cobertura con derivados.</p>
     <div class="cover-meta reveal">
-      <div class="cover-meta-item"><div class="ml">Tipo</div><div class="mv">Opción exótica plain</div></div>
-      <div class="cover-meta-item"><div class="ml">Chooser date</div><div class="mv">t<sub>c</sub> &lt; T</div></div>
-      <div class="cover-meta-item"><div class="ml">Payoff</div><div class="mv">max(C, P)</div></div>
-      <div class="cover-meta-item"><div class="ml">vs Straddle</div><div class="mv">Prima −14%</div></div>
+      <div class="cover-meta-item"><div class="ml">Empresa</div><div class="mv">Ashanti Goldfields Co.</div></div>
+      <div class="cover-meta-item"><div class="ml">Pa&iacute;s</div><div class="mv">Ghana &middot; Londres &middot; NY</div></div>
+      <div class="cover-meta-item"><div class="ml">Evento cr&iacute;tico</div><div class="mv">26 sep 1999 &mdash; WAG</div></div>
+      <div class="cover-meta-item"><div class="ml">P&eacute;rdida MTM</div><div class="mv" style="color:#c06060;">~USD 570 M</div></div>
     </div>
     <div class="cover-authors reveal">
-      <div class="cover-author"><div class="cover-author-dot"></div><div class="cover-author-name">Ana Sofía Rojas Valderrama</div></div>
-      <div class="cover-author"><div class="cover-author-dot"></div><div class="cover-author-name">Juan Felipe Barriga Beltrán</div></div>
+      <div class="cover-author"><div class="cover-author-dot"></div><div class="cover-author-name">Ana Sof&iacute;a Rojas Valderrama</div></div>
+      <div class="cover-author"><div class="cover-author-dot"></div><div class="cover-author-name">Juan Felipe Barriga Beltr&aacute;n</div></div>
     </div>
-    <div class="cover-n">00</div>
   </div>
+  <div class="cover-n">01</div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════════
-     01  DEFINICIÓN + EJEMPLO NUMÉRICO
-     ══════════════════════════════════════════════════════════════ -->
-<section class="slide th-alt" data-i="1" id="s01">
+<!-- ============================================================
+     02  ASHANTI GOLDFIELDS — perfil de la empresa  (posición 1)
+     ============================================================ -->
+<section class="slide th-alt" data-i="1">
   <div class="slide-img">
-    <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1920&q=50" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
-    <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,12,18,.92) 0%,rgba(13,17,23,.80) 100%);"></div>
+    <img src="https://images.unsplash.com/photo-1579621970795-87facc2f976d?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
   </div>
   <div class="inner">
-    <div class="lbl lbl-teal reveal">Fundamentos</div>
-    <h2 class="t-h reveal">¿Qué es una Chooser Option?</h2>
+    <div class="lbl lbl-gold reveal">La empresa</div>
+    <h2 class="t-h reveal">Ashanti Goldfields Co.</h2>
     <div class="g2 mt5">
-      <div>
-        <div class="reveal">
-          <div class="co co-teal">
-            <div class="co-mark cm-teal">Definición</div>
-            <div class="co-text">
-              Otorga el derecho de designar, en o antes de <strong>t<sub>c</sub></strong>,
-              si el instrumento actuará como <strong>call</strong> o <strong>put</strong> europea
-              — mismo strike K y vencimiento T.
-            </div>
-          </div>
-          <div class="co co-blue" style="margin-top:.65rem;">
-            <div class="co-mark cm-blue">Valor en t<sub>c</sub></div>
-            <div class="co-text">\(V_{t_c} = \max\!\bigl(C(S,K,T{-}t_c),\; P(S,K,T{-}t_c)\bigr)\)</div>
-          </div>
+      <div class="reveal">
+        <div class="stats">
+          <div class="stat"><div class="stat-n ng">1897</div><div class="stat-l">Fundada en Ghana</div></div>
+          <div class="stat"><div class="stat-n nb">~1.6M</div><div class="stat-l">Oz producidas / a&ntilde;o</div></div>
+          <div class="stat"><div class="stat-n nr">~26M</div><div class="stat-l">Oz en reservas</div></div>
         </div>
-        <div class="reveal mt5">
-          <div style="font-family:var(--mono);font-size:.58rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.65rem;">Solución cerrada — 3 pasos</div>
-          <div class="tbl-wrap">
-            <table class="tbl">
-              <tr><td style="color:var(--teal);font-family:var(--mono);font-size:.7rem;width:28px;">①</td><td><strong>Álgebra:</strong> \(\max(C,P) = C + \max(P-C,0)\)</td></tr>
-              <tr><td style="color:var(--teal);font-family:var(--mono);font-size:.7rem;">②</td><td><strong>Paridad:</strong> \(P - C = Ke^{-r(T-t_c)} - Se^{-q(T-t_c)}\)</td></tr>
-              <tr><td style="color:var(--teal);font-family:var(--mono);font-size:.7rem;">③</td><td><strong>Resultado:</strong> put con \(K^* = Ke^{-(r-q)(T-t_c)}\), madurez \(t_c\)</td></tr>
-            </table>
-          </div>
-        </div>
-        <div class="co co-amber mt4 reveal">
-          <div class="co-mark cm-amber">Fórmula</div>
-          <div class="co-text">\(V_0 = C_{\!BS}(K,T) + P_{\!BS}(K^*,t_c)\)</div>
-        </div>
-      </div>
-      <div>
-        <div class="reveal">
-          <div style="font-family:var(--mono);font-size:.58rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.65rem;">Ejemplo numérico</div>
-          <div class="stats">
-            <div class="stat"><div class="stat-n nt">$100</div><div class="stat-l">S₀ = K (ATM)</div></div>
-            <div class="stat"><div class="stat-n nb">25%</div><div class="stat-l">σ anual</div></div>
-            <div class="stat"><div class="stat-n na">0.5y</div><div class="stat-l">t<sub>c</sub> (6 meses)</div></div>
-            <div class="stat"><div class="stat-n">5%</div><div class="stat-l">r libre riesgo</div></div>
-          </div>
-        </div>
-        <div class="tbl-wrap mt4 reveal">
-          <table class="tbl">
-            <thead><tr><th>Instrumento</th><th>Precio</th><th>Nota</th></tr></thead>
-            <tbody>
-              <tr><td style="color:#a8d8e8;">Call europea (T=1y)</td><td class="mono">$12.34</td><td style="color:var(--ink3);">pierna larga</td></tr>
-              <tr><td style="color:#c8b8f8;">Put europea (T=1y)</td><td class="mono">$7.45</td><td style="color:var(--ink3);">pierna corta</td></tr>
-              <tr><td style="color:var(--amber);">Straddle C + P</td><td class="mono">$19.79</td><td style="color:var(--amber);">referencia</td></tr>
-              <tr style="background:rgba(6,182,212,.05);">
-                <td style="color:var(--teal);font-weight:700;">Chooser</td>
-                <td class="mono" style="color:var(--teal);font-size:1rem;font-weight:700;">$17.02</td>
-                <td style="color:var(--green);font-weight:700;">−14% vs straddle</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="co co-teal mt4 reveal">
-          <div class="co-mark cm-teal">K*</div>
-          <div class="co-text">
-            \(K^* = 100\cdot e^{-0.05\times0.5} = \$97.53\)<br/>
-            <span style="color:var(--ink3);font-size:.82rem;">Put<sub>BSM</sub>(K*=97.53, t<sub>c</sub>=0.5y) = <strong style="color:var(--ink);">$4.68</strong></span>
-          </div>
-        </div>
-        <div class="co co-blue reveal">
-          <div class="co-mark cm-blue">Cota ✓</div>
-          <div class="co-text">\(12.34 \leq 17.02 \leq 19.79\) — se cumple</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════
-     02  COMPARACIÓN DE PAYOFFS
-     ══════════════════════════════════════════════════════════════ -->
-<section class="slide th-dark" data-i="2" id="s02">
-  <div class="inner">
-    <div class="lbl lbl-blue reveal">Comparación visual</div>
-    <h2 class="t-h reveal">Chooser vs Call / Put / Straddle</h2>
-    <div class="g2 mt4">
-      <div>
-        <div class="cc reveal" style="padding-bottom:.4rem;">
-          <div class="cc-t">Payoff al vencimiento</div>
-          <div class="cc-s">USD · vs precio spot final S<sub>T</sub> · K=100, prima incluida</div>
-          <div class="tab-row" style="margin-bottom:.6rem;">
-            <button class="tab-btn active" onclick="setPayoffView('all',this)">Todos</button>
-            <button class="tab-btn" onclick="setPayoffView('call',this)">Call</button>
-            <button class="tab-btn" onclick="setPayoffView('put',this)">Put</button>
-            <button class="tab-btn" onclick="setPayoffView('chooser',this)">Chooser</button>
-          </div>
-          <canvas id="chart-payoff" height="230"></canvas>
-        </div>
-      </div>
-      <div>
-        <div class="reveal">
-          <div class="stats">
-            <div class="stat"><div class="stat-n nt">$17.02</div><div class="stat-l">Prima chooser</div></div>
-            <div class="stat"><div class="stat-n na">$19.79</div><div class="stat-l">Prima straddle</div></div>
-            <div class="stat"><div class="stat-n nb">−14%</div><div class="stat-l">Ahorro</div></div>
-          </div>
-        </div>
-        <div class="co co-teal mt4 reveal">
-          <div class="co-mark cm-teal">Ventaja</div>
-          <div class="co-text">La chooser domina tanto call como put individualmente para cualquier S<sub>T</sub>, al costo de una prima moderada.</div>
-        </div>
-        <div class="co co-blue reveal">
-          <div class="co-mark cm-blue">vs Straddle</div>
-          <div class="co-text">El straddle es siempre ≥ chooser en payoff solo si S<sub>T</sub> se aleja mucho del strike. Para movimientos moderados, la chooser es más eficiente.</div>
-        </div>
-        <div class="co co-amber reveal">
-          <div class="co-mark cm-amber">Breakeven</div>
-          <div class="co-text">Call: S<sub>T</sub> &gt; 112.34 · Put: S<sub>T</sub> &lt; 87.66 · Chooser: aproximadamente mismo rango pero con prima menor.</div>
-        </div>
-        <div class="co co-red reveal">
-          <div class="co-mark cm-red">Costo de oportunidad</div>
-          <div class="co-text">Si en t<sub>c</sub> ambas legs valen lo mismo (cerca del strike), la chooser equivale al straddle — y su ventaja de precio desaparece.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════
-     03  GREEKS INTERACTIVOS
-     ══════════════════════════════════════════════════════════════ -->
-<section class="slide th-alt" data-i="3" id="s03">
-  <div class="inner">
-    <div class="lbl lbl-teal reveal">Sensibilidades</div>
-    <h2 class="t-h reveal">Greeks de la Chooser Option</h2>
-    <div class="tab-row reveal">
-      <button class="tab-btn active" onclick="setGreek('delta',this)">Δ Delta</button>
-      <button class="tab-btn tab-b" onclick="setGreek('gamma',this)">Γ Gamma</button>
-      <button class="tab-btn tab-a" onclick="setGreek('vega',this)">ν Vega</button>
-      <button class="tab-btn" onclick="setGreek('theta',this)">Θ Theta</button>
-    </div>
-    <div id="s03-body">
-      <div class="greek-panel reveal">
-        <div class="greek-panel-lbl">Parámetros</div>
-        <div class="sl-group"><div class="sl-hdr"><span class="sl-name">S₀</span><span class="sl-val" id="gv-s">100</span></div><input type="range" min="60" max="160" value="100" oninput="updGreek()" id="g-s"/></div>
-        <div class="sl-group"><div class="sl-hdr"><span class="sl-name">σ (vol)</span><span class="sl-val" id="gv-sig">25%</span></div><input type="range" min="5" max="80" value="25" oninput="updGreek()" id="g-sig"/></div>
-        <div class="sl-group"><div class="sl-hdr"><span class="sl-name">T (años)</span><span class="sl-val" id="gv-T">1.0</span></div><input type="range" min="10" max="300" value="100" oninput="updGreek()" id="g-T"/></div>
-        <div class="sl-group"><div class="sl-hdr"><span class="sl-name">t<sub>c</sub> / T</span><span class="sl-val" id="gv-tc">50%</span></div><input type="range" min="5" max="95" value="50" oninput="updGreek()" id="g-tc"/></div>
-        <div style="border-top:1px solid var(--div);margin-top:.6rem;padding-top:.6rem;">
-          <div class="greek-panel-lbl" id="greek-name-lbl">Δ Delta actual</div>
-          <div class="greek-val-display" id="greek-val-num">0.000</div>
-          <div class="greek-formula" id="greek-formula-txt">e<sup>−qT</sup>N(d₁) − e<sup>−qt<sub>c</sub></sup>N(−x)</div>
-        </div>
+        <div class="co co-gold mt4"><div class="co-mark cm-gold">ORIGEN</div><div class="co-text">Fundada en Ghana en 1897. Una de las primeras empresas africanas listadas en NYSE (1996).</div></div>
+        <div class="co co-blue mt3"><div class="co-mark cm-blue">POSICI&Oacute;N</div><div class="co-text">Una de las principales mineras de oro de &Aacute;frica. Operaciones en Ghana, Guinea, Zimbabwe y Tanzania.</div></div>
       </div>
       <div class="reveal">
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1524673360337-be3cd5cd7789?auto=format&fit=crop&w=700&q=72" alt="Mina de oro Obuasi Ghana" loading="lazy" onerror="this.parentNode.style.display='none'">
+          <span class="img-panel-tag">Obuasi Gold Mine &middot; Ghana</span>
+        </div>
+        <div class="co co-red"><div class="co-mark cm-red">EL PROBLEMA</div><div class="co-text">El hedge book acumulaba posiciones equivalentes a <strong>m&aacute;s de 6 a&ntilde;os de producci&oacute;n</strong>. Un movimiento brusco generaba margin calls que la caja no pod&iacute;a cubrir.</div></div>
+        <div class="tbl-wrap mt4"><table class="tbl"><thead><tr><th>Indicador</th><th>Valor estimado (1999)</th></tr></thead><tbody>
+          <tr><td>Producci&oacute;n anual</td><td class="mono">~1.6M oz</td></tr>
+          <tr><td>Reservas probadas</td><td class="mono">~26M oz</td></tr>
+          <tr><td>Oz cubiertas en forwards</td><td class="mono">~10M oz</td></tr>
+          <tr><td>A&ntilde;os de producci&oacute;n cubiertos</td><td class="mono" style="color:#8b2020;">&gt;6 a&ntilde;os</td></tr>
+          <tr><td>P&eacute;rdida MTM post-WAG</td><td class="mono" style="color:#8b2020;">~$570M</td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03  MERCADO DEL ORO — contexto histórico 1975–2005  (posición 2)
+     ============================================================ -->
+<section class="slide th-light" data-i="2">
+  <div class="inner">
+    <div class="lbl lbl-gold reveal">Contexto &middot; 1975&ndash;2005</div>
+    <h2 class="t-h reveal">Veinte a&ntilde;os de ca&iacute;da en el precio del oro</h2>
+    <div class="g2 mt5">
+      <div class="reveal">
         <div class="cc">
-          <div class="cc-t" id="greek-chart-title">Delta vs Precio Spot</div>
-          <div class="cc-s">K=100 · parámetros del panel izquierdo</div>
-          <canvas id="chart-greek" height="280"></canvas>
+          <div class="cc-t">Precio del oro 1975&ndash;2005</div>
+          <div class="cc-s">USD / onza troy &middot; fuente: LBMA historical fix</div>
+          <div id="ch1" style="height:220px;"></div>
         </div>
+        <div class="co co-blue mt3"><div class="co-mark cm-blue">L&Oacute;GICA DEL HEDGE</div><div class="co-text">Con precios cayendo durante dos d&eacute;cadas, asegurar un precio de venta futuro parec&iacute;a prudente. La pregunta era cu&aacute;nto cubrir &mdash; y Ashanti cubri&oacute; demasiado.</div></div>
+      </div>
+      <div class="reveal">
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=700&q=72" alt="Mercado de oro" loading="lazy" onerror="this.parentNode.style.display='none'">
+          <span class="img-panel-tag">London Gold Fix &middot; LBMA</span>
+        </div>
+        <div class="stats mt3">
+          <div class="stat"><div class="stat-n ng">$850</div><div class="stat-l">M&aacute;ximo &middot; enero 1980</div></div>
+          <div class="stat"><div class="stat-n nr">$256</div><div class="stat-l">M&iacute;nimo &middot; agosto 1999</div></div>
+          <div class="stat"><div class="stat-n nb">&minus;70%</div><div class="stat-l">Ca&iacute;da acumulada</div></div>
+        </div>
+        <div class="co co-gold mt4"><div class="co-mark cm-gold">CONTEXTO</div><div class="co-text">En 1999 el oro llevaba casi 20 a&ntilde;os en tendencia bajista. Era razonable pensar que el precio seguir&iacute;a bajo.</div></div>
+        <div class="co co-red mt3"><div class="co-mark cm-red">TRAMPA</div><div class="co-text">Esa tendencia llev&oacute; a Ashanti a cubrir <strong>demasiado volumen por demasiado tiempo</strong>. Cuando el mercado gir&oacute;, el hedge se convirti&oacute; en el problema.</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════════
-     04  CASO DE ESTUDIO — FED DECISION TRADE
-     ══════════════════════════════════════════════════════════════ -->
-<section class="slide th-dark" data-i="4" id="s04">
+<!-- ============================================================
+     04  INSTRUMENTOS — cuatro componentes del hedge book  (posición 3)
+     ============================================================ -->
+<section class="slide th-light" data-i="3">
   <div class="slide-img">
-    <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1920&q=50" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
-    <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,12,18,.93) 0%,rgba(13,17,23,.82) 100%);"></div>
+    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
   </div>
   <div class="inner">
-    <div class="lbl lbl-amber reveal">Caso práctico</div>
-    <h2 class="t-h reveal">Fed Decision Trade — Semana FOMC</h2>
-    <div class="g2 mt4">
-      <div>
-        <div class="reveal">
-          <div class="stats">
-            <div class="stat"><div class="stat-n na">18%</div><div class="stat-l">IV implícita SPX</div></div>
-            <div class="stat"><div class="stat-n nt">5 días</div><div class="stat-l">A decisión Fed</div></div>
-            <div class="stat"><div class="stat-n nb">$13.60</div><div class="stat-l">Prima chooser</div></div>
+    <div class="lbl lbl-blue reveal">Instrumentos derivados</div>
+    <h2 class="t-h reveal">El hedge book: cuatro componentes</h2>
+    <div class="tbl-wrap mt5 reveal"><table class="tbl">
+      <thead><tr><th>Instrumento</th><th>C&oacute;mo funciona</th><th>Supuesto impl&iacute;cito</th><th>Riesgo ignorado</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tg">Forward vendido</span><br>Venta adelantada</td><td>Vende oro hoy a precio pactado para entrega futura.</td><td>El spot se mantendr&iacute;a bajo o igual.</td><td>Si sube, la p&eacute;rdida MTM exige colateral inmediato.</td></tr>
+        <tr><td><span class="tag tb">Put comprada</span><br>Protecci&oacute;n bajista</td><td>Derecho a vender oro a precio fijo si el mercado cae.</td><td>El precio pod&iacute;a caer.</td><td>El volumen de calls vendidas era ~2.5&times; mayor. La cobertura era insuficiente.</td></tr>
+        <tr><td><span class="tag tr">Call vendida</span><br>Venta de opci&oacute;n de compra</td><td>Cobra prima otorgando al comprador el derecho de comprar oro a precio fijo.</td><td>El precio no subir&iacute;a m&aacute;s all&aacute; del strike.</td><td>Si el precio sube, las p&eacute;rdidas crecen por encima del strike. El volumen vendido era ~2.5&times; el de puts compradas.</td></tr>
+        <tr><td><span class="tag tg">Pr&eacute;stamo de oro</span><br>Gold leasing</td><td>Tom&oacute; oro prestado a ~1&ndash;2% anual y lo vendi&oacute; en spot.</td><td>El precio seguir&iacute;a bajo para poder devolver.</td><td>Si sube, comprar en mercado para devolver = p&eacute;rdida.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="co co-red mt5 reveal"><div class="co-mark cm-red">RIESGO CONCENTRADO</div><div class="co-text">Los cuatro instrumentos compart&iacute;an el mismo supuesto: <strong>el oro seguir&iacute;a bajo</strong>. Cuando el precio subi&oacute;, los cuatro generaron p&eacute;rdidas al mismo tiempo.</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05  SIMULADOR MTM — interactivo  (posición 4)
+     ============================================================ -->
+<section class="slide th-light" data-i="4">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1589758438368-0ad531db3366?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
+  <div class="inner">
+    <div class="lbl lbl-red reveal">Simulador interactivo &mdash; <span style="font-weight:400;color:#a09e96;">valores ilustrativos basados en la estructura del hedge book</span></div>
+    <h2 class="t-h reveal">&iquest;Cu&aacute;nto pierde Ashanti si el oro sube?</h2>
+    <p class="t-sub reveal">Mueve el slider. Observa el MTM combinado de <strong>forwards + opciones</strong>, el colateral exigido y el desglose por instrumento.</p>
+    <div class="mtm-sim reveal mt4">
+      <div class="mtm-top">
+        <div class="mtm-controls">
+          <div class="mtm-lbl">Precio spot del oro</div>
+          <div class="mtm-price" id="mtm-price">$256/oz</div>
+          <input type="range" class="mtm-slider" id="mtm-slider" min="200" max="500" value="256" step="1">
+          <div class="mtm-range"><span>$200</span><span>Forward $300</span><span>$500</span></div>
+          <div class="mtm-lbl" style="margin-top:.2rem;">Presets r&aacute;pidos</div>
+          <div class="mtm-presets">
+            <button class="mtm-btn" onclick="setSpot(256)">Pre-WAG $256</button>
+            <button class="mtm-btn" onclick="setSpot(300)">Forward $300</button>
+            <button class="mtm-btn" onclick="setSpot(338)">Crisis real $338</button>
+            <button class="mtm-btn" onclick="setSpot(420)">Extremo $420</button>
           </div>
         </div>
-        <div style="margin-top:1rem;" class="reveal">
-          <div style="font-family:var(--mono);font-size:.58rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.6rem;">Elegir escenario</div>
-          <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-            <button class="sc-btn s-dn active" id="sc-hawk" onclick="setScenario('hawk')">Hawkish −50bp</button>
-            <button class="sc-btn s-up" id="sc-dove" onclick="setScenario('dove')">Dovish +50bp</button>
-            <button class="sc-btn s-fl" id="sc-flat" onclick="setScenario('flat')">Sin cambio</button>
+        <div class="mtm-result">
+          <div class="mtm-metric">
+            <div class="mtm-metric-lbl">P&eacute;rdida / Ganancia MTM <span style="opacity:.5;font-size:.9em;">(hedge book total)</span></div>
+            <div class="mtm-metric-val" id="mtm-val">+$440M</div>
+            <div class="mtm-bar-wrap"><div class="mtm-bar-fill" id="mtm-bar" style="width:60%;background:#5fa87a;"></div></div>
           </div>
-        </div>
-        <div class="tbl-wrap mt4 reveal">
-          <table class="tbl" id="pnl-table">
-            <thead><tr><th>Componente</th><th>Valor</th></tr></thead>
-            <tbody>
-              <tr><td class="pnl-lbl">Prima pagada</td><td class="pnl-val mono" id="pnl-prima">−$13.60</td></tr>
-              <tr><td class="pnl-lbl">S<sub>T</sub> estimado</td><td class="pnl-val mono" id="pnl-st">$4,750 (−5%)</td></tr>
-              <tr><td class="pnl-lbl">Opción elegida en t<sub>c</sub></td><td class="pnl-val mono" id="pnl-choice">Put</td></tr>
-              <tr><td class="pnl-lbl">Valor en expiración</td><td class="pnl-val mono" id="pnl-expiry">+$36.40</td></tr>
-              <tr style="background:rgba(6,182,212,.05);"><td style="font-weight:700;color:var(--ink);">P&amp;L neto</td><td class="pnl-val mono" id="pnl-net" style="color:var(--green);font-size:1rem;">+$22.80</td></tr>
-            </tbody>
-          </table>
+          <div class="mtm-breakdown" id="mtm-breakdown">
+            <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#1565a0;">&#9632; Forward (10M oz @ $300)</span><span class="mtm-b-val" id="bd-fwd">+$440M</span></div>
+            <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#2a7a4a;">&#9632; Put comprada (2M oz @ $280)</span><span class="mtm-b-val" id="bd-pc">&minus;$16M</span></div>
+            <div class="mtm-brow"><span class="mtm-b-lbl" style="color:#c06060;">&#9632; Call vendida (5M oz @ $300)</span><span class="mtm-b-val" id="bd-pv">+$60M</span></div>
+          </div>
+          <div class="mtm-metric" style="margin-top:.5rem;"><div class="mtm-metric-lbl">Colateral estimado exigido</div><div class="mtm-metric-val" id="mtm-col">$0</div></div>
+          <div class="mtm-badge" id="mtm-badge" style="background:#e8f5ee;color:#2a7a4a;">Cobertura OK &mdash; operando bien</div>
         </div>
       </div>
-      <div>
-        <div class="co co-teal reveal">
-          <div class="co-mark cm-teal">Setup</div>
-          <div class="co-text">Hedge fund compra chooser sobre SPX 7 días antes del FOMC. Strike ATM ≈ $5,000. t<sub>c</sub> = día de la decisión Fed. T = 30 días post-FOMC.</div>
+      <div class="mtm-note" id="mtm-note">Con el oro a <strong>$256/oz</strong>, el spot est&aacute; por debajo del forward ($300). El hedge genera valor positivo. Sin margin calls.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     06  PERFIL DE RIESGO — payoff interactivo  (posición 5)
+     ============================================================ -->
+<section class="slide th-alt" data-i="5">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
+  <div class="inner">
+    <div class="lbl lbl-blue reveal">Perfil de riesgo del hedge book</div>
+    <h2 class="t-h reveal">Explora cada instrumento</h2>
+    <div class="pf-tabs reveal" id="pf-tabs">
+      <button class="pf-tab active" data-pf="all"><span class="pf-tab-dot" style="background:#1a1a2e;"></span>Vista general</button>
+      <button class="pf-tab" data-pf="fwd"><span class="pf-tab-dot" style="background:#1565a0;"></span>Forward vendido</button>
+      <button class="pf-tab" data-pf="pc"><span class="pf-tab-dot" style="background:#2a7a4a;"></span>Put comprada</button>
+      <button class="pf-tab" data-pf="cv"><span class="pf-tab-dot" style="background:#c06060;"></span>Call vendida</button>
+    </div>
+    <div class="pf-body reveal">
+      <div class="cc pf-chart-wrap">
+        <div class="cc-t" id="pf-chart-title">Payoff combinado &mdash; Ashanti 1999</div>
+        <div class="cc-s" id="pf-chart-sub">USD millones &middot; vs precio spot del oro ($/oz) &middot; <em>valores ilustrativos basados en estructura real</em></div>
+        <div id="ch-payoff" style="height:260px;"></div>
+      </div>
+      <div class="pf-info" id="pf-info"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     07  EVENTO DETONANTE: ACUERDO DE WASHINGTON (WAG)  (posición 6)
+     ============================================================ -->
+<section class="slide th-light" data-i="6">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
+  <div class="inner">
+    <div class="lbl lbl-red reveal">Evento detonante &middot; 26 septiembre 1999</div>
+    <h2 class="t-h reveal">El Acuerdo de Washington</h2>
+    <div class="g2 mt5">
+      <div class="reveal">
+        <div class="cc">
+          <div class="cc-t">Oro spot &mdash; 1999 al 2000</div>
+          <div class="cc-s">USD / oz &middot; zona roja = ventana de crisis</div>
+          <div id="ch2" style="height:220px;"></div>
         </div>
-        <div class="co co-blue reveal">
-          <div class="co-mark cm-blue">Lógica</div>
-          <div class="co-text">La IV está comprimida antes del evento. La chooser captura el movimiento post-anuncio sin comprometerse con una dirección previa.</div>
+        <div class="co co-red mt3"><div class="co-mark cm-red">EL SHOCK</div><div class="co-text">El acuerdo se anunci&oacute; el 26 de septiembre de 1999 sin previo aviso, durante la reuni&oacute;n anual del FMI en Washington. El mercado estaba fuertemente corto en oro; la reacci&oacute;n fue inmediata y violenta.</div></div>
+      </div>
+      <div class="reveal">
+        <div class="img-panel">
+          <img src="https://images.unsplash.com/photo-1605792657660-596af9009e82?auto=format&fit=crop&w=700&q=72" alt="Reservas de oro bancos centrales" loading="lazy" onerror="this.parentNode.style.display='none'">
+          <span class="img-panel-tag">Reservas de oro &middot; Bancos Centrales Europeos</span>
         </div>
-        <div class="co co-amber reveal">
-          <div class="co-mark cm-amber">Ventaja clave</div>
-          <div class="co-text">El straddle equivalente costaría ~$19.79. La chooser cuesta $13.60. El ahorro en prima mejora el ratio retorno/riesgo.</div>
+        <div class="stats">
+          <div class="stat"><div class="stat-n ng">+32%</div><div class="stat-l">Alza en ~2 semanas</div></div>
+          <div class="stat"><div class="stat-n nr">~$570M</div><div class="stat-l">P&eacute;rdida MTM Ashanti</div></div>
+          <div class="stat"><div class="stat-n nb">15</div><div class="stat-l">B.C. europeos firmantes</div></div>
         </div>
-        <div class="co co-red reveal" id="sc-note">
-          <div class="co-mark cm-red">Hawkish</div>
-          <div class="co-text" id="sc-desc">Fed sube 50bp. Mercado cae ~5%. En t<sub>c</sub> elegimos <strong>put</strong>. Payoff neto positivo a pesar de la prima.</div>
-        </div>
+        <div class="co co-blue mt4"><div class="co-mark cm-blue">QU&Eacute; FUE</div><div class="co-text">15 bancos centrales europeos acordaron limitar sus ventas de oro por 5 a&ntilde;os. El mercado tem&iacute;a ventas masivas de reservas oficiales.</div></div>
+        <div class="co co-gold mt3"><div class="co-mark cm-gold">POR QU&Eacute; SUBI&Oacute;</div><div class="co-text">Esa amenaza de ventas era lo que manten&iacute;a el precio bajo. Al desaparecer, el oro subi&oacute; aproximadamente un 32% en alrededor de dos semanas.</div></div>
+        <div class="co co-red mt3"><div class="co-mark cm-red">IMPACTO</div><div class="co-text">Ashanti ten&iacute;a contratos a ~$300/oz. Con el precio en ~$338, el hedge book registr&oacute; p&eacute;rdidas contables de aproximadamente $570M.</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════════
-     05  SIMULADOR MTM
-     ══════════════════════════════════════════════════════════════ -->
-<section class="slide th-alt" data-i="5" id="s05">
+<!-- ============================================================
+     08  ANATOMÍA DEL DERIVADO — flujos entre tres actores  (posición 7)
+     ============================================================ -->
+<section class="slide th-alt" data-i="7">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
-    <div class="lbl lbl-teal reveal">Simulador interactivo</div>
-    <h2 class="t-h reveal">Valuación MTM — Rubinstein (1991)</h2>
-    <div id="s05-body" style="margin-top:1rem;">
-      <div class="sim-panel reveal">
-        <div style="font-family:var(--mono);font-size:.58rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem;">Parámetros</div>
-        <div class="sl-group"><div class="sl-hdr"><span class="sl-name">S₀</span><span class="sl-val" id="sv-s">100</span></div><input type="range" min="50" max="200" value="100" oninput="updSim()" id="s-s"/></div>
-        <div class="sl-group"><div class="sl-hdr"><span class="sl-name">K</span><span class="sl-val" id="sv-k">100</span></div><input type="range" min="50" max="200" value="100" oninput="updSim()" id="s-k"/></div>
-        <div class="sl-group"><div class="sl-hdr"><span class="sl-name">T (años)</span><span class="sl-val" id="sv-T">1.0</span></div><input type="range" min="10" max="300" value="100" oninput="updSim()" id="s-T"/></div>
-        <div class="sl-group"><div class="sl-hdr"><span class="sl-name">t<sub>c</sub> / T</span><span class="sl-val" id="sv-tc">50%</span></div><input type="range" min="5" max="95" value="50" oninput="updSim()" id="s-tc"/></div>
-        <div class="sl-group"><div class="sl-hdr"><span class="sl-name">σ (vol)</span><span class="sl-val" id="sv-sig">25%</span></div><input type="range" min="5" max="80" value="25" oninput="updSim()" id="s-sig"/></div>
-        <div class="sl-group"><div class="sl-hdr"><span class="sl-name">r</span><span class="sl-val" id="sv-r">5%</span></div><input type="range" min="0" max="15" value="5" oninput="updSim()" id="s-r"/></div>
-        <div class="sl-group"><div class="sl-hdr"><span class="sl-name">q (div)</span><span class="sl-val" id="sv-q">0%</span></div><input type="range" min="0" max="10" value="0" oninput="updSim()" id="s-q"/></div>
-        <div style="border-top:1px solid var(--div);margin-top:.6rem;padding-top:.6rem;">
-          <div class="sim-price" id="sim-price">$17.02</div>
-          <div class="sim-sub">Chooser V₀</div>
-          <div style="display:flex;gap:1rem;">
-            <div><div style="font-family:var(--mono);font-size:.62rem;color:var(--ink3);">Call</div><div style="font-family:var(--mono);font-size:.88rem;font-weight:600;color:var(--ink);" id="sim-call">$12.34</div></div>
-            <div><div style="font-family:var(--mono);font-size:.62rem;color:var(--ink3);">Put</div><div style="font-family:var(--mono);font-size:.88rem;font-weight:600;color:var(--ink);" id="sim-put">$7.45</div></div>
-            <div><div style="font-family:var(--mono);font-size:.62rem;color:var(--ink3);">Straddle</div><div style="font-family:var(--mono);font-size:.88rem;font-weight:600;color:var(--ink);" id="sim-straddle">$19.79</div></div>
+    <div class="lbl lbl-blue reveal">Anatom&iacute;a del derivado</div>
+    <h2 class="t-h reveal">Tres actores, flujos cruzados</h2>
+    <p class="t-sub reveal">Cuando el precio subi&oacute;, cada actor reaccion&oacute; en su propio inter&eacute;s. El resultado fue simult&aacute;neo y devastador para Ashanti.</p>
+    <div class="dia reveal mt4">
+      <div class="dia-row">
+        <div class="dbox db-gold"><div class="dname">Bancos Centrales</div><div class="dsub">Prestamistas de oro<br>~1&ndash;2% tasa anual</div></div>
+        <div class="darr">
+          <div class="darr-svg-wrap">
+            <div class="darr-line darr-line-gold"></div>
+            <div class="darr-particle darr-particle-gold"></div>
+            <svg class="darr-head" width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:absolute;right:0;"><path d="M2 7h10M8 3l4 4-4 4" stroke="#a87000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
+          <div class="darr-lbl" style="color:#a87000;">Oro f&iacute;sico</div>
         </div>
+        <div class="dbox db-blue"><div class="dname">~17 bancos</div><div class="dsub">Contrapartes<br>forwards y opciones</div></div>
+        <div class="darr">
+          <div class="darr-svg-wrap">
+            <div class="darr-line darr-line-blue"></div>
+            <div class="darr-particle darr-particle-blue"></div>
+            <svg class="darr-head" width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:absolute;right:0;"><path d="M2 7h10M8 3l4 4-4 4" stroke="#1565a0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="darr-lbl" style="color:#1565a0;">Contratos</div>
+        </div>
+        <div class="dbox db-red"><div class="dname">Ashanti</div><div class="dsub">Minera y deudor<br>de oro f&iacute;sico</div></div>
       </div>
-      <div class="sim-charts reveal">
-        <div class="cc" style="padding-bottom:.3rem;">
-          <div class="cc-t">Payoff al vencimiento</div>
-          <div class="cc-s">Chooser · Call · Put · Straddle (prima descontada)</div>
-          <canvas id="chart-sim-payoff" height="175"></canvas>
-        </div>
-        <div class="cc" style="padding-bottom:.3rem;">
-          <div class="cc-t">Prima vs Precio Spot</div>
-          <div class="cc-s">Valor teórico BSM para distintos S₀</div>
-          <canvas id="chart-sim-premia" height="175"></canvas>
-        </div>
-      </div>
+      <div class="dia-alert"><div class="dia-bar"></div><div class="dia-txt"><strong>Cuando el precio subi&oacute; ~32%:</strong> m&uacute;ltiples bancos exigieron colateral simult&aacute;neamente. Ashanti no ten&iacute;a efectivo. Estuvo al borde de un default.</div></div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════════
-     06  USO ESTRATÉGICO — VOL DE VOL
-     ══════════════════════════════════════════════════════════════ -->
-<section class="slide th-dark" data-i="6" id="s06">
+<!-- ============================================================
+     09  MECÁNICA DEL COLAPSO — 5 pasos  (posición 8)
+     FIX: cada seq-item tiene su propio reveal para animación escalonada
+     ============================================================ -->
+<section class="slide crisis-slide th-dark" data-i="8">
   <div class="inner">
-    <div class="lbl lbl-violet reveal" style="color:var(--violet);">Estrategia avanzada</div>
-    <h2 class="t-h reveal">Volatilidad de la Volatilidad</h2>
-    <p class="t-sub reveal">Cuando σ misma es incierta, la chooser domina opciones simples.</p>
-    <div class="g2 mt4">
-      <div>
-        <div class="reveal">
-          <div style="font-family:var(--mono);font-size:.58rem;color:var(--teal);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.65rem;">Régimen de baja volatilidad</div>
-          <div class="co co-teal">
-            <div class="co-mark cm-teal">σ ~ 15%</div>
-            <div class="co-text">El mercado se mueve poco. Elegir entre call y put aporta poca ventaja — ambas están cerca de ATM. Prima chooser ≈ straddle.</div>
-          </div>
-          <div class="co co-blue">
-            <div class="co-mark cm-blue">Veredicto</div>
-            <div class="co-text">En regímenes estables, el straddle a veces es preferible — la opción adicional de elección vale poco si el underlyng no se mueve.</div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="reveal">
-          <div style="font-family:var(--mono);font-size:.58rem;color:var(--amber);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.65rem;">Régimen de vol extrema</div>
-          <div class="co co-amber">
-            <div class="co-mark cm-amber">σ ~ 40–60%</div>
-            <div class="co-text">Cuando σ colapsa o explota, no saber la dirección es muy costoso. La chooser permite <strong>comprar optionalidad sobre la dirección</strong>.</div>
-          </div>
-          <div class="co co-red">
-            <div class="co-mark cm-red">Dominio</div>
-            <div class="co-text">En eventos de cola (FOMC, earnings, crisis), la chooser ofrece el mejor perfil riesgo-retorno respecto de cualquier opción single-leg.</div>
-          </div>
-        </div>
-      </div>
+    <div class="lbl lbl-red reveal">Mec&aacute;nica &middot; 5 pasos</div>
+    <h2 class="t-h reveal" style="color:#f0ece0;">De la cobertura a la crisis</h2>
+    <div class="seq mt5">
+      <div class="seq-item reveal"><div class="s-num">01</div><div class="s-step">Paso 1</div><div class="s-txt">Cobertura masiva</div><div class="s-sub">~10M oz en forwards<br>a ~$300/oz</div><div class="s-arr">&rsaquo;</div></div>
+      <div class="seq-item reveal"><div class="s-num">02</div><div class="s-step">Paso 2</div><div class="s-txt">WAG: +32%</div><div class="s-sub">Spot sube a ~$338<br>en ~2 semanas</div><div class="s-arr">&rsaquo;</div></div>
+      <div class="seq-item reveal"><div class="s-num">03</div><div class="s-step">Paso 3</div><div class="s-txt">MTM negativo</div><div class="s-sub">P&eacute;rdida contable<br>de ~$570M</div><div class="s-arr">&rsaquo;</div></div>
+      <div class="seq-item reveal"><div class="s-num">04</div><div class="s-step">Paso 4</div><div class="s-txt">Margin calls</div><div class="s-sub">M&uacute;ltiples bancos exigen<br>colateral inmediato</div><div class="s-arr">&rsaquo;</div></div>
+      <div class="seq-item reveal"><div class="s-num" style="color:rgba(192,96,96,.12);">05</div><div class="s-step">Paso 5</div><div class="s-txt" style="color:#c06060;">Crisis de liquidez</div><div class="s-sub">Al borde del default</div></div>
     </div>
-    <div class="tbl-wrap mt5 reveal">
-      <table class="tbl">
-        <thead><tr><th>Instrumento</th><th>Movimiento suave</th><th>Movimiento fuerte</th><th>Dirección incierta</th><th>Vol-de-vol alta</th></tr></thead>
-        <tbody>
-          <tr><td style="color:#a8d8e8;">Call europea</td><td>✓ barata</td><td>✓ si alcista</td><td>✗ pierde si baja</td><td>✗</td></tr>
-          <tr><td style="color:#c8b8f8;">Put europea</td><td>✓ barata</td><td>✓ si bajista</td><td>✗ pierde si sube</td><td>✗</td></tr>
-          <tr><td style="color:var(--amber);">Straddle</td><td>✗ cara</td><td>✓✓</td><td>✓</td><td>✓</td></tr>
-          <tr style="background:rgba(6,182,212,.05);"><td style="color:var(--teal);font-weight:700;">Chooser</td><td>✓ (prima menor)</td><td>✓✓</td><td>✓✓ óptima</td><td>✓✓ óptima</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="co co-gold reveal"><div class="co-mark cm-gold">CONTENCI&Oacute;N</div><div class="co-text">Los bancos contrapartes acordaron un <strong>standstill</strong> en octubre de 1999, suspendiendo los margin calls a cambio de warrants accionarios. La crisis fue contenida &mdash; ver diapositiva siguiente.</div></div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════════
-     07  LECCIONES Y CONCLUSIONES
-     ══════════════════════════════════════════════════════════════ -->
-<section class="slide th-dark" data-i="7" id="s07">
+<!-- ============================================================
+     10  RESOLUCIÓN Y DESENLACE (posición 9)
+     ============================================================ -->
+<section class="slide th-dark compact-slide" data-i="9">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
   <div class="inner">
-    <div class="lbl lbl-teal reveal">Conclusiones</div>
-    <h2 class="t-h reveal">Cuatro lecciones de la Chooser Option</h2>
-    <div class="g4 mt5">
+    <div class="lbl lbl-gold reveal">Resoluci&oacute;n &middot; Octubre 1999 &ndash; Abril 2004</div>
+    <h2 class="t-h reveal" style="color:#f0ece0;">La negociaci&oacute;n que evit&oacute; el default</h2>
+    <p class="t-sub reveal" style="color:rgba(240,236,224,.38);">Ashanti sobrevivi&oacute; mediante un acuerdo sin precedentes con sus contrapartes bancarias, seguido de una reestructuraci&oacute;n y, finalmente, una fusi&oacute;n.</p>
+    <div class="g3 mt5">
       <div class="les la reveal">
         <div class="les-n">01</div>
-        <div class="les-t">Tiempo es información</div>
-        <div class="les-b">Pagar hoy por el derecho de decidir mañana tiene valor preciso: la diferencia entre V₀<sup>Ch</sup> y el máximo individual.</div>
+        <div class="les-t">Acuerdo de standstill</div>
+        <div class="les-b">En octubre de 1999, ~17 bancos contrapartes acordaron suspender temporalmente los margin calls. Ashanti no fue a default.</div>
       </div>
       <div class="les lb reveal">
         <div class="les-n">02</div>
-        <div class="les-t">Eficiencia de prima</div>
-        <div class="les-b">La chooser siempre cuesta menos que el straddle. Cuando el movimiento es grande, el payoff es casi idéntico. Mejor Sharpe.</div>
+        <div class="les-t">Warrants accionarios</div>
+        <div class="les-b">A cambio de la suspensi&oacute;n, Ashanti emiti&oacute; warrants sobre aproximadamente 15.5 millones de acciones nuevas a los bancos contrapartes.</div>
       </div>
       <div class="les lc reveal">
         <div class="les-n">03</div>
-        <div class="les-t">t<sub>c</sub> es decisivo</div>
-        <div class="les-b">Cuanto más tarde es t<sub>c</sub> respecto de T, más cara la chooser. La relación t<sub>c</sub>/T determina el valor de la optionalidad.</div>
-      </div>
-      <div class="les ld reveal">
-        <div class="les-n">04</div>
-        <div class="les-t">Put-call parity</div>
-        <div class="les-b">La solución cerrada es elegante: dos opciones europeas estándar. No se necesita simulación — fórmula exacta bajo BSM.</div>
+        <div class="les-t">Fusi&oacute;n con AngloGold</div>
+        <div class="les-b">En agosto de 2003, AngloGold Limited formul&oacute; una oferta de adquisici&oacute;n. La fusi&oacute;n se complet&oacute; en abril de 2004, creando AngloGold Ashanti.</div>
       </div>
     </div>
-    <div class="g2 mt5">
-      <div>
-        <div class="co co-teal reveal">
-          <div class="co-mark cm-teal">Cuándo usar</div>
-          <div class="co-text">Eventos binarios (FOMC, earnings, referéndums). Vol implícita elevada o incierta. Cuando la dirección se aclarará antes del vencimiento.</div>
-        </div>
-        <div class="co co-red reveal">
-          <div class="co-mark cm-red">Cuándo NO usar</div>
-          <div class="co-text">Mercados de tendencia clara. Cuando t<sub>c</sub> ≈ T (pierde ventaja). Si la liquidez en el mercado de choosers es baja — difícil de cerrar antes de t<sub>c</sub>.</div>
-        </div>
+    <div class="co co-gold mt4 reveal"><div class="co-mark cm-gold">LEGADO</div><div class="co-text">AngloGold Ashanti se constituy&oacute; formalmente en abril de 2004. Es hoy una de las mineras de oro m&aacute;s grandes del mundo, listada en NYSE, JSE y la Bolsa de Ghana. El caso Ashanti redefinir&iacute;a la gesti&oacute;n del riesgo en la industria minera global.</div></div>
+    <div class="co co-blue mt3 reveal"><div class="co-mark cm-blue">LECI&Oacute;N DE LIQUIDEZ</div><div class="co-text">La empresa era solvente &mdash; ten&iacute;a minas, reservas y producci&oacute;n. Quebr&oacute; de liquidez: no pod&iacute;a pagar colateral en efectivo. La distinción entre solvencia y liquidez es central en derivados.</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     11  ÉTICA Y GOBIERNO CORPORATIVO  (posición 10)
+     ============================================================ -->
+<section class="slide th-light" data-i="10">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
+  <div class="inner">
+    <div class="lbl lbl-blue reveal">&Eacute;tica y gobierno corporativo</div>
+    <h2 class="t-h reveal">Preguntas que el caso plantea</h2>
+    <p class="t-sub reveal">Este no fue solo un error t&eacute;cnico. Involucra decisiones que cuestionan el gobierno corporativo, la transparencia y el rol de los intermediarios.</p>
+    <div class="g3 mt5">
+      <div class="eth eg reveal">
+        <div class="eth-n">Gobierno corporativo</div>
+        <div class="eth-t">&iquest;Sab&iacute;a la junta el tama&ntilde;o real del riesgo?</div>
+        <div class="eth-b">El hedge book era tan complejo que incluso directivos ten&iacute;an dificultad para entender la exposici&oacute;n real.</div>
+        <div class="eth-q">&ldquo;El riesgo que no se entiende no se puede gestionar.&rdquo;</div>
       </div>
-      <div>
-        <div class="co co-amber reveal">
-          <div class="co-mark cm-amber">Rubinstein (1991)</div>
-          <div class="co-text"><em>"The chooser option is probably the simplest of the exotic options with a closed-form solution. Its value can be derived almost immediately from the Black-Scholes formula."</em></div>
-        </div>
-        <div class="co co-blue reveal">
-          <div class="co-mark cm-blue">Errores comunes</div>
-          <div class="co-text">Confundir t<sub>c</sub> con T. Ignorar q (dividendos) al calcular K*. Aplicar intuición de ejercicio anticipado — esta es <strong>europea</strong>.</div>
-        </div>
+      <div class="eth eb reveal">
+        <div class="eth-n">Rol de los bancos</div>
+        <div class="eth-t">&iquest;Las contrapartes actuaron responsablemente?</div>
+        <div class="eth-b">Los bancos contrapartes construyeron posiciones enormes y luego exigieron colateral al mismo tiempo, acelerando la crisis.</div>
+        <div class="eth-q">&ldquo;La contraparte siempre act&uacute;a en su propio inter&eacute;s.&rdquo;</div>
+      </div>
+      <div class="eth er reveal">
+        <div class="eth-n">Responsabilidad social</div>
+        <div class="eth-t">&iquest;Qu&eacute; habr&iacute;a pasado con Ghana si Ashanti quebraba?</div>
+        <div class="eth-b">Ashanti era el mayor empleador privado de Ghana. Un default hubiera tenido consecuencias devastadoras para el pa&iacute;s.</div>
+        <div class="eth-q">&ldquo;El riesgo financiero de una empresa estrat&eacute;gica es tambi&eacute;n riesgo pa&iacute;s.&rdquo;</div>
       </div>
     </div>
   </div>
 </section>
 
-</div><!-- end deck -->
+<!-- ============================================================
+     12  LECCIONES PERMANENTES  (posición 11)
+     ============================================================ -->
+<section class="slide th-dark" data-i="11">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
+  <div class="inner">
+    <div class="lbl lbl-dim reveal">Lecciones permanentes</div>
+    <h2 class="t-h reveal" style="color:#f0ece0;">Lo que Ashanti nos ense&ntilde;a</h2>
+    <p class="t-sub reveal" style="color:rgba(240,236,224,.38);">Un caso de referencia en gesti&oacute;n de riesgo, derivados y gobierno corporativo.</p>
+    <div class="g4 mt5">
+      <div class="les la reveal">
+        <div class="les-n">01</div>
+        <div class="les-t">Tama&ntilde;o de la cobertura</div>
+        <div class="les-b">Cubrir m&aacute;s del 100% de la producci&oacute;n futura convierte el hedge en especulaci&oacute;n inversa.</div>
+      </div>
+      <div class="les lb reveal">
+        <div class="les-n">02</div>
+        <div class="les-t">Liquidez vs. solvencia</div>
+        <div class="les-b">Ashanti era solvente (ten&iacute;a minas) pero il&iacute;quida (sin caja para margin calls).</div>
+      </div>
+      <div class="les lc reveal">
+        <div class="les-n">03</div>
+        <div class="les-t">Riesgo de correlaci&oacute;n</div>
+        <div class="les-b">Cuando todos los instrumentos comparten el mismo supuesto, no hay diversificaci&oacute;n real.</div>
+      </div>
+      <div class="les ld reveal">
+        <div class="les-n">04</div>
+        <div class="les-t">Transparencia interna</div>
+        <div class="les-b">Si la junta no entiende el riesgo que toma, los modelos no sirven de protecci&oacute;n.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<!-- ============================================================
+     13  CIERRE  (posición 12)
+     ============================================================ -->
+<section class="slide th-dark" data-i="12">
+  <div class="slide-img">
+    <img src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1920&q=55" alt="" loading="lazy" onerror="this.parentNode.style.display='none'">
+  </div>
+  <div class="inner">
+    <div class="lbl lbl-dim reveal">Conclusi&oacute;n</div>
+    <h2 class="t-h reveal" style="color:#f0ece0;">Ashanti no quebr&oacute; por falta de activos.</h2>
+    <p class="t-sub reveal" style="color:rgba(240,236,224,.45);max-width:58ch;">Quebr&oacute; por concentraci&oacute;n de riesgo, falta de liquidez y supuestos que nunca cuestion&oacute;. El oro f&iacute;sico estaba ah&iacute;. El problema era el papel.</p>
+    <div class="g3 mt5">
+      <div class="co co-gold reveal"><div class="co-mark cm-gold">PROBLEMA REAL</div><div class="co-text">El riesgo no era el precio del oro. Era la estructura del hedge y la incapacidad de pagar colateral en efectivo.</div></div>
+      <div class="co co-blue reveal"><div class="co-mark cm-blue">PREGUNTA FINAL</div><div class="co-text">&iquest;Cubrir el riesgo puede crear un riesgo mayor? En Ashanti, la respuesta fue s&iacute;.</div></div>
+      <div class="co co-red reveal"><div class="co-mark cm-red">VIGENCIA</div><div class="co-text">Este patr&oacute;n &mdash; solvencia sin liquidez, cobertura que amplifica el riesgo &mdash; sigue ocurriendo en mercados modernos.</div></div>
+    </div>
+    <div class="cover-authors reveal" style="margin-top:2rem;">
+      <div class="cover-author"><div class="cover-author-dot"></div><div class="cover-author-name">Ana Sof&iacute;a Rojas Valderrama</div></div>
+      <div class="cover-author"><div class="cover-author-dot"></div><div class="cover-author-name">Juan Felipe Barriga Beltr&aacute;n</div></div>
+    </div>
+  </div>
+  <div class="cover-n">13</div>
+</section>
+
+<!-- ============================================================
+     14  REFERENCIAS BIBLIOGRÁFICAS  (posición 13)
+     ============================================================ -->
+<section class="slide th-dark" data-i="13">
+  <div class="inner">
+    <div class="lbl lbl-dim reveal">Fuentes</div>
+    <h2 class="t-h reveal" style="color:#f0ece0;">Referencias bibliogr&aacute;ficas</h2>
+    <div class="ref-list reveal" style="margin-top:1.8rem;display:flex;flex-direction:column;gap:.9rem;">
+      <div class="ref-item" style="border-left:2px solid rgba(168,112,0,.4);padding-left:1rem;">
+        <div class="ref-author" style="font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(168,112,0,.7);margin-bottom:.25rem;">BBC News</div>
+        <div class="ref-text" style="font-size:.82rem;color:rgba(240,236,224,.75);line-height:1.55;">BBC News. (2000, 12 de febrero). <em>Crisis for Ashanti Goldfields</em>. Recuperado de <span style="color:rgba(168,112,0,.9);font-family:var(--mono);font-size:.75rem;">http://news.bbc.co.uk/2/hi/business/641515.stm</span></div>
+      </div>
+      <div class="ref-item" style="border-left:2px solid rgba(168,112,0,.4);padding-left:1rem;">
+        <div class="ref-author" style="font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(168,112,0,.7);margin-bottom:.25rem;">Cornerstone Research</div>
+        <div class="ref-text" style="font-size:.82rem;color:rgba(240,236,224,.75);line-height:1.55;">Cornerstone Research. (s. f.). <em>Ashanti Goldfields Securities Litigation</em>. Recuperado de <span style="color:rgba(168,112,0,.9);font-family:var(--mono);font-size:.75rem;">https://www.cornerstone.com/insights/cases/ashanti-goldfields-securities-litigation/</span></div>
+      </div>
+      <div class="ref-item" style="border-left:2px solid rgba(168,112,0,.4);padding-left:1rem;">
+        <div class="ref-author" style="font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(168,112,0,.7);margin-bottom:.25rem;">Gold.org &mdash; World Gold Council</div>
+        <div class="ref-text" style="font-size:.82rem;color:rgba(240,236,224,.75);line-height:1.55;">Gold.org. (s. f.). <em>CBGA 1 | Washington Agreement on Gold</em>. World Gold Council. Recuperado de <span style="color:rgba(168,112,0,.9);font-family:var(--mono);font-size:.75rem;">https://www.gold.org/what-we-do/official-institutions/central-bank-gold-agreements/first-central-bank-gold-agreement</span></div>
+      </div>
+      <div class="ref-item" style="border-left:2px solid rgba(168,112,0,.4);padding-left:1rem;">
+        <div class="ref-author" style="font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(168,112,0,.7);margin-bottom:.25rem;">LA Times</div>
+        <div class="ref-text" style="font-size:.82rem;color:rgba(240,236,224,.75);line-height:1.55;">LA Times. (1996, 21 de febrero). <em>International Business / The Pacific</em>. Recuperado de <span style="color:rgba(168,112,0,.9);font-family:var(--mono);font-size:.75rem;">https://www.latimes.com/archives/la-xpm-1996-02-22-fi-38723-story.html</span></div>
+      </div>
+      <div class="ref-item" style="border-left:2px solid rgba(168,112,0,.4);padding-left:1rem;">
+        <div class="ref-author" style="font-family:var(--mono);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(168,112,0,.7);margin-bottom:.25rem;">Modernghana / Dow Jones</div>
+        <div class="ref-text" style="font-size:.82rem;color:rgba(240,236,224,.75);line-height:1.55;">Modernghana / Dow Jones. (s. f.). <em>Ashanti Goldfields Claws Out Of Hedge Book Crisis</em>. Recuperado de <span style="color:rgba(168,112,0,.9);font-family:var(--mono);font-size:.75rem;">https://www.modernghana.com/news/21468/ashanti-goldfields-claws-out-of-hedge-book-crisis.html</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="cover-n">14</div>
+</section>
+
+</div><!-- /deck -->
+
+<script src="js/main.js?v=7"></script>
+
 <script>
-/* ════════════════════════════════════════════════════════════════
-   MATH CORE
-   ════════════════════════════════════════════════════════════════ */
-function normCDF(x){const t=1/(1+0.2316419*Math.abs(x));const d=0.39894228*Math.exp(-x*x/2);const p=d*t*(0.31938153+t*(-0.35656378+t*(1.78147794+t*(-1.82125978+t*1.33027443))));return x>=0?1-p:p;}
-function normPDF(x){return Math.exp(-0.5*x*x)/Math.sqrt(2*Math.PI);}
-function bsCall(S,K,T,r,q,s){if(T<=1e-9)return Math.max(S-K,0);const d1=(Math.log(S/K)+(r-q+.5*s*s)*T)/(s*Math.sqrt(T));const d2=d1-s*Math.sqrt(T);return S*Math.exp(-q*T)*normCDF(d1)-K*Math.exp(-r*T)*normCDF(d2);}
-function bsPut(S,K,T,r,q,s){if(T<=1e-9)return Math.max(K-S,0);const d1=(Math.log(S/K)+(r-q+.5*s*s)*T)/(s*Math.sqrt(T));const d2=d1-s*Math.sqrt(T);return K*Math.exp(-r*T)*normCDF(-d2)-S*Math.exp(-q*T)*normCDF(-d1);}
-function chooser(S,K,T,tc,r,q,s){const tc2=Math.min(tc,T-1e-6);return bsCall(S,K,T,r,q,s)+bsPut(S,K*Math.exp(-(r-q)*(T-tc2)),tc2,r,q,s);}
-function chooserGreeks(S,K,T,tc,r,q,s){
-  const tc2=Math.min(tc,T-1e-6);
-  const Ks=K*Math.exp(-(r-q)*(T-tc2));
-  const sqT=Math.sqrt(T),sqtc=Math.sqrt(tc2);
-  const d1=(Math.log(S/K)+(r-q+.5*s*s)*T)/(s*sqT);
-  const d2=d1-s*sqT;
-  const x=(Math.log(S/K)+(r-q)*T+.5*s*s*tc2)/(s*sqtc);
-  const y=x-s*sqtc;
-  const eqT=Math.exp(-q*T),eqtc=Math.exp(-q*tc2),erT=Math.exp(-r*T),ertc=Math.exp(-r*tc2);
-  const Nd1=normCDF(d1),Nd2=normCDF(d2),Nnx=normCDF(-x),Nny=normCDF(-y);
-  const pd1=normPDF(d1),px=normPDF(x);
-  const delta=eqT*Nd1-eqtc*Nnx;
-  const gamma=(eqT*pd1)/(S*s*sqT)+(eqtc*px)/(S*s*sqtc);
-  const vega=(S*eqT*pd1*sqT+S*eqtc*px*sqtc)*0.01;
-  const tC=-(S*s*eqT*pd1)/(2*sqT)+q*S*eqT*Nd1-r*K*erT*Nd2;
-  const tP=-(S*s*eqtc*px)/(2*sqtc)+q*S*eqtc*Nnx-r*Ks*ertc*Nny;
-  const theta=(tC+tP)/365;
-  return{delta,gamma,vega,theta};
-}
-
-/* ════════════════════════════════════════════════════════════════
-   NAVIGATION
-   ════════════════════════════════════════════════════════════════ */
-const slides=document.querySelectorAll('.slide');
-const TOTAL=slides.length;
-let cur=0;
-const PHASES=['Portada','Fundamentos','Comparación','Greeks','Caso Fed','Simulador','Estrategia','Conclusiones'];
-
-// build topbar pills + phases
+/* ===== SIMULADOR MTM — forward + puts compradas + calls vendidas (valores ilustrativos) ===== */
 (function(){
-  const tp=document.getElementById('tb-phases');
-  const pp=document.getElementById('tb-pills');
-  PHASES.forEach((ph,i)=>{
-    const d=document.createElement('div');
-    d.className='tb-phase'+(i===0?' active':'');
-    d.innerHTML=`<div class="tb-phase-dot"></div><span>${ph}</span>`;
-    d.onclick=()=>goTo(i);
-    tp.appendChild(d);
-    const p=document.createElement('div');
-    p.className='tb-pill'+(i===0?' active':'');
-    p.onclick=()=>goTo(i);
-    pp.appendChild(p);
-  });
-})();
+  var FWD=300, OZ_FWD=10e6;
+  var STK=280, OZ_PC=2e6, PRIMA_C=8;
+  var STK_CV=300, OZ_CV=5e6, PRIMA_V=12;
 
-const chartsInited={s2:false,s3:false,s5:false};
-function goTo(n){
-  if(n<0||n>=TOTAL||n===cur)return;
-  slides[cur].classList.remove('active');
-  document.querySelectorAll('.tb-phase')[cur].classList.remove('active');
-  document.querySelectorAll('.tb-pill')[cur].classList.remove('active');
-  cur=n;
-  slides[cur].classList.add('active');
-  document.querySelectorAll('.tb-phase')[cur].classList.add('active');
-  document.querySelectorAll('.tb-pill')[cur].classList.add('active');
-    document.getElementById('progress-bar').style.width=((cur/(TOTAL-1))*100)+'%';
-  document.getElementById('tb-cnt').textContent=String(cur+1).padStart(2,'0')+' / '+String(TOTAL).padStart(2,'0');
-  document.getElementById('nav-prev').classList.toggle('off',cur===0);
-  document.getElementById('nav-next').classList.toggle('off',cur===TOTAL-1);
-  if(cur===2&&!chartsInited.s2){chartsInited.s2=true;initS2();}
-  if(cur===3&&!chartsInited.s3){chartsInited.s3=true;initS3();}
-  if(cur===5&&!chartsInited.s5){chartsInited.s5=true;initS5();}
-}
-document.getElementById('nav-prev').addEventListener('click',()=>goTo(cur-1));
-document.getElementById('nav-next').addEventListener('click',()=>goTo(cur+1));
-document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowRight'||e.key==='ArrowDown')goTo(cur+1);
-  if(e.key==='ArrowLeft'||e.key==='ArrowUp')goTo(cur-1);
-});
-
-/* ════════════════════════════════════════════════════════════════
-   CHART DEFAULTS
-   ════════════════════════════════════════════════════════════════ */
-const TCFG={
-  color:'rgba(230,237,243,.55)',
-  grid:{color:'rgba(255,255,255,.05)'},
-  ticks:{font:{family:'JetBrains Mono',size:10}},
-};
-function chartDefaults(){
-  Chart.defaults.color='rgba(230,237,243,.55)';
-  Chart.defaults.font.family='DM Sans';
-}
-chartDefaults();
-
-/* ════════════════════════════════════════════════════════════════
-   SLIDE 2 — PAYOFF CHART
-   ════════════════════════════════════════════════════════════════ */
-let chartPayoff=null;
-let payoffView='all';
-function initS2(){
-  const ctx=document.getElementById('chart-payoff').getContext('2d');
-  const K=100,S0=100,T=1,tc=.5,r=.05,q=0,sig=.25;
-  const pC=bsCall(S0,K,T,r,q,sig);
-  const pP=bsPut(S0,K,T,r,q,sig);
-  const pCh=chooser(S0,K,T,tc,r,q,sig);
-  const pStr=pC+pP;
-  const pts=[];for(let s=60;s<=160;s+=2)pts.push(s);
-  function mkDatasets(view){
-    const ds=[];
-    if(view==='all'||view==='call')ds.push({label:'Call',data:pts.map(s=>Math.max(s-K,0)-pC),borderColor:'#06B6D4',borderWidth:2,pointRadius:0,tension:.3});
-    if(view==='all'||view==='put') ds.push({label:'Put', data:pts.map(s=>Math.max(K-s,0)-pP), borderColor:'#8B5CF6',borderWidth:2,pointRadius:0,tension:.3});
-    if(view==='all')               ds.push({label:'Straddle',data:pts.map(s=>Math.max(s-K,0)+Math.max(K-s,0)-pStr),borderColor:'#F59E0B',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:.3});
-    if(view==='all'||view==='chooser')ds.push({label:'Chooser',data:pts.map(s=>Math.max(Math.max(s-K,0),Math.max(K-s,0))-pCh),borderColor:'#22C55E',borderWidth:2.5,pointRadius:0,tension:.3});
-    return ds;
+  function calcComponents(spot){
+    var fwd = (FWD - spot) * OZ_FWD;
+    var pc  = (Math.max(STK - spot, 0) - PRIMA_C) * OZ_PC;
+    var cv  = -(Math.max(spot - STK_CV, 0) - PRIMA_V) * OZ_CV;
+    return {fwd:fwd, pc:pc, cv:cv, total:fwd+pc+cv};
   }
-  chartPayoff=new Chart(ctx,{type:'line',data:{labels:pts,datasets:mkDatasets('all')},options:{animation:false,plugins:{legend:{labels:{boxWidth:12,font:{size:11}}}},scales:{x:{title:{display:true,text:'S_T',font:{size:10}},ticks:{font:{family:'JetBrains Mono',size:9}},grid:{color:'rgba(255,255,255,.05)'}},y:{title:{display:true,text:'P&L ($)'},grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}},},}}});
-  window._s2Update=function(v){chartPayoff.data.datasets=mkDatasets(v);chartPayoff.update('none');};
-}
-function setPayoffView(v,btn){
-  payoffView=v;
-  document.querySelectorAll('#s02 .tab-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  if(window._s2Update)window._s2Update(v);
-}
 
-/* ════════════════════════════════════════════════════════════════
-   SLIDE 3 — GREEKS
-   ════════════════════════════════════════════════════════════════ */
-let chartGreek=null;
-let curGreek='delta';
-const GREEK_META={
-  delta:{label:'Δ Delta actual',chart:'Delta vs Precio Spot',formula:'e<sup>−qT</sup>N(d₁) − e<sup>−qt<sub>c</sub></sup>N(−x)',fmt:v=>v.toFixed(4)},
-  gamma:{label:'Γ Gamma actual',chart:'Gamma vs Precio Spot',formula:'γ<sub>call</sub> + γ<sub>put reducida</sub>',fmt:v=>v.toFixed(6)},
-  vega:{label:'ν Vega actual (per 1% σ)',chart:'Vega vs Precio Spot',formula:'(Sφ(d₁)√T + Sφ(x)√t<sub>c</sub>)×0.01',fmt:v=>v.toFixed(4)},
-  theta:{label:'Θ Theta actual ($/día)',chart:'Theta vs Precio Spot',formula:'(θ<sub>call</sub> + θ<sub>put</sub>) / 365',fmt:v=>v.toFixed(4)},
-};
-function initS3(){
-  const ctx=document.getElementById('chart-greek').getContext('2d');
-  chartGreek=new Chart(ctx,{type:'line',data:{labels:[],datasets:[{label:'',data:[],borderColor:'#06B6D4',borderWidth:2.5,pointRadius:0,tension:.3,fill:false}]},options:{animation:false,plugins:{legend:{display:false}},scales:{x:{title:{display:true,text:'S₀'},grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}}}}});
-  updGreek();
-}
-function updGreek(){
-  const S=+document.getElementById('g-s').value;
-  const sig=+document.getElementById('g-sig').value/100;
-  const T=+document.getElementById('g-T').value/100;
-  const tcPct=+document.getElementById('g-tc').value/100;
-  const tc=T*tcPct;
-  const r=.05,q=0,K=100;
-  document.getElementById('gv-s').textContent=S;
-  document.getElementById('gv-sig').textContent=document.getElementById('g-sig').value+'%';
-  document.getElementById('gv-T').textContent=(T).toFixed(2);
-  document.getElementById('gv-tc').textContent=document.getElementById('g-tc').value+'%';
-  const g=chooserGreeks(S,K,T,tc,r,q,sig);
-  const meta=GREEK_META[curGreek];
-  document.getElementById('greek-val-num').textContent=meta.fmt(g[curGreek]);
-  document.getElementById('greek-name-lbl').textContent=meta.label;
-  document.getElementById('greek-formula-txt').innerHTML=meta.formula;
-  document.getElementById('greek-chart-title').textContent=meta.chart;
-  if(!chartGreek)return;
-  const pts=[];for(let s=60;s<=160;s+=2)pts.push(s);
-  chartGreek.data.labels=pts;
-  chartGreek.data.datasets[0].data=pts.map(s=>chooserGreeks(s,K,T,tc,r,q,sig)[curGreek]);
-  chartGreek.data.datasets[0].label=curGreek;
-  chartGreek.update('none');
-}
-function setGreek(g,btn){
-  curGreek=g;
-  document.querySelectorAll('#s03 .tab-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  updGreek();
-}
-
-/* ════════════════════════════════════════════════════════════════
-   SLIDE 4 — CASE STUDY
-   ════════════════════════════════════════════════════════════════ */
-const SC_DATA={
-  hawk:{note:'Hawkish',cmk:'cm-red',co:'co-red',desc:'Fed sube 50bp. Mercado cae ~5%. En t<sub>c</sub> elegimos <strong>put</strong>. Payoff neto positivo a pesar de la prima.',st:'$4,750 (−5%)',choice:'Put',expiry:'+$36.40',net:'+$22.80',netColor:'var(--green)'},
-  dove:{note:'Dovish',cmk:'cm-teal',co:'co-teal',desc:'Fed baja 50bp. Mercado sube ~5%. En t<sub>c</sub> elegimos <strong>call</strong>. Prima cubierta y retorno positivo.',st:'$5,250 (+5%)',choice:'Call',expiry:'+$36.40',net:'+$22.80',netColor:'var(--green)'},
-  flat:{note:'Sin cambio',cmk:'cm-amber',co:'co-amber',desc:'Fed pausa. Mercado se mueve ±1%. Ambas legs valen poco. Pérdida limitada a la prima.',st:'$5,000 (+0%)',choice:'N/A (ambas ≈ ATM)',expiry:'+$0',net:'−$13.60',netColor:'var(--red)'},
-};
-function setScenario(s){
-  const d=SC_DATA[s];
-  ['sc-hawk','sc-dove','sc-flat'].forEach(id=>{
-    const btn=document.getElementById(id);
-    btn.className='sc-btn';
-    if(id==='sc-hawk'&&s==='hawk')btn.className='sc-btn s-dn';
-    if(id==='sc-dove'&&s==='dove')btn.className='sc-btn s-up';
-    if(id==='sc-flat'&&s==='flat')btn.className='sc-btn s-fl';
-  });
-  document.getElementById('pnl-st').textContent=d.st;
-  document.getElementById('pnl-choice').textContent=d.choice;
-  document.getElementById('pnl-expiry').textContent=d.expiry;
-  document.getElementById('pnl-net').textContent=d.net;
-  document.getElementById('pnl-net').style.color=d.netColor;
-  const note=document.getElementById('sc-note');
-  note.className='co '+d.co+' reveal in';
-  note.querySelector('.co-mark').className='co-mark '+d.cmk;
-  note.querySelector('.co-mark').textContent=d.note;
-  note.querySelector('.co-text').innerHTML=d.desc;
-}
-
-/* ════════════════════════════════════════════════════════════════
-   SLIDE 5 — SIMULATOR
-   ════════════════════════════════════════════════════════════════ */
-let chartSimP=null,chartSimPrem=null;
-function initS5(){
-  const c1=document.getElementById('chart-sim-payoff').getContext('2d');
-  const c2=document.getElementById('chart-sim-premia').getContext('2d');
-  const lineOpts={animation:false,plugins:{legend:{labels:{boxWidth:10,font:{size:10}}}},scales:{x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}},y:{grid:{color:'rgba(255,255,255,.05)'},ticks:{font:{family:'JetBrains Mono',size:9}}}}};
-  chartSimP=new Chart(c1,{type:'line',data:{labels:[],datasets:[{label:'Chooser',borderColor:'#06B6D4',borderWidth:2.5,pointRadius:0,data:[]},{label:'Straddle',borderColor:'#F59E0B',borderWidth:1.5,borderDash:[4,3],pointRadius:0,data:[]},{label:'Call',borderColor:'#3B82F6',borderWidth:1.5,pointRadius:0,data:[]},{label:'Put',borderColor:'#8B5CF6',borderWidth:1.5,pointRadius:0,data:[]}]},options:lineOpts});
-  chartSimPrem=new Chart(c2,{type:'line',data:{labels:[],datasets:[{label:'Chooser',borderColor:'#06B6D4',borderWidth:2.5,pointRadius:0,data:[]},{label:'Straddle',borderColor:'#F59E0B',borderWidth:1.5,borderDash:[4,3],pointRadius:0,data:[]},{label:'Call',borderColor:'#3B82F6',borderWidth:1.5,pointRadius:0,data:[]},{label:'Put',borderColor:'#8B5CF6',borderWidth:1.5,pointRadius:0,data:[]}]},options:lineOpts});
-  updSim();
-}
-function updSim(){
-  const S0=+document.getElementById('s-s').value;
-  const K=+document.getElementById('s-k').value;
-  const T=+document.getElementById('s-T').value/100;
-  const tcPct=+document.getElementById('s-tc').value/100;
-  const tc=T*tcPct;
-  const sig=+document.getElementById('s-sig').value/100;
-  const r=+document.getElementById('s-r').value/100;
-  const q=+document.getElementById('s-q').value/100;
-  document.getElementById('sv-s').textContent=S0;
-  document.getElementById('sv-k').textContent=K;
-  document.getElementById('sv-T').textContent=(T).toFixed(2);
-  document.getElementById('sv-tc').textContent=document.getElementById('s-tc').value+'%';
-  document.getElementById('sv-sig').textContent=document.getElementById('s-sig').value+'%';
-  document.getElementById('sv-r').textContent=document.getElementById('s-r').value+'%';
-  document.getElementById('sv-q').textContent=document.getElementById('s-q').value+'%';
-  const vCh=chooser(S0,K,T,tc,r,q,sig);
-  const vC=bsCall(S0,K,T,r,q,sig);
-  const vP=bsPut(S0,K,T,r,q,sig);
-  const vStr=vC+vP;
-  document.getElementById('sim-price').textContent='$'+vCh.toFixed(2);
-  document.getElementById('sim-call').textContent='$'+vC.toFixed(2);
-  document.getElementById('sim-put').textContent='$'+vP.toFixed(2);
-  document.getElementById('sim-straddle').textContent='$'+vStr.toFixed(2);
-  if(!chartSimP)return;
-  const STpts=[];for(let s=K*.5;s<=K*1.6;s+=K*.025)STpts.push(+s.toFixed(1));
-  chartSimP.data.labels=STpts;
-  chartSimP.data.datasets[0].data=STpts.map(s=>Math.max(Math.max(s-K,0),Math.max(K-s,0))-vCh);
-  chartSimP.data.datasets[1].data=STpts.map(s=>Math.max(s-K,0)+Math.max(K-s,0)-vStr);
-  chartSimP.data.datasets[2].data=STpts.map(s=>Math.max(s-K,0)-vC);
-  chartSimP.data.datasets[3].data=STpts.map(s=>Math.max(K-s,0)-vP);
-  chartSimP.update('none');
-  const S0pts=[];for(let s=K*.5;s<=K*1.6;s+=K*.025)S0pts.push(+s.toFixed(1));
-  chartSimPrem.data.labels=S0pts;
-  chartSimPrem.data.datasets[0].data=S0pts.map(s=>chooser(s,K,T,tc,r,q,sig));
-  chartSimPrem.data.datasets[1].data=S0pts.map(s=>bsCall(s,K,T,r,q,sig)+bsPut(s,K,T,r,q,sig));
-  chartSimPrem.data.datasets[2].data=S0pts.map(s=>bsCall(s,K,T,r,q,sig));
-  chartSimPrem.data.datasets[3].data=S0pts.map(s=>bsPut(s,K,T,r,q,sig));
-  chartSimPrem.update('none');
-}
-
-/* ════════════════════════════════════════════════════════════════
-   TICKER
-   ════════════════════════════════════════════════════════════════ */
-(function(){
-  const ITEMS=[
-    {sym:'SPX',val:'5,312',chg:'+0.84%',up:true},{sym:'VIX',val:'18.3',chg:'−1.2%',up:false},
-    {sym:'ATM IV 1M',val:'22.4%',chg:'+0.8v',up:true},{sym:'CHOOSER K=100',val:'$13.60',chg:'tc=0.5y',up:null},
-    {sym:'STRADDLE',val:'$19.79',chg:'K=100 T=1y',up:null},{sym:'SOFR',val:'5.31%',chg:'unch',up:null},
-    {sym:'10Y UST',val:'4.28%',chg:'−2bp',up:false},{sym:'SKEW',val:'134.2',chg:'—',up:null},
-    {sym:'PUT-CALL',val:'0.82',chg:'−0.04',up:false},{sym:'GOLD',val:'2,341',chg:'+0.3%',up:true},
-    {sym:'IV RANK',val:'34%',chg:'30d',up:null},{sym:'MOVE',val:'98.2',chg:'−0.6%',up:false},
-  ];
-  const track=document.getElementById('ticker-track');
-  const all=ITEMS.concat(ITEMS);
-  track.innerHTML=all.map(d=>`<div class="ticker-item"><span class="t-name">${d.sym}</span><span class="${d.up===true?'t-up':d.up===false?'t-dn':'t-fl'}">${d.val}</span><span style="opacity:.4;font-size:.55rem;">${d.chg}</span></div>`).join('');
-})();
-
-/* ════════════════════════════════════════════════════════════════
-   COVER CANVAS
-   ════════════════════════════════════════════════════════════════ */
-(function(){
-  const canvas=document.getElementById('cover-canvas');
-  const ctx=canvas.getContext('2d');
-  let W,H,blobs,t=0;
-  const COLS=[[6,182,212],[59,130,246],[139,92,246],[6,182,212],[59,130,246]];
-  function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;blobs=Array.from({length:5},(_,i)=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*160+80,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.25,phase:Math.random()*Math.PI*2,color:COLS[i]}));}
-  function draw(){
-    t+=.01;ctx.clearRect(0,0,W,H);
-    const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#080c12');bg.addColorStop(1,'#060910');
-    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-    blobs.forEach(b=>{
-      b.x+=b.vx;b.y+=b.vy;
-      if(b.x<-b.r)b.x=W+b.r;if(b.x>W+b.r)b.x=-b.r;
-      if(b.y<-b.r)b.y=H+b.r;if(b.y>H+b.r)b.y=-b.r;
-      const pulse=Math.sin(t+b.phase)*.1+.9;
-      const r=b.r*pulse;const[R,G,B]=b.color;
-      const g=ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,r);
-      g.addColorStop(0,`rgba(${R},${G},${B},0.11)`);g.addColorStop(.4,`rgba(${R},${G},${B},0.04)`);g.addColorStop(1,`rgba(${R},${G},${B},0)`);
-      ctx.beginPath();ctx.arc(b.x,b.y,r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
-    });
-    ctx.fillStyle='rgba(255,255,255,0.022)';
-    for(let x=54;x<W;x+=54)for(let y=54;y<H;y+=54){ctx.beginPath();ctx.arc(x,y,1,0,Math.PI*2);ctx.fill();}
-    requestAnimationFrame(draw);
+  function fmtM(v){
+    var s = v >= 0 ? '+' : '-';
+    return s + '$' + (Math.abs(v)/1e6).toFixed(0) + 'M';
   }
-  window.addEventListener('resize',resize);resize();draw();
-})();
+  function colorM(v){ return v >= 0 ? '#2a7a4a' : '#8b2020'; }
 
-/* ════════════════════════════════════════════════════════════════
-   KATEX
-   ════════════════════════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded',()=>{
-  renderMathInElement(document.body,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
-});
+  function update(spot){
+    var prEl = document.getElementById('mtm-price'); if(!prEl) return;
+    var c = calcComponents(spot);
+    var total = c.total, col = total < 0 ? Math.abs(total) * 0.6 : 0;
+
+    prEl.textContent = '$' + spot + '/oz';
+    prEl.style.color = spot <= FWD ? '#1565a0' : '#8b2020';
+
+    var vEl = document.getElementById('mtm-val');
+    vEl.textContent = fmtM(total); vEl.style.color = colorM(total);
+    var bar = document.getElementById('mtm-bar');
+    var maxRef = FWD * OZ_FWD;
+    bar.style.width  = total >= 0 ? Math.min((total/maxRef)*100, 100) + '%' : '0%';
+    bar.style.background = total >= 0 ? '#5fa87a' : '#c06060';
+
+    var bdFwd = document.getElementById('bd-fwd');
+    var bdPc  = document.getElementById('bd-pc');
+    var bdPv  = document.getElementById('bd-pv');
+    if(bdFwd){ bdFwd.textContent = fmtM(c.fwd); bdFwd.style.color = colorM(c.fwd); }
+    if(bdPc) { bdPc.textContent  = fmtM(c.pc);  bdPc.style.color  = colorM(c.pc);  }
+    if(bdPv) { bdPv.textContent  = fmtM(c.cv);  bdPv.style.color  = colorM(c.cv);  }
+
+    var cEl = document.getElementById('mtm-col');
+    cEl.textContent = col > 0 ? '$' + (col/1e6).toFixed(0) + 'M' : '$0';
+    cEl.style.color = col > 0 ? '#8b2020' : '#2a7a4a';
+
+    var b = document.getElementById('mtm-badge');
+    if(spot < 280){
+      b.textContent='Cobertura OK — operando bien';
+      b.style.background='#e8f5ee'; b.style.color='#2a7a4a';
+    } else if(spot <= 300){
+      b.textContent='ALERTA — zona de peligro';
+      b.style.background='#fef9e7'; b.style.color='#a87000';
+    } else if(spot < 338){
+      b.textContent='MTM NEGATIVO — margin calls activos';
+      b.style.background='#fdeaea'; b.style.color='#8b2020';
+    } else {
+      b.textContent='CRISIS — equivalente Ashanti 1999';
+      b.style.background='#8b2020'; b.style.color='#fff';
+    }
+
+    var n = document.getElementById('mtm-note');
+    var cvNote = spot > STK_CV
+      ? ' Las calls vendidas <strong style="color:#c06060;">amplifican la p&eacute;rdida</strong>: con spot sobre $300, Ashanti pierde por cada onza de call vendida.'
+      : ' Las calls vendidas est&aacute;n <em>fuera del dinero</em> (spot &lt; $300) &mdash; Ashanti retiene la prima de $60M.';
+    if(total >= 0){
+      n.innerHTML = 'Con el oro a <strong>$'+spot+'/oz</strong>, el hedge book genera valor positivo de <strong style="color:#2a7a4a;">'+fmtM(total)+'</strong>. Sin margin calls.' + cvNote;
+    } else if(spot < 338){
+      n.innerHTML = '<strong>Alerta:</strong> MTM total de <strong style="color:#8b2020;">'+fmtM(total)+'</strong>. Colateral estimado: <strong style="color:#8b2020;">$'+(col/1e6).toFixed(0)+'M</strong>.' + cvNote;
+    } else {
+      n.innerHTML = '<strong style="color:#8b2020;">Escenario crisis real.</strong> MTM hedge book: <strong style="color:#8b2020;">'+fmtM(total)+'</strong>. Equivalente al colapso de sep 1999.' + cvNote;
+    }
+  }
+
+  var sl = document.getElementById('mtm-slider');
+  if(sl){ sl.addEventListener('input', function(){ update(+this.value); }); update(256); }
+  window.setSpot = function(p){ if(sl){ sl.value = p; update(p); } };
+})();
 </script>
+
+<div id="trans-veil"></div>
+
+<div id="univ-logo">
+  <img src="img/Javeriana.png" alt="Pontificia Universidad Javeriana Cali" onerror="this.parentNode.style.display='none'">
+</div>
+
 </body>
 </html>
